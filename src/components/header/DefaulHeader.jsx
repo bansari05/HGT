@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import HeaderNavContent from "./HeaderNavContent";
 
 
-const DefaulHeader2 = () => {
+const DefaulHeader = () => {
   const [navbar, setNavbar] = useState(false);
 
   const changeBackground = () => {
@@ -36,8 +36,7 @@ const DefaulHeader2 = () => {
             <div className="logo">
               <Link to="/">
                 <img
-                 
-                  src="/public/images/hgt-logo.png"
+                  src="/images/logo.svg"
                   alt="brand"
                 />
               </Link>
@@ -50,9 +49,28 @@ const DefaulHeader2 = () => {
         </div>
         {/* End .nav-outer */}
 
+        <div className="outer-box">
+          {/* <!-- Login/Register --> */}
+          <div className="btn-box">
+            <a
+              href="#"
+              className="theme-btn btn-style-three call-modal"
+              data-bs-toggle="modal"
+              data-bs-target="#loginPopupModal"
+            >
+              Login / Register
+            </a>
+            <Link
+              to="/employers-dashboard/post-jobs"
+              className="theme-btn btn-style-one"
+            >
+              Job Post
+            </Link>
+          </div>
+        </div>
       </div>
     </header>
   );
 };
 
-export default DefaulHeader2;
+export default DefaulHeader;

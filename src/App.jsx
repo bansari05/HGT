@@ -14,6 +14,16 @@ if (typeof window !== "undefined") {
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages";
 import HomePage1 from "./pages/home/home-1";
+import DashboardEmploeeDBPage from "./pages/employers-dashboard/dashboard";
+import CompanyProfileEmploeeDBPage from "./pages/employers-dashboard/company-profile";
+import PostJobsEmploeeDBPage from "./pages/employers-dashboard/post-jobs";
+import ManageJobsEmploeeDBPage from "./pages/employers-dashboard/manage-jobs";
+import AllApplicantsEmploeesPage from "./pages/employers-dashboard/all-applicants";
+import ShortListedResumeEmploeeDBPage from "./pages/employers-dashboard/shortlisted-resumes";
+import PackageEmploeeDBPage from "./pages/employers-dashboard/packages";
+import MessageEmploeeDBPage from "./pages/employers-dashboard/messages";
+import ResumeAlertsEmploeeDBPage from "./pages/employers-dashboard/resume-alerts";
+import ChangePasswordEmploeeDBPage from "./pages/employers-dashboard/change-password";
 
 function App() {
   useEffect(() => {
@@ -35,6 +45,21 @@ function App() {
                   <Route path="home-1" element={<HomePage1 />} />
                   
                 </Route>
+
+                <Route path="employers-dashboard" >
+                    <Route path="dashboard" element={<DashboardEmploeeDBPage/>} />
+                    <Route path="company-profile" element={<CompanyProfileEmploeeDBPage/>} />
+                    <Route path="post-jobs" element={<PostJobsEmploeeDBPage/>} />
+                    <Route path="manage-jobs" element={<ManageJobsEmploeeDBPage/>} />
+                    <Route path="all-applicants" element={<AllApplicantsEmploeesPage/>} />
+                    <Route path="shortlisted-resumes" element={<ShortListedResumeEmploeeDBPage/>} />
+                    <Route path="packages" element={<PackageEmploeeDBPage/>} />
+                    <Route path="messages" element={<MessageEmploeeDBPage/>} />
+                    <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage/>} />
+                    <Route path="change-password" element={<ChangePasswordEmploeeDBPage/>} />
+            
+                    
+                  </Route>
               </Routes>
             </BrowserRouter>
 
