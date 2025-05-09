@@ -24,6 +24,7 @@ import PackageEmploeeDBPage from "./pages/employers-dashboard/packages";
 import MessageEmploeeDBPage from "./pages/employers-dashboard/messages";
 import ResumeAlertsEmploeeDBPage from "./pages/employers-dashboard/resume-alerts";
 import ChangePasswordEmploeeDBPage from "./pages/employers-dashboard/change-password";
+import JobTypeMasterDBPage from "./pages/employers-dashboard/job-type-master";
 
 function App() {
   useEffect(() => {
@@ -50,6 +51,7 @@ function App() {
                     <Route path="dashboard" element={<DashboardEmploeeDBPage/>} />
                     <Route path="company-profile" element={<CompanyProfileEmploeeDBPage/>} />
                     <Route path="post-jobs" element={<PostJobsEmploeeDBPage/>} />
+                    <Route path="post-jobs/:jobId" element={<PostJobsEmploeeDBPage/>} />
                     <Route path="manage-jobs" element={<ManageJobsEmploeeDBPage/>} />
                     <Route path="all-applicants" element={<AllApplicantsEmploeesPage/>} />
                     <Route path="shortlisted-resumes" element={<ShortListedResumeEmploeeDBPage/>} />
@@ -57,7 +59,7 @@ function App() {
                     <Route path="messages" element={<MessageEmploeeDBPage/>} />
                     <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage/>} />
                     <Route path="change-password" element={<ChangePasswordEmploeeDBPage/>} />
-            
+                    <Route path="job-type-master" element={<JobTypeMasterDBPage/>} />
                     
                   </Route>
               </Routes>
