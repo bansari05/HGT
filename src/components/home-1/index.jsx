@@ -9,11 +9,12 @@ import Hero1 from "../hero/hero-1";
 import JobCategorie1 from "../job-categories/JobCategorie1";
 import JobFeatured1 from "../job-featured/JobFeatured1";
 import Testimonial from "../testimonial/Testimonial";
+import LoginPopup from "../common/form/login/LoginPopup";
 
 const index = () => {
   return (
     <>
-
+      <LoginPopup />
       <DefaulHeader2 />
 
 
