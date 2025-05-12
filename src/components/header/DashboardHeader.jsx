@@ -3,8 +3,9 @@
 
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import employerMenuData from "../../data/employerMenuData";
 import HeaderNavContent from "./HeaderNavContent";
-
+import { isActiveLink } from "../../utils/linkActiveChecker";
 import { useLocation } from "react-router-dom";
 
 const DashboardHeader = () => {
@@ -54,7 +55,60 @@ const DashboardHeader = () => {
                         {/* <!-- Main Menu End--> */}
                     </div>
                     {/* End .nav-outer */}
+ <div className="outer-box">
+                        <button className="menu-btn">
+                            <span className="count">1</span>
+                            <span className="icon la la-heart-o"></span>
+                        </button>
+                        {/* wishlisted menu */}
 
+                        <button className="menu-btn">
+                            <span className="icon la la-bell"></span>
+                        </button>
+                        {/* End notification-icon */}
+
+                        {/* <!-- Dashboard Option --> */}
+                        <div className="dropdown dashboard-option">
+                            <a
+                                className="dropdown-toggle"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                <img
+                                    alt="avatar"
+                                    className="thumb"
+                                    src="/images/resource/company-6.png"
+                                   
+                                />
+                                <span className="name">My Account</span>
+                            </a>
+
+                            <ul className="dropdown-menu">
+                                {employerMenuData.map((item) => (
+                                    <li
+                                        className={`${
+                                            isActiveLink(
+                                                item.routePath,
+                                                pathname
+                                            )
+                                                ? "active"
+                                                : ""
+                                        } mb-1`}
+                                        key={item.id}
+                                    >
+                                        <Link to={item.routePath}>
+                                            <i
+                                                className={`la ${item.icon}`}
+                                            ></i>{" "}
+                                            {item.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        {/* End dropdown */}
+                    </div>
                     
                     {/* End outer-box */}
                 </div>
