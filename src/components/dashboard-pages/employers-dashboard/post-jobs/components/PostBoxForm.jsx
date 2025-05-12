@@ -59,41 +59,42 @@
 
 
     useEffect(() => {
-      if (jobId) {
-        const editJobData = localStorage.getItem("editJobData");
-        if (editJobData) {
-          const jobData = JSON.parse(editJobData);         
-          setFormData({
-            job_title: jobData.title || jobData.job_title || "",
-            job_description: jobData.description || jobData.job_description || "",
-            email_id: jobData.email || jobData.email_id || "",
-            company_name: jobData.company_name || "",
-            specialisms: jobData.specialisms ? 
-              (typeof jobData.specialisms === 'string' ? 
-                jobData.specialisms.split(',').map(s => s.trim()) : 
-                jobData.specialisms) : 
-              [],
-            job_type: jobData.job_type || jobData.jobTypeId || "",
-            salary: jobData.salary || "",
-            career_level: jobData.career_level || jobData.careerLevel || "",
-            experience: jobData.experience || "",
-            gender: jobData.gender || "",
-            industry: jobData.industry || "",
-            qualification: jobData.qualification || "",
-            dead_line_date: jobData.dead_line_date || jobData.deadLineDate || 
-              (jobData.deadline_date ? jobData.deadline_date.split('T')[0] : ""),
-            country: jobData.country || "",
-            state: jobData.state || "",
-            city: jobData.city || "",
-            address: jobData.address || "",
-            pincode: jobData.pincode || "",
-            findOnMap: jobData.findOnMap || "",
-            lat: jobData.lat || "",
-            long: jobData.long || ""
-          });
-        }
-      }
-    }, [jobId]);
+  if (jobId) {
+    const editJobData = localStorage.getItem("editJobData");
+    if (editJobData) {
+      const jobData = JSON.parse(editJobData);
+      setFormData({
+        job_title: jobData.job_title || "",
+        job_description: jobData.job_description || "",
+        email_id: jobData.email_id || "",
+        company_name: jobData.company_name || "",
+        specialisms: jobData.specialisms
+          ? typeof jobData.specialisms === 'string'
+            ? jobData.specialisms.split(',').map(s => s.trim())
+            : jobData.specialisms
+          : [],
+        job_type: jobData.job_type_id ? String(jobData.job_type_id) : "",
+        salary: jobData.salary || "",
+        career_level: jobData.career_level || "",
+        experience: String(jobData.experience) || "",
+        gender: jobData.gender || "",
+        industry: jobData.industry || "",
+        qualification: jobData.qualification || "",
+        dead_line_date: jobData.dead_line_date 
+          ? jobData.dead_line_date.split('T')[0]
+          : "",
+        country: jobData.country || "",
+        state: jobData.state || "",
+        city: jobData.city || "",
+        address: jobData.address || "",
+        pincode: jobData.pincode || "",
+        findOnMap: jobData.find_on_map || "",
+        lat: jobData.lat || "",
+        long: jobData.long || ""
+      });
+    }
+  }
+}, [jobId]);
 
     const handleSubmit = async (values) => {
       try {
