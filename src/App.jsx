@@ -31,6 +31,7 @@ import JobSingleDynamicV1 from "./pages/job-single/job-single-v1";
 
 import RegisterPage from "./pages/others/register";
 import ProtectedRoute from "./components/ProtectedRoute";
+import CategoriesPage from "./pages/employers-dashboard/categories";
 
 function App() {
   useEffect(() => {
@@ -67,6 +68,7 @@ function App() {
           <Route path="messages" element={<MessageEmploeeDBPage />} />
           <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage />} />
           <Route path="change-password" element={<ChangePasswordEmploeeDBPage />} />
+          <Route path="categories" element={<CategoriesPage/>} />
           <Route path="job-type-master" element={<JobTypeMasterDBPage />} />
         </Routes>
       </ProtectedRoute>
