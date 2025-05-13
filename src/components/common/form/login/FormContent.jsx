@@ -47,7 +47,7 @@ const handleSubmit = async (values, { setSubmitting }) => {
       document.body.style.overflow = "auto"; 
       document.body.style.paddingRight = "";
 
-      localStorage.setItem("authToken", data?.data?.refresh_token); 
+      localStorage.setItem("authToken", data?.data?.access_token); 
       localStorage.setItem("userData", JSON.stringify(data?.data));
       dispatch(setUser(data?.data));
       navigate("/employers-dashboard/dashboard");
