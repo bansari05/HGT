@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 import jobFeatured from "../../data/job-featured";
 
-
 const JobFeatured1 = () => {
+  const handleBookmarkClick = () => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth", 
+    });
+  };
+
   return (
     <>
       {jobFeatured.slice(0, 6).map((item) => (
@@ -10,12 +16,9 @@ const JobFeatured1 = () => {
           <div className="inner-box">
             <div className="content">
               <span className="company-logo">
-                <img
-                 
-                  src={item.logo}
-                  alt="item brand"
-                />
+                <img src={item.logo} alt="item brand" />
               </span>
+
               <h4>
                 <Link to={`/job-single-v1/${item.id}`}>{item.jobTitle}</Link>
               </h4>
@@ -25,22 +28,17 @@ const JobFeatured1 = () => {
                   <span className="icon flaticon-briefcase"></span>
                   {item.company}
                 </li>
-                {/* compnay info */}
                 <li>
                   <span className="icon flaticon-map-locator"></span>
                   {item.location}
                 </li>
-                {/* location info */}
                 <li>
                   <span className="icon flaticon-clock-3"></span> {item.time}
                 </li>
-                {/* time info */}
                 <li>
                   <span className="icon flaticon-money"></span> {item.salary}
                 </li>
-                {/* salary info */}
               </ul>
-              {/* End .job-info */}
 
               <ul className="job-other-info">
                 {item.jobType.map((val, i) => (
@@ -49,15 +47,13 @@ const JobFeatured1 = () => {
                   </li>
                 ))}
               </ul>
-              {/* End .job-other-info */}
 
-              <button className="bookmark-btn">
+              <button className="bookmark-btn" onClick={handleBookmarkClick}>
                 <span className="flaticon-bookmark"></span>
               </button>
             </div>
           </div>
         </div>
-        // End job-block
       ))}
     </>
   );
