@@ -8,7 +8,7 @@ const Bookmark = () => {
    
     <div className="job-search-container">
     <div className="w-100 ml-84">
-            <h2>My Favorites Jobs</h2>
+            <h2>My Favorites Jobs</h2> 
         </div>
   <div className="search-field">
     <i className="la la-search"></i>
