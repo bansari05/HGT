@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { formatDistanceToNow } from 'date-fns';
 
 const JobFeatured1 = () => {
   const [jobs, setJobs] = useState([]);
@@ -65,10 +66,12 @@ const JobFeatured1 = () => {
                   <span className="icon flaticon-map-locator"></span>
                   {item.country || "N/A"}
                 </li>
-                <li>
-                  <span className="icon flaticon-clock-3"></span>
-                  {item.created?.split("T")[0] || "N/A"}
-                </li>
+              <li>
+  <span className="icon flaticon-clock-3"></span>
+  {item.created
+    ? `${formatDistanceToNow(new Date(item.created), { addSuffix: true })}`
+    : 'N/A'}
+</li>
                 <li>
                   <span className="icon flaticon-money"></span>
                   {item.salary || "N/A"}
@@ -76,7 +79,7 @@ const JobFeatured1 = () => {
               </ul>
 
               <ul className="job-other-info">
-                <li className="green">Featured</li>
+                <li className="green">{item.job_type || ''}</li>
                 <li className="orange">Urgent</li>
               </ul>
 

@@ -98,29 +98,29 @@ const PostBoxForm = () => {
   }, [jobId]);
 
   useEffect(() => {
-  const fetchJobTypes = async () => {
-    try {
-      const response = await fetch("https://apihgt.solvifytech.in/api/v1/JobType/SelectAll", {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-           Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
-        },
-      });
+    const fetchJobTypes = async () => {
+      try {
+        const response = await fetch("https://apihgt.solvifytech.in/api/v1/JobType/SelectAll", {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
+          },
+        });
 
-      const result = await response.json();
-      if (result.status === 1 ) {
-        setJobTypeOptions(result.data);
-      } else {
-        console.warn("Failed to load job types");
+        const result = await response.json();
+        if (result.status === 1) {
+          setJobTypeOptions(result.data);
+        } else {
+          console.warn("Failed to load job types");
+        }
+      } catch (error) {
+        console.error("Error fetching job types:", error);
       }
-    } catch (error) {
-      console.error("Error fetching job types:", error);
-    }
-  };
+    };
 
-  fetchJobTypes();
-}, []);
+    fetchJobTypes();
+  }, []);
 
   const handleSubmit = async (values) => {
     try {
@@ -287,38 +287,31 @@ const PostBoxForm = () => {
 
             {/* Job Type */}
             <div className="form-group col-lg-6 col-md-12">
-  <label>Job Type</label>
-  <Field
-    as="select"
-    name="job_type"
-    className={`form-select ${errors.job_type && touched.job_type ? 'is-invalid' : ''}`}
-  >
-    {jobTypeOptions.map((type) => (
-      <option key={type.job_type_id} value={type.job_type_id}>
-        {type.job_type}
-      </option>
-    ))}
-  </Field>
-  <ErrorMessage name="job_type" component="div" className="invalid-feedback" />
-</div>
+              <label>Job Type</label>
+              <Field
+                as="select"
+                name="job_type"
+                className={`form-select ${errors.job_type && touched.job_type ? 'is-invalid' : ''}`}
+              >
+                {jobTypeOptions.map((type) => (
+                  <option key={type.job_type_id} value={type.job_type_id}>
+                    {type.job_type}
+                  </option>
+                ))}
+              </Field>
+              <ErrorMessage name="job_type" component="div" className="invalid-feedback" />
+            </div>
 
 
             {/* Offered Salary */}
             <div className="form-group col-lg-6 col-md-12">
               <label>Offered Salary</label>
               <Field
-                as="select"
+                type="text"
                 name="salary"
-                className={`form-select ${errors.salary && touched.salary ? 'is-invalid' : ''}`}
-              >
-                <option value="">Select</option>
-                <option value="$1500">$1500</option>
-                <option value="$2000">$2000</option>
-                <option value="$2500">$2500</option>
-                <option value="$3500">$3500</option>
-                <option value="$4500">$4500</option>
-                <option value="$5000">$5000</option>
-              </Field>
+                placeholder="Enter offered salary"
+                className={`form-control ${errors.salary && touched.salary ? 'is-invalid' : ''}`}
+              />
               <ErrorMessage name="salary" component="div" className="invalid-feedback" />
             </div>
 
@@ -326,17 +319,11 @@ const PostBoxForm = () => {
             <div className="form-group col-lg-6 col-md-12">
               <label>Career Level</label>
               <Field
-                as="select"
+                type="text"
                 name="career_level"
-                className={`form-select ${errors.career_level && touched.career_level ? 'is-invalid' : ''}`}
-              >
-                <option value="">Select</option>
-                <option value="Entry Level">Entry Level</option>
-                <option value="Mid Level">Mid Level</option>
-                <option value="Senior Level">Senior Level</option>
-                <option value="Manager">Manager</option>
-                <option value="Executive">Executive</option>
-              </Field>
+                placeholder="Enter career level"
+                className={`form-control ${errors.career_level && touched.career_level ? 'is-invalid' : ''}`}
+              />
               <ErrorMessage name="career_level" component="div" className="invalid-feedback" />
             </div>
 
@@ -344,19 +331,14 @@ const PostBoxForm = () => {
             <div className="form-group col-lg-6 col-md-12">
               <label>Experience</label>
               <Field
-                as="select"
+                type="text"
                 name="experience"
-                className={`form-select ${errors.experience && touched.experience ? 'is-invalid' : ''}`}
-              >
-                <option value="">Select</option>
-                <option value="1">1 Year</option>
-                <option value="2">2 Years</option>
-                <option value="3">3 Years</option>
-                <option value="4">4 Years</option>
-                <option value="5+">5+ Years</option>
-              </Field>
+                placeholder="Enter experience"
+                className={`form-control ${errors.experience && touched.experience ? 'is-invalid' : ''}`}
+              />
               <ErrorMessage name="experience" component="div" className="invalid-feedback" />
             </div>
+
 
             {/* Gender */}
             <div className="form-group col-lg-6 col-md-12">
@@ -378,19 +360,14 @@ const PostBoxForm = () => {
             <div className="form-group col-lg-6 col-md-12">
               <label>Industry</label>
               <Field
-                as="select"
+                type="text"
                 name="industry"
-                className={`form-select ${errors.industry && touched.industry ? 'is-invalid' : ''}`}
-              >
-                <option value="">Select</option>
-                <option value="Information Technology">Information Technology</option>
-                <option value="Banking">Banking</option>
-                <option value="Digital & Creative">Digital & Creative</option>
-                <option value="Retail">Retail</option>
-                <option value="Human Resources">Human Resources</option>
-              </Field>
+                placeholder="Enter industry"
+                className={`form-control ${errors.industry && touched.industry ? 'is-invalid' : ''}`}
+              />
               <ErrorMessage name="industry" component="div" className="invalid-feedback" />
             </div>
+
 
             {/* Qualification */}
             <div className="form-group col-lg-6 col-md-12">
@@ -413,13 +390,14 @@ const PostBoxForm = () => {
             <div className="form-group col-lg-12 col-md-12">
               <label>Application Deadline Date</label>
               <Field
-                type="date"
+                type="text"
                 name="dead_line_date"
-                placeholder="YYYY-MM-DD"
+                placeholder="06.05.2025"
                 className={`form-control ${errors.dead_line_date && touched.dead_line_date ? 'is-invalid' : ''}`}
               />
               <ErrorMessage name="dead_line_date" component="div" className="invalid-feedback" />
             </div>
+
 
             {/* Country */}
             <div className="form-group col-lg-4 col-md-12">

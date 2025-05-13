@@ -111,7 +111,7 @@ const JobListingsTable = () => {
           <table className="default-table manage-job-table">
             <thead>
               <tr>
-              <th>ID</th>
+              {/* <th>ID</th> */}
                 <th>Title</th>
                 <th>Applications</th>
                 <th>Created & Expired</th>
@@ -123,7 +123,7 @@ const JobListingsTable = () => {
 <tbody>
   {jobs.map((item) => (
     <tr key={item.job_id}>
-      <td>{item.job_id}</td>  
+      {/* <td>{item.job_id}</td>   */}
       <td>
         <div className="job-block">
           <div className="inner-box">
@@ -156,10 +156,24 @@ const JobListingsTable = () => {
       <td className="applied">
         <a href="#">{item.applications_count || "0"} Applied</a>
       </td>
-      <td>
-        {item.created?.split("T")[0] || "N/A"} <br />
-        {item.dead_line_date?.split("T")[0] || item.deadline_date?.split("T")[0] || "N/A"}
-      </td>
+     <td>
+  {item.created
+    ? new Date(item.created).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "N/A"}
+  <br />
+  {item.dead_line_date || item.deadline_date
+    ? new Date(item.dead_line_date || item.deadline_date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "N/A"}
+</td>
+
       <td className="status">{item.status || "Active"}</td>
       <td>
         <div className="option-box">

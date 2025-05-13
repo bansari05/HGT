@@ -165,34 +165,16 @@ const Jobtypemaster = () => {
     <div className="tabs-box">
       <div className="widget-title">
         <h4>Job Type Master</h4>
-        <button
-          style={{
-            padding: "10px",
-            height: "40px",
-            borderRadius: "4px",
-            backgroundColor: "#ebf5ff",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            border: "none",
-            cursor: "pointer",
-            transition: "background-color 0.2s ease-in-out",
-          }}
-          onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#047d3e")}
-          onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#ebf5ff")}
-          onClick={() => {
+       
+
+            <div className="form-group col-lg-12 col-md-12 text-right">
+              <button type="submit" className="theme-btn btn-style-one"  onClick={() => {
             setCurrentJobType(null);
             setIsPopupOpen(true);
-          }}
-        >
-          <i
-            className="la la-plus"
-            style={{
-              fontSize: "18px",
-              color: "#04598b",
-            }}
-          > Add </i>
-        </button>
+          }}>
+                Add Job
+              </button>
+            </div>
       </div>
 
       <div className="widget-content">

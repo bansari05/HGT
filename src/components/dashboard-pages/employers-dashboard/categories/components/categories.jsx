@@ -41,7 +41,7 @@ const Categories = () => {
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Job Type Name</th>
+                                <th>Job Category Name</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -89,7 +89,7 @@ const Categories = () => {
                             {/* {jobTypes.length === 0 && ( */}
                             <tr>
                                 <td colSpan="4" style={{ textAlign: "center" }}>
-                                    No job types found.
+                                    No Category found.
                                 </td>
                             </tr>
                             {/* )} */}
