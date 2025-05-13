@@ -42,8 +42,8 @@ const DashboardCandidatesHeader = () => {
                             <div className="logo">
                                 <Link to="/">
                                     <img
-                                        alt="brand"
-                                        src="/images/logo.svg"
+                                        // alt="brand"
+                                        src="/images/hgt-logo.png"
                                        
                                     />
                                 </Link>

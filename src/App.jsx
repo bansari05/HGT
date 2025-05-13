@@ -1,4 +1,3 @@
-
 import Aos from "aos";
 import "aos/dist/aos.css";
 import "./styles/index.scss";
@@ -25,11 +24,11 @@ import MessageEmploeeDBPage from "./pages/employers-dashboard/messages";
 import ResumeAlertsEmploeeDBPage from "./pages/employers-dashboard/resume-alerts";
 import ChangePasswordEmploeeDBPage from "./pages/employers-dashboard/change-password";
 import JobTypeMasterDBPage from "./pages/employers-dashboard/job-type-master";
-import ShortListedJobsPage from "./pages/candidates-dashboard/short-listed-jobs";
 import JobListPage1 from "./pages/job-list/job-list-v1";
 import JobSingleDynamicV1 from "./pages/job-single/job-single-v1";
 
 import RegisterPage from "./pages/others/register";
+import BookmarkPage from "./pages/mybookmark/bookmark";
 
 function App() {
   useEffect(() => {
@@ -39,54 +38,77 @@ function App() {
     });
   }, []);
 
-
   return (
     <>
-    <Provider store={store}>
-          <div className="page-wrapper">
-            <BrowserRouter>
-              <Routes>
-                <Route path="/">
-                  <Route index element={<Home />} />
-                  <Route path="home-1" element={<HomePage1 />} />
-                  
-                </Route>
+      <Provider store={store}>
+        <div className="page-wrapper">
+          <BrowserRouter>
+            <Routes>
+              <Route path="/">
+                <Route index element={<Home />} />
+                <Route path="home-1" element={<HomePage1 />} />
+              </Route>
 
-                <Route path="employers-dashboard" >
-                    <Route path="dashboard" element={<DashboardEmploeeDBPage/>} />
-                    <Route path="company-profile" element={<CompanyProfileEmploeeDBPage/>} />
-                    <Route path="post-jobs" element={<PostJobsEmploeeDBPage/>} />
-                    <Route path="post-jobs/:jobId" element={<PostJobsEmploeeDBPage/>} />
-                    <Route path="manage-jobs" element={<ManageJobsEmploeeDBPage/>} />
-                    <Route path="all-applicants" element={<AllApplicantsEmploeesPage/>} />
-                    <Route path="shortlisted-resumes" element={<ShortListedResumeEmploeeDBPage/>} />
-                    <Route path="packages" element={<PackageEmploeeDBPage/>} />
-                    <Route path="messages" element={<MessageEmploeeDBPage/>} />
-                    <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage/>} />
-                    <Route path="change-password" element={<ChangePasswordEmploeeDBPage/>} />
-                    <Route path="job-type-master" element={<JobTypeMasterDBPage/>} />
-                  </Route>
+              <Route path="employers-dashboard">
+                <Route path="dashboard" element={<DashboardEmploeeDBPage />} />
+                <Route
+                  path="company-profile"
+                  element={<CompanyProfileEmploeeDBPage />}
+                />
+                <Route path="post-jobs" element={<PostJobsEmploeeDBPage />} />
+                <Route
+                  path="post-jobs/:jobId"
+                  element={<PostJobsEmploeeDBPage />}
+                />
+                <Route
+                  path="manage-jobs"
+                  element={<ManageJobsEmploeeDBPage />}
+                />
+                <Route
+                  path="all-applicants"
+                  element={<AllApplicantsEmploeesPage />}
+                />
+                <Route
+                  path="shortlisted-resumes"
+                  element={<ShortListedResumeEmploeeDBPage />}
+                />
+                <Route path="packages" element={<PackageEmploeeDBPage />} />
+                <Route path="messages" element={<MessageEmploeeDBPage />} />
+                <Route
+                  path="resume-alerts"
+                  element={<ResumeAlertsEmploeeDBPage />}
+                />
+                <Route
+                  path="change-password"
+                  element={<ChangePasswordEmploeeDBPage />}
+                />
+                <Route
+                  path="job-type-master"
+                  element={<JobTypeMasterDBPage />}
+                />
+              </Route>
 
-                    <Route path="job-list-v1" element={<JobListPage1 />} />
+              <Route path="job-list-v1" element={<JobListPage1 />} />
 
-                    <Route path="job-single-v1/:id" element={<JobSingleDynamicV1/>} />
+              <Route
+                path="job-single-v1/:id"
+                element={<JobSingleDynamicV1 />}
+              />
 
-                    <Route path="register" element={<RegisterPage />} />
+              <Route path="register" element={<RegisterPage />} />
 
-                    <Route path="candidates-dashboard" >
-                    <Route path="short-listed-jobs" element={<ShortListedJobsPage/>} />
-                  </Route> 
+                {/* <Route path="/" element={<Home />} /> */}
+                <Route path="mybookmark" element={<BookmarkPage />} />
+      
+            </Routes>
+          </BrowserRouter>
 
-              </Routes>
-            </BrowserRouter>
-
-            {/* <!-- Scroll To Top --> */}
-            <ScrollToTop />
-          </div>
-        </Provider>
-     
+          {/* <!-- Scroll To Top --> */}
+          <ScrollToTop />
+        </div>
+      </Provider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

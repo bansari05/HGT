@@ -206,6 +206,58 @@
     }
 }
 
+.job-search-container {
+    background: linear-gradient(135deg, #f5f8fd 0%, #e9f0fc 100%);
+    padding: 40px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .search-field {
+    flex: 1;
+    min-width: 230px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 15px;
+    background-color: #fff;
+  }
+  
+  .search-field i {
+    margin-right: 10px;
+    color: #666;
+    font-size: 18px;
+  }
+  
+  .search-field input,
+  .search-field select {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+    background: transparent;
+  }
+  
+  .search-btn {
+    background-color: #0d6efd;
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    white-space: nowrap;
+    cursor: pointer;
+    min-width: 120px;
+  }
+  
+
+
 .tabs-box .chosen-single {
     min-width: 155px;
 }
