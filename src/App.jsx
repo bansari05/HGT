@@ -30,6 +30,7 @@ import JobListPage1 from "./pages/job-list/job-list-v1";
 import JobSingleDynamicV1 from "./pages/job-single/job-single-v1";
 
 import RegisterPage from "./pages/others/register";
+import ProtectedRoute from "./components/ProtectedRoute";
 import CategoriesPage from "./pages/employers-dashboard/categories";
 
 function App() {
@@ -47,39 +48,38 @@ function App() {
           <div className="page-wrapper">
             <BrowserRouter>
               <Routes>
-                <Route path="/">
-                  <Route index element={<Home />} />
-                  <Route path="home-1" element={<HomePage1 />} />
-                  
-                </Route>
+  <Route path="/" element={<Home />} />
+  <Route path="home-1" element={<HomePage1 />} />
+  
+  {/* Admin-only routes */}
+  <Route
+    path="employers-dashboard/*"
+    element={
+      <ProtectedRoute>
+        <Routes>
+          <Route path="dashboard" element={<DashboardEmploeeDBPage />} />
+          <Route path="company-profile" element={<CompanyProfileEmploeeDBPage />} />
+          <Route path="post-jobs" element={<PostJobsEmploeeDBPage />} />
+          <Route path="post-jobs/:jobId" element={<PostJobsEmploeeDBPage />} />
+          <Route path="manage-jobs" element={<ManageJobsEmploeeDBPage />} />
+          <Route path="all-applicants" element={<AllApplicantsEmploeesPage />} />
+          <Route path="shortlisted-resumes" element={<ShortListedResumeEmploeeDBPage />} />
+          <Route path="packages" element={<PackageEmploeeDBPage />} />
+          <Route path="messages" element={<MessageEmploeeDBPage />} />
+          <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage />} />
+          <Route path="change-password" element={<ChangePasswordEmploeeDBPage />} />
+          <Route path="categories" element={<CategoriesPage/>} />
+          <Route path="job-type-master" element={<JobTypeMasterDBPage />} />
+        </Routes>
+      </ProtectedRoute>
+    }
+  />
 
-                <Route path="employers-dashboard" >
-                    <Route path="dashboard" element={<DashboardEmploeeDBPage/>} />
-                    <Route path="company-profile" element={<CompanyProfileEmploeeDBPage/>} />
-                    <Route path="post-jobs" element={<PostJobsEmploeeDBPage/>} />
-                    <Route path="post-jobs/:jobId" element={<PostJobsEmploeeDBPage/>} />
-                    <Route path="manage-jobs" element={<ManageJobsEmploeeDBPage/>} />
-                    <Route path="all-applicants" element={<AllApplicantsEmploeesPage/>} />
-                    <Route path="shortlisted-resumes" element={<ShortListedResumeEmploeeDBPage/>} />
-                    <Route path="packages" element={<PackageEmploeeDBPage/>} />
-                    <Route path="messages" element={<MessageEmploeeDBPage/>} />
-                    <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage/>} />
-                    <Route path="change-password" element={<ChangePasswordEmploeeDBPage/>} />
-                    <Route path="job-type-master" element={<JobTypeMasterDBPage/>} />
-                    <Route path="categories" element={<CategoriesPage/>} />
-                  </Route>
-
-                    <Route path="job-list-v1" element={<JobListPage1 />} />
-
-                    <Route path="job-single-v1/:id" element={<JobSingleDynamicV1/>} />
-
-                    <Route path="register" element={<RegisterPage />} />
-
-                    <Route path="candidates-dashboard" >
-                    <Route path="short-listed-jobs" element={<ShortListedJobsPage/>} />
-                  </Route> 
-
-              </Routes>
+  <Route path="job-list-v1" element={<JobListPage1 />} />
+  <Route path="job-single-v1/:id" element={<JobSingleDynamicV1 />} />
+  <Route path="register" element={<RegisterPage />} />
+  <Route path="candidates-dashboard/short-listed-jobs" element={<ShortListedJobsPage />} />
+</Routes>
             </BrowserRouter>
 
             {/* <!-- Scroll To Top --> */}

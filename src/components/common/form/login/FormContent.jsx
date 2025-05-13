@@ -3,6 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import LoginWithSocial from "./LoginWithSocial";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../../../store/userSlice";
 
 const validationSchema = Yup.object({
   emailId: Yup.string().email("Invalid email").required("Email is required"),
@@ -10,7 +12,7 @@ const validationSchema = Yup.object({
 });
 
 const FormContent = () => {
-
+  const dispatch = useDispatch();
   const navigate = useNavigate()
   const initialValues = {
     emailId: "",
@@ -41,7 +43,13 @@ const handleSubmit = async (values, { setSubmitting }) => {
       const backdrop = document.querySelector(".modal-backdrop");
       if (backdrop) backdrop.remove();
 
-      // Navigate
+      document.body.classList.remove("modal-open");
+      document.body.style.overflow = "auto"; 
+      document.body.style.paddingRight = "";
+
+      localStorage.setItem("authToken", data?.data?.access_token); 
+      localStorage.setItem("userData", JSON.stringify(data?.data));
+      dispatch(setUser(data?.data));
       navigate("/employers-dashboard/dashboard");
     } else {
       console.error("Login failed:", data);
@@ -52,9 +60,6 @@ const handleSubmit = async (values, { setSubmitting }) => {
     setSubmitting(false);
   }
 };
-
-
-
 
   return (
     <div className="form-inner">

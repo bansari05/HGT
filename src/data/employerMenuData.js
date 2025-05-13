@@ -87,13 +87,6 @@ const employerMenu = [
     id: 13,
     name: "Logout",
     icon: "la-sign-out",
-    routePath: "/login",
-    active: "",
-  },
-  {
-    id: 14,
-    name: "Delete Profile",
-    icon: "la-trash",
     routePath: "/",
     active: "",
   },
