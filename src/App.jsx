@@ -25,6 +25,7 @@ import MessageEmploeeDBPage from "./pages/employers-dashboard/messages";
 import ResumeAlertsEmploeeDBPage from "./pages/employers-dashboard/resume-alerts";
 import ChangePasswordEmploeeDBPage from "./pages/employers-dashboard/change-password";
 import JobTypeMasterDBPage from "./pages/employers-dashboard/job-type-master";
+import ShortListedJobsPage from "./pages/candidates-dashboard/short-listed-jobs";
 import JobListPage1 from "./pages/job-list/job-list-v1";
 import JobSingleDynamicV1 from "./pages/job-single/job-single-v1";
 
@@ -71,6 +72,10 @@ function App() {
                     <Route path="job-single-v1/:id" element={<JobSingleDynamicV1/>} />
 
                     <Route path="register" element={<RegisterPage />} />
+
+                    <Route path="candidates-dashboard" >
+                    <Route path="short-listed-jobs" element={<ShortListedJobsPage/>} />
+                  </Route> 
 
               </Routes>
             </BrowserRouter>
