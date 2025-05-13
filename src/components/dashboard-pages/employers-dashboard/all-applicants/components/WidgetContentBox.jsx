@@ -10,7 +10,6 @@ const WidgetContentBox = () => {
   const [jobDataMap, setJobDataMap] = useState({});
   const [actionLoading, setActionLoading] = useState({});
 
-  // Memoized filtered applications
   const [approvedApplications, rejectedApplications] = useMemo(() => [
     applications.filter(app => app.status === "Approved"),
     applications.filter(app => app.status === "Rejected")
@@ -37,7 +36,7 @@ const WidgetContentBox = () => {
           })
         ]);
 
-        if (!appsResponse.ok || !usersResponse.ok) {
+        if (!appsResponse.ok || !usersResponse.ok || !jobsResponse.ok) {
           throw new Error('Failed to fetch data');
         }
 
@@ -45,7 +44,6 @@ const WidgetContentBox = () => {
         const usersData = await usersResponse.json();
         const jobsData = await jobsResponse.json();
 
-        // Create user data map
         const userMap = usersData.data?.reduce((acc, user) => ({
           ...acc,
           [user.user_id]: user
@@ -71,7 +69,7 @@ const WidgetContentBox = () => {
 
   const handleApplicationAction = async (applicationId, newStatus) => {
     setActionLoading(prev => ({ ...prev, [applicationId]: true }));
-    
+
     try {
       const response = await fetch(`https://apihgt.solvifytech.in/api/v1/Application/UpdateStatus`, {
         method: 'PUT',
@@ -87,7 +85,7 @@ const WidgetContentBox = () => {
 
       if (!response.ok) throw new Error('Action failed');
 
-      setApplications(prev => prev.map(app => 
+      setApplications(prev => prev.map(app =>
         app.application_id === applicationId ? { ...app, status: newStatus } : app
       ));
     } catch (error) {
@@ -101,7 +99,7 @@ const WidgetContentBox = () => {
     if (!window.confirm('Are you sure you want to delete this application?')) return;
 
     setActionLoading(prev => ({ ...prev, [applicationId]: true }));
-    
+
     try {
       const response = await fetch(`https://apihgt.solvifytech.in/api/v1/Application/Delete/${applicationId}`, {
         method: 'DELETE',
@@ -128,19 +126,19 @@ const WidgetContentBox = () => {
       <div className="tabs-box">
         <Tabs>
           <div className="aplicants-upper-bar">
-            <h6>Applications Manager</h6>
-            
+            <h6>Senior Product Designer</h6>
+
             <TabList className="aplicantion-status tab-buttons clearfix">
-              <Tab className="tab-btn totals">Total: {applications.length}</Tab>
+              <Tab className="tab-btn totals">Total(s): {applications.length}</Tab>
               <Tab className="tab-btn approved">Approved: {approvedApplications.length}</Tab>
-              <Tab className="tab-btn rejected">Rejected: {rejectedApplications.length}</Tab>
+              <Tab className="tab-btn rejected">Rejected(s): {rejectedApplications.length}</Tab>
             </TabList>
           </div>
 
           <div className="tabs-content">
             <TabPanel>
-              <ApplicationList 
-                applications={applications} 
+              <ApplicationList
+                applications={applications}
                 userDataMap={userDataMap}
                 jobDataMap={jobDataMap}
                 onAction={handleApplicationAction}
@@ -150,7 +148,7 @@ const WidgetContentBox = () => {
             </TabPanel>
 
             <TabPanel>
-              <ApplicationList 
+              <ApplicationList
                 applications={approvedApplications}
                 userDataMap={userDataMap}
                 jobDataMap={jobDataMap}
@@ -161,7 +159,7 @@ const WidgetContentBox = () => {
             </TabPanel>
 
             <TabPanel>
-              <ApplicationList 
+              <ApplicationList
                 applications={rejectedApplications}
                 userDataMap={userDataMap}
                 jobDataMap={jobDataMap}
@@ -200,9 +198,6 @@ const ApplicationList = ({ applications, userDataMap, jobDataMap, onAction, onDe
 const ApplicationCard = ({ application, userData, jobData, onAction, onDelete, isLoading }) => {
   const user = userData || {};
   const job = jobData || {};
-  const cvUrl = application.applicant_cv 
-    ? `https://apihgt.solvifytech.in/api/v1/documents/${application.applicant_cv}`
-    : null;
 
   return (
     <div className="candidate-block-three col-lg-6 col-md-12 col-sm-12">
@@ -210,83 +205,88 @@ const ApplicationCard = ({ application, userData, jobData, onAction, onDelete, i
         <div className="content">
           <figure className="image">
             <img
-              src={user.avatar || '/default-avatar.png'}
-              alt={`${user.full_name || 'Applicant'} avatar`}
+              src={user.avatar || "/default-avatar.png"}
+              alt={`${user.full_name || "Applicant"} avatar`}
             />
           </figure>
-
           <h4 className="name">
             <Link to={`/candidates/${application.user_id}`}>
-              {user.full_name ? `${user.full_name}` : `Applicant #${application.user_id}`}
+              {user.full_name || `Applicant #${application.user_id}`}
             </Link>
           </h4>
 
           <ul className="candidate-info">
-            {job.job_title && (
-              <li className="status-badge">
-                {job.job_title}
-              </li>
-            )}
-
-            <li className={`status-badge ${application.status.toLowerCase()}`}>
-              {application.status}
+            <li className="designation">{job.job_title || "Not specified"}</li>
+            <li>
+              <span className="icon flaticon-map-locator"></span>{" "}
+              {user.location || "N/A"}
             </li>
             <li>
-              <span className="icon flaticon-map-locator"></span>
-              Applied: {new Date(application.created).toISOString().split('T')[0]}
+              <span className="icon flaticon-money"></span> {job.salary || "$N/A"}
             </li>
           </ul>
-        </div>
 
-        <div>
-          <ul>
-            <li>{job.industry}</li>
+          <ul className="post-tags">
+            {job.industry && <li><a href="#">{job.industry}</a></li>}
+            {job.job_type && <li><a href="#">{job.job_type}</a></li>}
           </ul>
         </div>
 
         <div className="option-box">
           <ul className="option-list">
             <li>
-              <Link 
+              {/* <Link
                 to={`/applications/${application.application_id}`}
-                className="btn-view"
-                title="View Details"
+                title="View Aplication"
               >
                 <span className="la la-eye"></span>
-              </Link>
+              </Link> */}
+              <button data-text="View Aplication">
+                              <span className="la la-eye"></span>
+                            </button>
             </li>
-            
-            {application.status !== 'Approved' && (
+            {application.status !== "Approved" && (
               <li>
-                <button 
-                  onClick={() => onAction(application.application_id, 'Approved')}
+                <button
+                  onClick={() => onAction(application.application_id, "Approved")}
                   disabled={isLoading}
-                  title="Approve"
+                  title="Approve Aplication"
                 >
-                  {isLoading ? <span className="la la-spinner spinner"></span> : <span className="la la-check"></span>}
+                  {isLoading ? (
+                    <span className="la la-spinner spinner"></span>
+                  ) : (
+                    <span className="la la-check"></span>
+                  )}
                 </button>
               </li>
             )}
-
-            {application.status !== 'Rejected' && (
+            {application.status !== "Rejected" && (
               <li>
-                <button 
-                  onClick={() => onAction(application.application_id, 'Rejected')}
+                <button
+                  onClick={() => onAction(application.application_id, "Rejected")}
                   disabled={isLoading}
-                  title="Reject"
+                  title="Reject Aplication"
                 >
-                  {isLoading ? <span className="la la-spinner spinner"></span> : <span className="la la-times"></span>}
+                  {isLoading ? (
+                    <span className="la la-spinner spinner"></span>
+                  ) : (
+                    <span className="la la-times-circle"></span>
+                  )}
                 </button>
               </li>
             )}
 
             <li>
-              <button 
+              <button
                 onClick={() => onDelete(application.application_id)}
                 disabled={isLoading}
-                title="Delete"
+                title="Delete Aplication"
               >
-                {isLoading ? <span className="la la-spinner spinner"></span> : <span className="la la-trash"></span>}
+                {isLoading ? (
+                  <span className="la la-spinner spinner"></span>
+                ) : (
+                  <span className="la la-trash"></span>
+                )}
               </button>
             </li>
           </ul>
