@@ -80,7 +80,7 @@ const employerMenu = [
     id: 12,
     name: "Logout",
     icon: "la-sign-out",
-    routePath: "/login",
+    routePath: "/",
     active: "",
   },
   {
