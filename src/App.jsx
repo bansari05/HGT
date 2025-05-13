@@ -30,6 +30,7 @@ import JobListPage1 from "./pages/job-list/job-list-v1";
 import JobSingleDynamicV1 from "./pages/job-single/job-single-v1";
 
 import RegisterPage from "./pages/others/register";
+import CategoriesPage from "./pages/employers-dashboard/categories";
 
 function App() {
   useEffect(() => {
@@ -65,6 +66,7 @@ function App() {
                     <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage/>} />
                     <Route path="change-password" element={<ChangePasswordEmploeeDBPage/>} />
                     <Route path="job-type-master" element={<JobTypeMasterDBPage/>} />
+                    <Route path="categories" element={<CategoriesPage/>} />
                   </Route>
 
                     <Route path="job-list-v1" element={<JobListPage1 />} />
