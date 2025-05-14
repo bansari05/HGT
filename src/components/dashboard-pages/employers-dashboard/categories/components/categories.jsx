@@ -217,7 +217,7 @@ const Categories = () => {
               <ul className="option-list">
                 <li>
                   <button data-text="Change Status" onClick={() => handleToggleStatus(category.job_category_id)}>
-                    <span className={`la ${category.is_active ? "la-toggle-on" : "la-toggle-off"}`}></span>
+                    <span className={`la ${category.is_active ? "la-eye-slash" : "la-eye"}`}></span>
                   </button>
                 </li>
                 {/* <li>
