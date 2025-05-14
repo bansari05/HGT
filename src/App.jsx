@@ -76,7 +76,7 @@ function App() {
             <Route path="job-list-v1" element={<JobListPage1 />} />
             <Route path="job-single-v1/:id" element={<JobSingleDynamicV1 />} />
             <Route path="register" element={<RegisterPage />} />
-            <Route path="mybookmark" element={<BookmarkPage />} />
+            <Route path="mybookmark/:jobId" element={<BookmarkPage />} />
           </Routes>
         </BrowserRouter>
 
