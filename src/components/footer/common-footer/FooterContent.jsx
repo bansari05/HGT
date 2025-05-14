@@ -28,3 +28,29 @@ const FooterContent = () => {
 };
 
 export default FooterContent;
+
+// import { Link } from "react-router-dom";
+
+// const FooterContent = () => {
+//   return (
+//     <>
+//       <div className="footer-column col-lg-3 col-md-6 col-sm-12">
+//         <div className="footer-widget links-widget">
+//           <h4 className="widget-title">Useful Links</h4>
+//           <div className="widget-content">
+//             <ul className="list">
+//               <li>
+//                 <Link to="/">Home</Link>
+//               </li>
+//               <li>
+//                 <Link to="/mybookmark">MyBookmark</Link> 
+//               </li>
+//             </ul>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default FooterContent;

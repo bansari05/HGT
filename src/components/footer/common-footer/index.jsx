@@ -15,7 +15,7 @@ const index = ({ footerStyle = "" }) => {
                   <a href="#">
                     <img
                       
-                      src="/public/images/hgt-logo.png"
+                      src="/images/hgt-logo.png"
                       alt="brand"
                     />
                   </a>
