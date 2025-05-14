@@ -33,12 +33,10 @@ const index = () => {
             {/* <Breadcrumb title="Find Jobs" meta="Jobs" /> */}
 
             {/* <section className="page-title style-two">
-        <div className="auto-container">
-            <h2>My Favorites Jobs</h2>
-        </div> */}
-         {/* <div className="form-group col-lg-4 col-md-12 col-sm-12">
-          <SearchBox />
-        </div> */}
+        <div className="auto-container"> */}
+          {/* <Bookmark /> */}
+          {/* <!-- Job Search Form --> */}
+        {/* </div> */}
       {/* </section> */}
 
             <section className="user-dashboard">
