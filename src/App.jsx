@@ -68,7 +68,6 @@ function App() {
                     <Route path="change-password" element={<ChangePasswordEmploeeDBPage />} />
                     <Route path="categories" element={<CategoriesPage/>} />
                     <Route path="job-type-master" element={<JobTypeMasterDBPage />} />
-                    <Route path="mybookmark" element={<BookmarkPage />} />
                   </Routes>
                 </ProtectedRoute>
               }
@@ -77,7 +76,7 @@ function App() {
             <Route path="job-list-v1" element={<JobListPage1 />} />
             <Route path="job-single-v1/:id" element={<JobSingleDynamicV1 />} />
             <Route path="register" element={<RegisterPage />} />
-            <Route path="candidates-dashboard/short-listed-jobs" element={<ShortListedJobsPage />} />
+            <Route path="mybookmark" element={<BookmarkPage />} />
           </Routes>
         </BrowserRouter>
 
