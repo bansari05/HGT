@@ -33,6 +33,7 @@ const PostBoxForm = () => {
   const [jobTypeOptions, setJobTypeOptions] = useState([]);
   const { jobId } = useParams();
   const navigate = useNavigate();
+   const [jobCategoryOptions, setJobCategoryOptions] = useState([]);
 
   const [formData, setFormData] = useState({
     job_title: "",
@@ -97,7 +98,31 @@ const PostBoxForm = () => {
     }
   }, [jobId]);
 
-  useEffect(() => {
+  const fetchJobCategories = async () => {
+      try {
+        const response = await fetch("http://localhost:5009/api/v1/JobCategory/SelectActive", {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
+          },
+        });
+
+        const result = await response.json();
+        if (result.status === 1) {
+          const categories = result.data.map(category => ({
+            value: category.job_category_id,
+            label: category.job_category
+          }));
+          setJobCategoryOptions(categories);
+        } else {
+          console.warn("Failed to load job categories");
+        }
+      } catch (error) {
+        console.error("Error fetching job categories:", error);
+      }
+    };
+
     const fetchJobTypes = async () => {
       try {
         const response = await fetch("https://apihgt.solvifytech.in/api/v1/JobType/SelectAll", {
@@ -107,7 +132,7 @@ const PostBoxForm = () => {
             Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
           },
         });
-
+        fetchJobCategories();
         const result = await response.json();
         if (result.status === 1) {
           setJobTypeOptions(result.data);
@@ -119,6 +144,7 @@ const PostBoxForm = () => {
       }
     };
 
+  useEffect(() => {
     fetchJobTypes();
   }, []);
 
@@ -198,16 +224,16 @@ const PostBoxForm = () => {
   };
 
 
-  const specialisms = [
-    { value: "Banking", label: "Banking" },
-    { value: "Digital & Creative", label: "Digital & Creative" },
-    { value: "Retail", label: "Retail" },
-    { value: "Human Resources", label: "Human Resources" },
-    { value: "Management", label: "Management" },
-    { value: "Accounting & Finance", label: "Accounting & Finance" },
-    { value: "Digital", label: "Digital" },
-    { value: "Creative Art", label: "Creative Art" },
-  ];
+  // const specialisms = [
+  //   { value: "Banking", label: "Banking" },
+  //   { value: "Digital & Creative", label: "Digital & Creative" },
+  //   { value: "Retail", label: "Retail" },
+  //   { value: "Human Resources", label: "Human Resources" },
+  //   { value: "Management", label: "Management" },
+  //   { value: "Accounting & Finance", label: "Accounting & Finance" },
+  //   { value: "Digital", label: "Digital" },
+  //   { value: "Creative Art", label: "Creative Art" },
+  // ];
 
   return (
     <Formik
@@ -273,11 +299,15 @@ const PostBoxForm = () => {
               <Select
                 isMulti
                 name="specialisms"
-                options={specialisms}
+                options={jobCategoryOptions} // Change to use jobCategoryOptions
                 className={`basic-multi-select ${errors.specialisms && touched.specialisms ? 'is-invalid' : ''}`}
                 classNamePrefix="select"
-                value={specialisms.filter((specialism) => values.specialisms.includes(specialism.value))}
-                onChange={(selectedOptions) => setFieldValue('specialisms', selectedOptions.map(option => option.value))}
+                value={jobCategoryOptions.filter((category) => 
+                  values.specialisms.includes(String(category.value))
+                )}
+                onChange={(selectedOptions) => 
+                  setFieldValue('specialisms', selectedOptions.map(option => String(option.value)))
+                }
                 onBlur={() => setFieldValue('specialisms', values.specialisms, true)}
               />
               {errors.specialisms && touched.specialisms && (

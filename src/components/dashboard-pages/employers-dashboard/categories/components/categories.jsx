@@ -214,35 +214,25 @@ const Categories = () => {
                     <td>{category.is_active ? "Active" : "Inactive"}</td>
                     <td>
                       <div className="option-box">
-              <ul className="option-list">
-                <li>
-                  <button data-text="Change Status" onClick={() => handleToggleStatus(category.job_category_id)}>
-                    <span className={`la ${category.is_active ? "la-eye-slash" : "la-eye"}`}></span>
-                  </button>
-                </li>
-                {/* <li>
-                  <button data-text="Approve Aplication">
-                    <span className="la la-check"></span>
-                  </button>
-                </li> */}
-                <li>
-                  <button 
-                      data-text="Edit Category"
-                      onClick={() => {
-                        setSelectedCategory(category);
-                        setShowEditModal(true);
-                      }}
-                    >
-                    <span className="la la-pencil"></span>
-                  </button>
-                </li>
-                {/* <li>
-                  <button data-text="Delete Aplication">
-                    <span className="la la-trash"></span>
-                  </button>
-                </li> */}
-              </ul>
-            </div>
+                        <ul className="option-list">
+                          <li>
+                            <button data-text="Change Status" onClick={() => handleToggleStatus(category.job_category_id)}>
+                              <span className={`la ${category.is_active ? "la-eye-slash" : "la-eye"}`}></span>
+                            </button>
+                          </li>
+                          <li>
+                            <button 
+                                data-text="Edit Category"
+                                onClick={() => {
+                                  setSelectedCategory(category);
+                                  setShowEditModal(true);
+                                }}
+                              >
+                              <span className="la la-pencil"></span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))
