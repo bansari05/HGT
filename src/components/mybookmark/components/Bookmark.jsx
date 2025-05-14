@@ -1,39 +1,40 @@
 import { Link } from "react-router-dom";
 import jobs from "@/data/job-featured.js";
+import SearchBox from "../../job-listing-pages/components/SearchBox.jsx";
+import LocationBox from "../../job-listing-pages/components/LocationBox.jsx";
+import Categories from "../../job-listing-pages/components/Categories.jsx";
 
 const Bookmark = () => {
   return (
     <>
-    {/* Search Section */}
-   
-    <div className="job-search-container">
-    <div className="w-100 ml-84">
-            <h2>My Favorites Jobs</h2> 
+    <div className="page-title style-two">
+  <div className="job-search-form">
+    <h2 className="my-fav-job">My Favorite Jobs</h2>
+      <div className="row">
+        <div className="form-group col-lg-4 col-md-12 col-sm-12">
+          <SearchBox />
         </div>
-  <div className="search-field">
-    <i className="la la-search"></i>
-    <input type="text" placeholder="Job title, keywords, or company" />
-  </div>
+        {/* <!-- Form Group --> */}
 
-  <div className="search-field">
-    <i className="la la-map-marker"></i>
-    <input type="text" placeholder="City or postcode" />
-  </div>
+        <div className="form-group col-lg-3 col-md-12 col-sm-12 location">
+          <LocationBox />
+        </div>
+        {/* <!-- Form Group --> */}
 
-  <div className="search-field">
-    <i className="la la-briefcase"></i>
-    <select  style={{ fontFamily: "Jost, sans-serif" }}>
-      <option>Choose a category</option>
-      <option>Development</option>
-      <option>Design</option>
-      <option>Marketing</option>
-    </select>
-  </div>
+        <div className="form-group col-lg-3 col-md-12 col-sm-12 location">
+          <Categories />
+        </div>
+        {/* <!-- Form Group --> */}
 
-  {/* Search Button */}
-  <button className="search-btn">Find Jobs</button>
-</div>
-
+        <div className="form-group col-lg-2 col-md-12 col-sm-12 text-right">
+          <button type="submit" className="theme-btn btn-style-one">
+            Find Jobs
+          </button>
+        </div>
+        {/* <!-- Form Group --> */}
+      </div>
+    </div>
+    </div>
 
 {/* job section */}
       <div className="tabs-box">
@@ -60,7 +61,6 @@ const Bookmark = () => {
                 <thead>
                   <tr>
                     <th>Job Title</th>
-                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -95,7 +95,6 @@ const Bookmark = () => {
                           </div>
                         </div>
                       </td>
-                      <td className="status">Active</td>
                       <td>
                         <div className="option-box">
                           <ul className="option-list">
