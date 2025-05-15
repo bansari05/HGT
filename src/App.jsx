@@ -31,6 +31,8 @@ import RegisterPage from "./pages/others/register";
 import BookmarkPage from "./pages/mybookmark/bookmark";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CategoriesPage from "./pages/employers-dashboard/categories";
+import CandidateSingleDynamicV1 from "./pages/candidates-single/candidates-single-v1"
+
 import IndustriesPage from "./pages/employers-dashboard/industry";
 
 function App() {
@@ -75,6 +77,7 @@ function App() {
               }
             />
 
+ <Route path="candidates-single-v1/:applicationId" element={<CandidateSingleDynamicV1 />} />
             <Route path="job-list-v1" element={<JobListPage1 />} />
             <Route path="job-single-v1/:id" element={<JobSingleDynamicV1 />} />
             <Route path="register" element={<RegisterPage />} />

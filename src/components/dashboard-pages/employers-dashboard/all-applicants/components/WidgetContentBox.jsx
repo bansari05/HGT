@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const WidgetContentBox = () => {
   const [applications, setApplications] = useState([]);
@@ -9,6 +9,7 @@ const WidgetContentBox = () => {
   const [userDataMap, setUserDataMap] = useState({});
   const [jobDataMap, setJobDataMap] = useState({});
   const [actionLoading, setActionLoading] = useState({});
+  const navigate = useNavigate();
 
   const [approvedApplications, rejectedApplications] = useMemo(() => [
     applications.filter(app => app.status === "Approved"),
@@ -66,6 +67,27 @@ const WidgetContentBox = () => {
 
     fetchData();
   }, []);
+
+  const handleViewApplication = async (applicationId) => {
+    try {
+      const response = await fetch(
+        `https://apihgt.solvifytech.in/api/v1/Application/SelectById/${applicationId}`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjoxIiwiZXhwIjoxNzQ3MTk2NTYzLCJpYXQiOjE3NDcxOTQ3NjN9.eOeIIM3OfRTIOheSLh51kTE7TpyRIxqTX832k5XUUFo",
+          },
+        }
+      );
+      if (!response.ok) throw new Error("Failed to fetch application details");
+      const data = await response.json();
+      // Optionally, you can pass data via state or context
+      navigate(`/all-applicants/${applicationId}`, { state: { application: data.data } });
+    } catch (error) {
+      alert("Failed to load application details");
+    }
+  };
 
   const handleApplicationAction = async (applicationId, newStatus) => {
     setActionLoading(prev => ({ ...prev, [applicationId]: true }));
@@ -144,6 +166,7 @@ const WidgetContentBox = () => {
                 onAction={handleApplicationAction}
                 onDelete={handleDeleteApplication}
                 actionLoading={actionLoading}
+                onView={handleViewApplication} 
               />
             </TabPanel>
 
@@ -175,7 +198,7 @@ const WidgetContentBox = () => {
   );
 };
 
-const ApplicationList = ({ applications, userDataMap, jobDataMap, onAction, onDelete, actionLoading }) => (
+const ApplicationList = ({ applications, userDataMap, jobDataMap, onAction, onDelete, actionLoading, onView }) => (
   <div className="row">
     {applications.length > 0 ? (
       applications.map(application => (
@@ -187,6 +210,7 @@ const ApplicationList = ({ applications, userDataMap, jobDataMap, onAction, onDe
           onAction={onAction}
           onDelete={onDelete}
           isLoading={actionLoading[application.application_id]}
+           onView={onView}
         />
       ))
     ) : (
@@ -196,7 +220,11 @@ const ApplicationList = ({ applications, userDataMap, jobDataMap, onAction, onDe
 );
 
 const ApplicationCard = ({ application, userData, jobData, onAction, onDelete, isLoading }) => {
+ 
   const user = userData || {};
+   console.warn ({
+    jj: user
+  })
   const job = jobData || {};
 
   return (
@@ -205,45 +233,40 @@ const ApplicationCard = ({ application, userData, jobData, onAction, onDelete, i
         <div className="content">
           <figure className="image">
             <img
-              src={user.avatar || "/default-avatar.png"}
-              alt={`${user.full_name || "Applicant"} avatar`}
+              src={user.avatar || "/public/images/user.jpg"}
+              alt={`avatar`}
             />
           </figure>
           <h4 className="name">
-            <Link to={`/candidates/${application.user_id}`}>
-              {user.full_name || `Applicant #${application.user_id}`}
+            <Link to={`/candidates-single-v1/${application.application_id}`}>
+              {job.full_name || `Applicant #${user.full_name}`}
             </Link>
           </h4>
 
           <ul className="candidate-info">
-            <li className="designation">{job.job_title || "Not specified"}</li>
+           
             <li>
               <span className="icon flaticon-map-locator"></span>{" "}
-              {user.location || "N/A"}
-            </li>
-            <li>
-              <span className="icon flaticon-money"></span> {job.salary || "$N/A"}
+              {job.country || "N/A"}
             </li>
           </ul>
 
           <ul className="post-tags">
-            {job.industry && <li><a href="#">{job.industry}</a></li>}
-            {job.job_type && <li><a href="#">{job.job_type}</a></li>}
+            <li className="designation">{job.job_title || "Not specified"}</li>
           </ul>
         </div>
 
         <div className="option-box">
           <ul className="option-list">
             <li>
-              {/* <Link
-                to={`/applications/${application.application_id}`}
-                title="View Aplication"
+              <button
+                data-text="View Application"
+                onClick={() => onView(application.application_id)}
+                disabled={isLoading}
+                title="View Application"
               >
                 <span className="la la-eye"></span>
-              </Link> */}
-              <button data-text="View Aplication">
-                              <span className="la la-eye"></span>
-                            </button>
+              </button>
             </li>
             {application.status !== "Approved" && (
               <li>
@@ -297,3 +320,4 @@ const ApplicationCard = ({ application, userData, jobData, onAction, onDelete, i
 };
 
 export default WidgetContentBox;
+
