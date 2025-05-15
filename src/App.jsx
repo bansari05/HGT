@@ -31,10 +31,7 @@ import RegisterPage from "./pages/others/register";
 import BookmarkPage from "./pages/mybookmark/Bookmark";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CategoriesPage from "./pages/employers-dashboard/categories";
-import CandidateSingleDynamicV1 from "./pages/candidates-single/candidates-single-v1"
-import UserPage from "./pages/User";
-
-import IndustriesPage from "./pages/employers-dashboard/industry";
+import QualificationPage from "./pages/employers-dashboard/qualification";
 
 function App() {
   useEffect(() => {
@@ -71,6 +68,7 @@ function App() {
                     <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage />} />
                     <Route path="change-password" element={<ChangePasswordEmploeeDBPage />} />
                     <Route path="categories" element={<CategoriesPage/>} />
+                    <Route path="qualification" element={<QualificationPage/>} />
                     <Route path="job-type-master" element={<JobTypeMasterDBPage />} />
                     <Route path="industry" element={<IndustriesPage />} />
                   </Routes>

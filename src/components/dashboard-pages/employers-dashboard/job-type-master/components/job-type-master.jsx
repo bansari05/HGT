@@ -138,8 +138,6 @@ hh: result
 };
 
 
-
-
   useEffect(() => {
     getJobTypes();
   }, []);
