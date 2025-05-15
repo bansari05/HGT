@@ -104,55 +104,38 @@ const Jobtypemaster = () => {
     }
   };
 
-  const handleToggleStatus = async (jobType) => {
-    // Optimistically update frontend first
-    setJobTypes(prev =>
-      prev.map(j =>
-        j.job_type_id === jobType.job_type_id
-          ? { ...j, is_active: !j.is_active }
-          : j
-      )
-    );
+ const handleToggleStatus = async (jobTypeId) => {
+  try {
+    const response = await fetch("https://apihgt.solvifytech.in/api/v1/JobType/Status", {
+      method: "PUT",
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
+      },
+      
+      body: JSON.stringify({
+        jobTypeId: jobTypeId,
+      }),
+      
+    });
+    console.log(response)
 
-    // Call API in background
-    // try {
-    //   const response = await fetch("https://apihgt.solvifytech.in/api/v1/JobType/Status", {
-    //     method: "PUT",
-    //     headers: {
-    //       accept: "application/json",
-    //       "Content-Type": "application/json",
-    //       Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
-    //     },
-    //     body: JSON.stringify({
-    //       jobTypeId: jobType.job_type_id,
-    //     }),
-    //   });
-
-    //   const result = await response.json();
-    //   if (result.status !== 1) {
-    //     alert(result.message || "Failed to update status.");
-    //     // Revert back if API fails
-    //     setJobTypes(prev =>
-    //       prev.map(j =>
-    //         j.job_type_id === jobType.job_type_id
-    //           ? { ...j, is_active: jobType.is_active } // revert
-    //           : j
-    //       )
-    //     );
-    //   }
-    // } catch (error) {
-    //   console.error("Error updating status:", error);
-    //   alert("Error occurred while updating status.");
-    //   // Revert back if fetch fails
-    //   setJobTypes(prev =>
-    //     prev.map(j =>
-    //       j.job_type_id === jobType.job_type_id
-    //         ? { ...j, is_active: jobType.is_active } // revert
-    //         : j
-    //     )
-    //   );
-    // }
-  };
+    const result = await response.json();
+console.warn({
+hh: result 
+})
+    if (result.status === 1) {
+      // Success - fetch latest list from backend
+      await getJobTypes();
+    } else {
+      alert(result.message || "Failed to update status.");
+    }
+  } catch (error) {
+    console.error("Error updating status:", error);
+    alert("Error occurred while updating status.");
+  }
+};
 
 
   useEffect(() => {
@@ -198,10 +181,10 @@ const Jobtypemaster = () => {
                         <li>
                           <button
                             data-text="View Application"
-                            title={item.is_active ? "Deactivate" : "Activate"}
-                            onClick={() => handleToggleStatus(item)}
+                            // title={item.is_active ? "Deactivate" : "Activate"}
+                            onClick={() => handleToggleStatus(item.job_type_id)}
                           >
-                            <span className={item.is_active ? "la la-eye-slash" : "la la-eye"}></span>
+                            <span className={`la ${item.is_active ? "la-eye-slash" : "la-eye"}`}></span>
                           </button>
 
 
