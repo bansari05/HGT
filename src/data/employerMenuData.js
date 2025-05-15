@@ -24,7 +24,7 @@ const employerMenu = [
     id: 4,
     name: "Industry",
     icon: "las la-industry",
-    routePath: "",
+    routePath: "/employers-dashboard/industry",
     active: "",
   },
   {

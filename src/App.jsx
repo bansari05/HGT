@@ -31,6 +31,7 @@ import RegisterPage from "./pages/others/register";
 import BookmarkPage from "./pages/mybookmark/bookmark";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CategoriesPage from "./pages/employers-dashboard/categories";
+import IndustriesPage from "./pages/employers-dashboard/industry";
 
 function App() {
   useEffect(() => {
@@ -68,6 +69,7 @@ function App() {
                     <Route path="change-password" element={<ChangePasswordEmploeeDBPage />} />
                     <Route path="categories" element={<CategoriesPage/>} />
                     <Route path="job-type-master" element={<JobTypeMasterDBPage />} />
+                    <Route path="industry" element={<IndustriesPage />} />
                   </Routes>
                 </ProtectedRoute>
               }
