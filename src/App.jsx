@@ -33,6 +33,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import CategoriesPage from "./pages/employers-dashboard/categories";
 import QualificationPage from "./pages/employers-dashboard/qualification";
 
+import CandidateSingleDynamicV1 from "./pages/candidates-single/candidates-single-v1"
+import UserPage from "./pages/User";
+
+import IndustriesPage from "./pages/employers-dashboard/industry";
+
 function App() {
   useEffect(() => {
     Aos.init({
