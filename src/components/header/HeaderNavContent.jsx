@@ -35,41 +35,18 @@ const HeaderNavContent = () => {
           </li>
           {/* End homepage menu items */}
 
-          <li
-            className={`${
-              isActiveParent(findJobItems, pathname) ? "current" : ""
-            } dropdown has-mega-menu`}
-            id="has-mega-menu"
-          >
-            <span>Find Jobs</span>
-            
+          <li>
+            <Link to={'/job-list-v1'}>Find Jobs</Link>
           </li>
-
-          <li
-            className={`${
-              isActiveParent(employerItems, pathname) ||
-              pathname?.split("/")[1] === "employers-dashboard"
-                ? "current"
-                : ""
-            } dropdown`}
-          >
-            <span>Employers</span>
-            <ul>
-             
-              <li
-                className={
-                  pathname?.includes("/employers-dashboard")
-                    ? "current"
-                    : ""
-                }
-              >
-                <Link to="/employers-dashboard/dashboard">
-                  Employers Dashboard
-                </Link>
-              </li>
-            </ul>
+          <li>
+            <Link to={'/blog'}>Blogs</Link>
           </li>
-          {/* End Employers menu items */}
+          <li>
+            <Link to={'/about'}>About Us</Link>
+          </li>
+          <li>
+            <Link to={'/contact'}>Contact Us</Link>
+          </li>
         </ul>
       </nav>
     </>

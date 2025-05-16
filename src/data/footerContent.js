@@ -31,7 +31,7 @@ const footerContent = [
     title: "About Us",
     menuList: [
       { name: "About Us", route: "/about" },
-      { name: "Blog", route: "/blog-list-v1" },
+      { name: "Blog", route: "/blog" },
       { name: "Contact", route: "/contact" },
     ],
   },
