@@ -48,7 +48,7 @@ const Country = () => {
     
         const bodyData = isEdit
           ? {
-              countryId: selectedCountry.country_id, // ID for update
+              countryId: selectedCountry.country_id, 
               country: formData.country,
             }
           : {
@@ -99,7 +99,7 @@ const Country = () => {
     
         if (response.ok) {
           alert("Status updated successfully!");
-          fetchCountry(); // refresh the list
+          fetchCountry(); 
         } else {
           alert(result.message || "Failed to update status.");
         }
