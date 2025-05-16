@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from 'date-fns';
 
 const JobFeatured1 = () => {
   const [jobs, setJobs] = useState([]);
-
-    const handleBookmarkClick = () => {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: "smooth", 
-    });
-  };
+  const navigate = useNavigate(); 
 
   const getJobs = async () => {
     try {
@@ -33,6 +27,29 @@ const JobFeatured1 = () => {
     } catch (error) {
       console.error("Error fetching jobs:", error);
       setJobs([]);
+    }
+  };
+
+  const saveJob = async (jobId) => {
+    try {
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/SavedPost/Add", {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM", // Replace with real token
+        },
+        body: JSON.stringify({ jobId }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        navigate(`/mybookmark/${jobId}`); 
+      } else {
+        console.error("Failed to save job:", result.message);
+      }
+    } catch (error) {
+      console.error("Error saving job:", error);
     }
   };
 
@@ -66,12 +83,12 @@ const JobFeatured1 = () => {
                   <span className="icon flaticon-map-locator"></span>
                   {item.country || "N/A"}
                 </li>
-              <li>
-  <span className="icon flaticon-clock-3"></span>
-  {item.created
-    ? `${formatDistanceToNow(new Date(item.created), { addSuffix: true })}`
-    : 'N/A'}
-</li>
+                <li>
+                  <span className="icon flaticon-clock-3"></span>
+                  {item.created
+                    ? `${formatDistanceToNow(new Date(item.created), { addSuffix: true })}`
+                    : 'N/A'}
+                </li>
                 <li>
                   <span className="icon flaticon-money"></span>
                   {item.salary || "N/A"}
@@ -83,7 +100,7 @@ const JobFeatured1 = () => {
                 <li className="orange">Urgent</li>
               </ul>
 
-              <button className="bookmark-btn" onClick={handleBookmarkClick}>
+              <button className="bookmark-btn" onClick={() => saveJob(item.job_id)}>
                 <span className="flaticon-bookmark"></span>
               </button>
             </div>

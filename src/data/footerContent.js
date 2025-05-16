@@ -9,7 +9,7 @@ const footerContent = [
       { name: "Job Alerts", route: "/candidates-dashboard/job-alerts" },
       {
         name: "My Bookmarks",
-        route: "/mybookmark",
+        // route: "/mybookmark",
       },
     ],
   },

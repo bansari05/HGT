@@ -2,7 +2,6 @@
 import MetaComponent from "@/components/common/MetaComponent";
 import Bookmarks from "@/components/mybookmark";
 
-import JobList from "@/components/job-listing-pages/job-list-v1";
 
 const metadata = {
   title: "Short ListedJobs || Superio - Job Borad ReactJs Template",
