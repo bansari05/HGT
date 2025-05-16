@@ -6,6 +6,36 @@ Main Header
 
 ***/
 
+.dropdown-parent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+
+.dropdown-arrow {
+  transition: transform 0.3s ease;
+  margin-left: 10px;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  padding-left: 30px;
+}
+
+.submenu li a {
+  padding: 8px 15px;
+  display: block;
+}
+
+.submenu li.active a {
+  font-weight: 600;
+}
+
 .main-header {
   position: absolute;
   left: 0;

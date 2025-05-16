@@ -1,5 +1,3 @@
-
-
 import { Link } from "react-router-dom";
 import {
   blogItems,
@@ -25,9 +23,8 @@ const HeaderNavContent = () => {
         <ul className="navigation" id="navbar">
           {/* current dropdown */}
           <li
-            className={`${
-              isActiveParent(homeItems, pathname) ? "current" : ""
-            } `}
+            className={`${isActiveParent(homeItems, pathname) ? "current" : ""
+              } `}
           >
             {/* <span>Home</span> */}
             <Link to={homeItems[0].items[0].routePath}>Home</Link>
@@ -35,10 +32,9 @@ const HeaderNavContent = () => {
           </li>
           {/* End homepage menu items */}
 
-  <li
-            className={`${
-              isActiveParent(findJobItems, pathname) ? "current" : ""
-            } dropdown has-mega-menu`}
+          <li
+            className={`${isActiveParent(findJobItems, pathname) ? "current" : ""
+              } dropdown has-mega-menu`}
             id="has-mega-menu"
           >
             <span>Find Jobs</span>
@@ -71,16 +67,15 @@ const HeaderNavContent = () => {
           </li>
 
           <li
-            className={`${
-              isActiveParent(employerItems, pathname) ||
-              pathname?.split("/")[1] === "employers-dashboard"
+            className={`${isActiveParent(employerItems, pathname) ||
+                pathname?.split("/")[1] === "employers-dashboard"
                 ? "current"
                 : ""
-            } dropdown`}
+              } dropdown`}
           >
             <span>Employers</span>
             <ul>
-             
+
               <li
                 className={
                   pathname?.includes("/employers-dashboard")
