@@ -7,14 +7,13 @@ const CallToAction = () => {
         <div className="outer-box" data-aos="fade-up">
           <div className="content-column">
             <div className="sec-title">
-              <h2>Recruiting?</h2>
+              <h2>Contact Us</h2>
               <div className="text">
-                Advertise your jobs to millions of monthly users and search 15.8
-                million
-                <br /> CVs in our database.
+                Connect with top talent worldwide — fast, simple, and reliable.
+                {/* <br /> CVs in our database. */}
               </div>
               <a href="#" className="theme-btn btn-style-one bg-blue">
-                <span className="btn-title">Start Recruiting Now</span>
+                <span className="btn-title">Contact Us</span>
               </a>
             </div>
           </div>

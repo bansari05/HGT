@@ -10,15 +10,13 @@ const About = () => {
           <div className="sec-title">
             <h2>Millions of Jobs. Find the one that suits you.</h2>
             <div className="text">
-              Search all the open positions on the web. Get your own
-              personalized salary estimate. Read reviews on over 600,000
-              companies worldwide.
+              Explore millions of jobs across all skill levels. Find the perfect role that matches your experience, apply easily, and start building your career today.
             </div>
           </div>
           <ul className="list-style-one">
-            <li>Bring to the table win-win survival</li>
-            <li>Capitalize on low hanging fruit to identify</li>
-            <li>But I must explain to you how all this</li>
+            <li>Wide range of jobs — skilled, semi-skilled, and unskilled</li>
+            <li>Easy application process with direct employer connections</li>
+            <li>Support and guidance to help you succeed in your new role</li>
           </ul>
           <Link to="/register" className="theme-btn btn-style-one bg-blue">
             <span className="btn-title">Get Started</span>

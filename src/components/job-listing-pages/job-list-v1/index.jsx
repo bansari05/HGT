@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import FooterDefault from "../../../components/footer/common-footer";
 import Breadcrumb from "../../common/Breadcrumb";
 import LoginPopup from "../../common/form/login/LoginPopup";
@@ -7,6 +8,11 @@ import FilterJobsBox from "./FilterJobsBox";
 import FilterSidebar from "./FilterSidebar";
 
 const index = () => {
+    // Scroll to top on page load
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    },[]);
+
     return (
         <>
             {/* <!-- Header Span --> */}

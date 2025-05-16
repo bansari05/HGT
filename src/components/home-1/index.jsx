@@ -10,8 +10,33 @@ import JobCategorie1 from "../job-categories/JobCategorie1";
 import JobFeatured1 from "../job-featured/JobFeatured1";
 import Testimonial from "../testimonial/Testimonial";
 import LoginPopup from "../common/form/login/LoginPopup";
+import { useEffect, useState } from "react";
 
 const index = () => {
+  const [jobsLength, setJobsLength] = useState(0);
+
+  const fetchJobs = async () => {
+    try {
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/Job/SelectAll", {
+        headers: {
+          accept: "application/json",
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to fetch categories");
+      const data = await response.json();
+      if(data.status == 1 && data.data) {
+        setJobsLength(data.data.length);
+      }
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchJobs();
+  }, [])
   return (
     <>
       <LoginPopup />
@@ -25,7 +50,7 @@ const index = () => {
         <div className="auto-container">
           <div className="sec-title text-center">
             <h2>Popular Job Categories</h2>
-            <div className="text">2020 jobs live - 293 added today.</div>
+            <div className="text">{jobsLength} jobs live.</div>
           </div>
 
           <div
@@ -71,7 +96,7 @@ const index = () => {
           <div className="sec-title text-center">
             <h2>Testimonials From Our Customers</h2>
             <div className="text">
-              Lorem ipsum dolor sit amet elit, sed do eiusmod tempor
+              We post jobs, shortlist candidates, and deliver trusted employees.
             </div>
           </div>
         </div>
