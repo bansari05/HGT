@@ -1,63 +1,53 @@
-
-
-
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import HeaderNavContent from "./HeaderNavContent";
 
-
 const DefaulHeader2 = () => {
   const [navbar, setNavbar] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const changeBackground = () => {
-    if (window.scrollY >= 10) {
-      setNavbar(true);
-    } else {
-      setNavbar(false);
-    }
+    setNavbar(window.scrollY >= 10);
   };
 
   useEffect(() => {
     window.addEventListener("scroll", changeBackground);
+
+    // Check if user is logged in by checking token in localStorage
+    const token = localStorage.getItem("authToken");
+    if (token && token !== "undefined") {
+      setIsLoggedIn(true);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", changeBackground);
+    };
   }, []);
 
   return (
-    // <!-- Main Header-->
     <header
-      className={`main-header  ${
-        navbar ? "fixed-header animated slideInDown" : ""
-      }`}
+      className={`main-header ${navbar ? "fixed-header animated slideInDown" : ""}`}
     >
-      {/* <!-- Main box --> */}
       <div className="main-box">
-        {/* <!--Nav Outer --> */}
         <div className="nav-outer">
           <div className="logo-box">
             <div className="logo">
               <Link to="/">
-                <img
-                 
-                  src="/public/images/hgt-logo.png"
-                  alt="brand"
-                />
+                <img src="/public/images/hgt-logo.png" alt="brand" />
               </Link>
             </div>
           </div>
-          {/* End .logo-box */}
 
           <HeaderNavContent />
-          {/* <!-- Main Menu End--> */}
         </div>
-        {/* End .nav-outer */}
-
 
         <div className="outer-box">
-          {/* <!-- Add Listing --> */}
           <Link to="/candidates-dashboard/cv-manager" className="upload-cv">
             Upload your CV
           </Link>
-          {/* <!-- Login/Register --> */}
+
           <div className="btn-box">
+            {/* {!isLoggedIn && ( */}
             <a
               href="#"
               className="theme-btn btn-style-three call-modal"
@@ -66,15 +56,23 @@ const DefaulHeader2 = () => {
             >
               Login / Register - Admin
             </a>
-            <Link
-              to="/employers-dashboard/post-jobs"
-              className="theme-btn btn-style-one"
-            >
+            {/* )} */}
+
+            <Link to="/employers-dashboard/post-jobs" className="theme-btn btn-style-one">
               Job Post
             </Link>
+
+            {/* ✅ Show only when logged in */}
+            {isLoggedIn && (
+              <Link
+                to="/my-profile"
+                className="theme-btn btn-style-one"
+              >
+                User
+              </Link>
+            )}
           </div>
         </div>
-
       </div>
     </header>
   );

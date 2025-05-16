@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 
-const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEditing }) => {
-  const [categoryName, setCategoryName] = useState("");
+const AddIndustryModal = ({ show, handleClose, handleSubmit, initialData, isEditing }) => {
+  const [industryName, setIndustryName] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isEditing && initialData) {
-      setCategoryName(initialData.job_category);
+      setIndustryName(initialData.industry);
+    } else {
+      setIndustryName("");
     }
   }, [show, isEditing, initialData]);
 
@@ -14,7 +16,7 @@ const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
     e.preventDefault();
     setLoading(true);
     try {
-      await handleSubmit(categoryName);
+      await handleSubmit(industryName);
       handleClose();
     } catch (error) {
       console.error("Submission error:", error);
@@ -30,7 +32,7 @@ const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">{isEditing ? "Edit Category" : "Add New Category"}</h5>
+            <h5 className="modal-title">{isEditing ? "Edit Industry" : "Add New Industry"}</h5>
             <button type="button" className="close" onClick={handleClose}>
               <span>&times;</span>
             </button>
@@ -38,13 +40,13 @@ const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
           <div className="modal-body">
             <form onSubmit={onSubmit}>
               <div className="form-group">
-                <label htmlFor="categoryName" className="fw-bold">Category Name:</label>
+                <label htmlFor="industryName" className="fw-bold">Industry Name:</label>
                 <input
                   type="text"
                   className="form-control"
-                  id="categoryName"
-                  value={categoryName}
-                  onChange={(e) => setCategoryName(e.target.value)}
+                  id="industryName"
+                  value={industryName}
+                  onChange={(e) => setIndustryName(e.target.value)}
                   required
                   disabled={loading}
                 />
@@ -54,7 +56,7 @@ const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
                   Cancel
                 </button>
                 <button type="submit" className="theme-btn btn-style-one" disabled={loading}>
-                  {loading ? "Submitting..." : isEditing ? "Update Category" : "Add Category"}
+                  {loading ? "Submitting..." : isEditing ? "Update Industry" : "Add Industry"}
                 </button>
               </div>
             </form>
@@ -65,31 +67,31 @@ const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
   );
 };
 
-const Categories = () => {
-  const [categories, setCategories] = useState([]);
+const Industries = () => {
+  const [industries, setIndustries] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedIndustry, setSelectedIndustry] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchCategories();
+    fetchIndustries();
   }, []);
 
-  const fetchCategories = async () => {
+  const fetchIndustries = async () => {
     try {
-      const response = await fetch("http://localhost:5009/api/v1/JobCategory/SelectAll", {
+      const response = await fetch("http://localhost:5009/api/v1/Industry/SelectAll", {
         headers: {
           accept: "application/json",
           Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
         },
       });
       
-      if (!response.ok) throw new Error("Failed to fetch categories");
+      if (!response.ok) throw new Error("Failed to fetch industries");
       const result = await response.json();
       
-      setCategories(Array.isArray(result.data) ? result.data : result);
+      setIndustries(Array.isArray(result.data) ? result.data : []);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -97,66 +99,64 @@ const Categories = () => {
     }
   };
 
-  const handleAddSubmit = async (categoryName) => {
+  const handleAddSubmit = async (industryName) => {
     try {
-      const response = await fetch("http://localhost:5009/api/v1/JobCategory/Add", {
+      const response = await fetch("http://localhost:5009/api/v1/Industry/Add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
         },
-        body: JSON.stringify({ jobCategory: categoryName })
+        body: JSON.stringify({ industry: industryName })
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to add category");
+        throw new Error(errorData.message || "Failed to add industry");
       }
 
-      await fetchCategories();
+      await fetchIndustries();
     } catch (error) {
       setError(error.message);
       throw error;
     }
   };
 
-  const handleEditSubmit = async (categoryName) => {
+  const handleEditSubmit = async (industryName) => {
     try {
-      const response = await fetch(`http://localhost:5009/api/v1/JobCategory/Update`, {
+      const response = await fetch(`http://localhost:5009/api/v1/Industry/Update`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
         },
         body: JSON.stringify({ 
-          jobCategoryId: selectedCategory.job_category_id,
-          jobCategory: categoryName 
+          industryId: selectedIndustry.industry_id,
+          industry: industryName 
         })
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to update category");
+        throw new Error(errorData.message || "Failed to update industry");
       }
 
-      await fetchCategories();
+      await fetchIndustries();
     } catch (error) {
       setError(error.message);
       throw error;
     }
   };
 
-  const handleToggleStatus = async (categoryId) => {
+  const handleToggleStatus = async (industryId) => {
     try {
-      const response = await fetch(`http://localhost:5009/api/v1/JobCategory/Status`, {
+      const response = await fetch(`http://localhost:5009/api/v1/Industry/Status`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
         },
-        body: JSON.stringify({ 
-          jobCategoryId: categoryId 
-        })
+        body: JSON.stringify({ industryId })
       });
 
       if (!response.ok) {
@@ -164,7 +164,7 @@ const Categories = () => {
         throw new Error(errorData.message || "Failed to toggle status");
       }
 
-      await fetchCategories();
+      await fetchIndustries();
     } catch (error) {
       setError(error.message);
     }
@@ -173,14 +173,14 @@ const Categories = () => {
   return (
     <div className="tabs-box">
       <div className="widget-title">
-        <h4>Categories</h4>
+        <h4>Industries</h4>
         <div className="form-group col-lg-12 col-md-12 text-right">
           <button
             type="button"
             className="theme-btn btn-style-one"
             onClick={() => setShowAddModal(true)}
           >
-            Add Categories
+            Add Industries
           </button>
         </div>
       </div>
@@ -192,7 +192,7 @@ const Categories = () => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Job Category Name</th>
+                <th>Industry Name</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -200,34 +200,37 @@ const Categories = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="4" className="text-center">Loading categories...</td>
+                  <td colSpan="4" className="text-center">Loading industries...</td>
                 </tr>
-              ) : categories.length === 0 ? (
+              ) : industries.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="text-center">No categories found</td>
+                  <td colSpan="4" className="text-center">No industries found</td>
                 </tr>
               ) : (
-                categories.map((category) => (
-                  <tr key={category.job_category_id}>
-                    <td>{category.job_category_id}</td>
-                    <td>{category.job_category}</td>
-                    <td>{category.is_active ? "Active" : "Inactive"}</td>
+                industries.map((industry) => (
+                  <tr key={industry.industry_id}>
+                    <td>{industry.industry_id}</td>
+                    <td>{industry.industry}</td>
+                    <td>{industry.is_active ? "Active" : "Inactive"}</td>
                     <td>
                       <div className="option-box">
                         <ul className="option-list">
                           <li>
-                            <button data-text="Change Status" onClick={() => handleToggleStatus(category.job_category_id)}>
-                              <span className={`la ${category.is_active ? "la-eye-slash" : "la-eye"}`}></span>
+                            <button 
+                              data-text="Change Status" 
+                              onClick={() => handleToggleStatus(industry.industry_id)}
+                            >
+                              <span className={`la ${industry.is_active ? "la-eye-slash" : "la-eye"}`}></span>
                             </button>
                           </li>
                           <li>
                             <button 
-                                data-text="Edit Category"
-                                onClick={() => {
-                                  setSelectedCategory(category);
-                                  setShowEditModal(true);
-                                }}
-                              >
+                              data-text="Edit Industry"
+                              onClick={() => {
+                                setSelectedIndustry(industry);
+                                setShowEditModal(true);
+                              }}
+                            >
                               <span className="la la-pencil"></span>
                             </button>
                           </li>
@@ -242,22 +245,25 @@ const Categories = () => {
         </div>
       </div>
 
-      <AddCategoryModal
+      <AddIndustryModal
         show={showAddModal}
         handleClose={() => setShowAddModal(false)}
         handleSubmit={handleAddSubmit}
         isEditing={false}
       />
 
-      <AddCategoryModal
+      <AddIndustryModal
         show={showEditModal}
-        handleClose={() => setShowEditModal(false)}
+        handleClose={() => {
+          setShowEditModal(false);
+          setSelectedIndustry(null);
+        }}
         handleSubmit={handleEditSubmit}
-        initialData={selectedCategory}
+        initialData={selectedIndustry}
         isEditing={true}
       />
     </div>
   );
 };
 
-export default Categories;
+export default Industries;
