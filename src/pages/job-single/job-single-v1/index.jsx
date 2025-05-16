@@ -16,8 +16,8 @@ import MetaComponent from "@/components/common/MetaComponent";
 import { formatDistanceToNow } from 'date-fns';
 
 const metadata = {
-  title: "Job Single Dyanmic V1 || Superio - Job Borad ReactJs Template",
-  description: "Superio - Job Borad ReactJs Template",
+  title: "Job Single Dyanmic V1 || HGT - Job Board",
+  description: "HGT - Job Board",
 };
 
 const JobSingleDynamicV1 = () => {

@@ -5,9 +5,9 @@ import RegisterForm from "@/components/pages-menu/register";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: 'Register || Superio - Job Borad ReactJs Template',
+  title: 'Register || HGT - Job Board',
   description:
-    'Superio - Job Borad ReactJs Template',
+    'HGT - Job Board',
   
 }
 

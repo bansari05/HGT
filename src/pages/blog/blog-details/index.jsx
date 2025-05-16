@@ -10,8 +10,8 @@ import {useParams } from "react-router-dom";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Blog Details Dyanmic V1 || Superio - Job Borad ReactJs Template",
-  description: "Superio - Job Borad ReactJs Template",
+  title: "Blog Details Dyanmic V1 || HGT - Job Board",
+  description: "HGT - Job Board",
 };
 
 const BlogDetailsDynamic = () => {

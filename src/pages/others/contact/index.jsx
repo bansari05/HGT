@@ -5,9 +5,9 @@ import Contact from "@/components/pages-menu/contact";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: 'Contact || Superio - Job Borad ReactJs Template',
+  title: 'Contact || HGT - Job Board',
   description:
-    'Superio - Job Borad ReactJs Template',
+    'HGT - Job Board',
   
 }
 

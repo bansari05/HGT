@@ -5,9 +5,9 @@ import Pricing from "@/components/pages-menu/pricing";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: 'Pricing || Superio - Job Borad ReactJs Template',
+  title: 'Pricing || HGT - Job Board',
   description:
-    'Superio - Job Borad ReactJs Template',
+    'HGT - Job Board',
   
 }
 

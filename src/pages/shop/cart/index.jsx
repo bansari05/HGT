@@ -4,8 +4,8 @@ import Cart from "@/components/shop/cart";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Cart || Superio - Job Borad ReactJs Template",
-  description: "Superio - Job Borad ReactJs Template",
+  title: "Cart || HGT - Job Board",
+  description: "HGT - Job Board",
 };
 
 const CartPage = () => {

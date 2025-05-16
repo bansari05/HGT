@@ -4,8 +4,8 @@ import Categories from "@/components/dashboard-pages/employers-dashboard/categor
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Company Profile || Superio - Job Borad ReactJs Template",
-  description: "Superio - Job Borad ReactJs Template",
+  title: "Company Profile || HGT - Job Board",
+  description: "HGT - Job Board",
 };
 
 const CategoriesPage = () => {

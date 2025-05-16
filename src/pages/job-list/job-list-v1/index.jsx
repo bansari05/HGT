@@ -4,8 +4,8 @@ import JobList from "@/components/job-listing-pages/job-list-v1";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Job List V1 || Superio - Job Borad ReactJs Template",
-  description: "Superio - Job Borad ReactJs Template",
+  title: "Job List V1 || HGT - Job Board",
+  description: "HGT - Job Board",
 };
 
 const JobListPage1 = () => {
