@@ -50,7 +50,7 @@ const Jobtypemaster = () => {
         if (result.status === 1) {
           await getJobTypes();
         } else {
-          console.log('Error',result.message);
+          console.log('Error', result.message);
         }
       } else {
         // Adding new job type
@@ -70,7 +70,7 @@ const Jobtypemaster = () => {
         if (result.status === 1) {
           await getJobTypes();
         } else {
-          console.log('Error',result.message);
+          console.log('Error', result.message);
         }
       }
     } catch (error) {
@@ -80,7 +80,6 @@ const Jobtypemaster = () => {
       setCurrentJobType(null);
     }
   };
-
 
   const handleEdit = async (jobTypeId) => {
     try {
@@ -104,39 +103,37 @@ const Jobtypemaster = () => {
     }
   };
 
- const handleToggleStatus = async (jobTypeId) => {
-  try {
-    const response = await fetch("https://apihgt.solvifytech.in/api/v1/JobType/Status", {
-      method: "PUT",
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
-      },
-      
-      body: JSON.stringify({
-        jobTypeId: jobTypeId,
-      }),
-      
-    });
-    console.log(response)
+  const handleToggleStatus = async (jobTypeId) => {
+    try {
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/JobType/Status", {
+        method: "PUT",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
+        },
 
-    const result = await response.json();
-console.warn({
-hh: result 
-})
-    if (result.status === 1) {
-      // Success - fetch latest list from backend
-      await getJobTypes();
-    } else {
-      alert(result.message || "Failed to update status.");
+        body: JSON.stringify({
+          jobTypeId: jobTypeId,
+        }),
+
+      });
+
+      const result = await response.json();
+      console.warn({
+        hh: result
+      })
+      if (result.status === 1) {
+        // Success - fetch latest list from backend
+        await getJobTypes();
+      } else {
+        alert(result.message || "Failed to update status.");
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+      alert("Error occurred while updating status.");
     }
-  } catch (error) {
-    console.error("Error updating status:", error);
-    alert("Error occurred while updating status.");
-  }
-};
-
+  };
 
   useEffect(() => {
     getJobTypes();
@@ -146,16 +143,14 @@ hh: result
     <div className="tabs-box">
       <div className="widget-title">
         <h4>Job Type Master</h4>
-       
-
-            <div className="form-group col-lg-12 col-md-12 text-right">
-              <button type="submit" className="theme-btn btn-style-one"  onClick={() => {
+        <div className="form-group col-lg-12 col-md-12 text-right">
+          <button type="submit" className="theme-btn btn-style-one" onClick={() => {
             setCurrentJobType(null);
             setIsPopupOpen(true);
           }}>
-                Add Job
-              </button>
-            </div>
+            Add Job
+          </button>
+        </div>
       </div>
 
       <div className="widget-content">

@@ -1,5 +1,3 @@
-
-
 import { Link } from "react-router-dom";
 import {
   blogItems,
@@ -25,9 +23,8 @@ const HeaderNavContent = () => {
         <ul className="navigation" id="navbar">
           {/* current dropdown */}
           <li
-            className={`${
-              isActiveParent(homeItems, pathname) ? "current" : ""
-            } `}
+            className={`${isActiveParent(homeItems, pathname) ? "current" : ""
+              } `}
           >
             {/* <span>Home</span> */}
             <Link to={homeItems[0].items[0].routePath}>Home</Link>

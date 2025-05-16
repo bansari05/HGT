@@ -1,6 +1,3 @@
-
-
-
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import employerMenuData from "../../data/employerMenuData";
@@ -11,8 +8,7 @@ import { useLocation } from "react-router-dom";
 const DashboardHeader = () => {
     const { pathname } = useLocation();
     const [navbar, setNavbar] = useState(false);
-
-
+    const [openDropdownId, setOpenDropdownId] = useState(null);
 
     const changeBackground = () => {
         if (window.scrollY >= 0) {
@@ -23,15 +19,22 @@ const DashboardHeader = () => {
     };
 
     useEffect(() => {
+        const activeParent = employerMenuData.find((item) =>
+            item.subtype?.some((subItem) => isActiveLink(subItem.routePath, pathname))
+        );
+        setOpenDropdownId(activeParent?.id || null);
         window.addEventListener("scroll", changeBackground);
     }, []);
+
+    const menuToggleHandler = () => {
+        dispatch(menuToggle());
+    };
 
     return (
         // <!-- Main Header-->
         <header
-            className={`main-header header-shaddow  ${
-                navbar ? "fixed-header " : ""
-            }`}
+            className={`main-header header-shaddow  ${navbar ? "fixed-header " : ""
+                }`}
         >
             <div className="container-fluid">
                 {/* <!-- Main box --> */}
@@ -44,7 +47,7 @@ const DashboardHeader = () => {
                                     <img
                                         alt="brand"
                                         src="/public/images/hgt-logo.png"
-                                       
+
                                     />
                                 </Link>
                             </div>
@@ -55,7 +58,7 @@ const DashboardHeader = () => {
                         {/* <!-- Main Menu End--> */}
                     </div>
                     {/* End .nav-outer */}
- <div className="outer-box">
+                    <div className="outer-box">
                         <button className="menu-btn">
                             <span className="count">1</span>
                             <span className="icon la la-heart-o"></span>
@@ -79,7 +82,7 @@ const DashboardHeader = () => {
                                     alt="avatar"
                                     className="thumb"
                                     src="/images/resource/company-6.png"
-                                   
+
                                 />
                                 <span className="name">My Account</span>
                             </a>
@@ -87,14 +90,13 @@ const DashboardHeader = () => {
                             <ul className="dropdown-menu">
                                 {employerMenuData.map((item) => (
                                     <li
-                                        className={`${
-                                            isActiveLink(
-                                                item.routePath,
-                                                pathname
-                                            )
-                                                ? "active"
-                                                : ""
-                                        } mb-1`}
+                                        className={`${isActiveLink(
+                                            item.routePath,
+                                            pathname
+                                        )
+                                            ? "active"
+                                            : ""
+                                            } mb-1`}
                                         key={item.id}
                                     >
                                         <Link to={item.routePath}>
@@ -105,11 +107,64 @@ const DashboardHeader = () => {
                                         </Link>
                                     </li>
                                 ))}
+                                {/* {employerMenuData.map((item) => {
+                                    const isLogout = item.name === "Logout";
+                                    const hasSubtype = item.subtype?.length > 0;
+                                    const isParentActive = hasSubtype && item.subtype.some(
+                                        (subItem) => isActiveLink(subItem.routePath, pathname)
+                                    );
+
+                                    return (
+                                        <li
+                                            // className={`${isParentActive || isActiveLink(item.routePath, pathname) ? "active" : ""} mb-1`}
+                                            className={`${isParentActive || isActiveLink(item.routePath, pathname) ? "active" : ""} mb-1`}
+                                            key={item.id}
+                                            onClick={() => {
+                                                if (isLogout) handleLogout();
+                                                else if (hasSubtype) {
+                                                    setOpenDropdownId((prev) =>
+                                                        prev === item.id ? null : item.id
+                                                    );
+                                                } else menuToggleHandler();
+                                            }}
+                                        >
+                                            {hasSubtype ? (
+                                                <>
+                                                    <Link to={isLogout ? "#" : item.routePath}>
+                                                        <i className={`la ${item.icon}`}></i> {item.name}
+                                                        <i className={`las la-angle-down dropdown-arrow ${openDropdownId === item.id ? "open" : ""} position-absolute`} style={{ right: 0, fontSize: "17px" }}></i>
+                                                    </Link>
+                                                    {openDropdownId === item.id && (
+                                                        <ul className="submenu">
+                                                            {item.subtype.map((subItem) => (
+                                                                <li
+                                                                    key={subItem.id}
+                                                                    className={`${isActiveLink(subItem.routePath, pathname) ? "active" : ""} mt-1`} >
+                                                                    <Link
+                                                                        to={subItem.routePath}
+                                                                        onClick={menuToggleHandler}
+                                                                    >
+                                                                        <i className={`la ${subItem.icon}`}></i>{" "}
+                                                                        {subItem.name}
+                                                                    </Link>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <Link to={isLogout ? "#" : item.routePath}>
+                                                    <i className={`la ${item.icon}`}></i> {item.name}
+                                                </Link>
+                                            )}
+                                        </li>
+                                    );
+                                })} */}
                             </ul>
                         </div>
                         {/* End dropdown */}
                     </div>
-                    
+
                     {/* End outer-box */}
                 </div>
             </div>
