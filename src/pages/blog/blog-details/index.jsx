@@ -53,7 +53,6 @@ const BlogDetailsDynamic = () => {
                 Alison Dawn
               </li>
               <li>August 31, 2021</li>
-              <li>12 Comment</li>
             </ul>
             {/* End post info */}
           </div>
