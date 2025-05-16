@@ -37,7 +37,7 @@ const SearchForm = () => {
           <input 
             type="text" 
             name="location" 
-            placeholder="Postcode"
+            placeholder="City"
           />
         </div>
 

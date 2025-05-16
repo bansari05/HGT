@@ -77,7 +77,7 @@ const Bookmark = () => {
         </div>
         <div className="search-field">
           <i className="la la-map-marker"></i>
-          <input type="text" placeholder="Postcode" />
+          <input type="text" placeholder="City" />
         </div>
         <div className="search-field">
           <i className="la la-briefcase"></i>
