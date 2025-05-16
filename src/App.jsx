@@ -37,6 +37,7 @@ import CandidateSingleDynamicV1 from "./pages/candidates-single/candidates-singl
 import UserPage from "./pages/User";
 
 import IndustriesPage from "./pages/employers-dashboard/industry";
+import AboutPage from "./pages/others/about";
 
 function App() {
   useEffect(() => {
@@ -54,7 +55,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="home-1" element={<HomePage1 />} />
-  
+            <Route path="/about" element={<AboutPage />}/>
+
             {/* Admin-only routes */}
             <Route
               path="employers-dashboard/*"
