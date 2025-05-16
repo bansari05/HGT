@@ -32,7 +32,9 @@ import BookmarkPage from "./pages/mybookmark/Bookmark";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CategoriesPage from "./pages/employers-dashboard/categories";
 import QualificationPage from "./pages/employers-dashboard/qualification";
+// import CountryPage from "./pages/employers-dashboard/country";
 import CountryPage from "./pages/employers-dashboard/country";
+// import AddState from "./components/dashboard-pages/employers-dashboard/state"; 
 
 import CandidateSingleDynamicV1 from "./pages/candidates-single/candidates-single-v1"
 import UserPage from "./pages/User";
@@ -77,7 +79,12 @@ function App() {
                     <Route path="qualification" element={<QualificationPage/>} />
                     <Route path="job-type-master" element={<JobTypeMasterDBPage />} />
                     <Route path="industry" element={<IndustriesPage />} />
-                    <Route path="country" element={<CountryPage />} />
+                    {/* <Route path="country" element={<CountryPage />} /> */}
+                    <Route path="/country" element={<CountryPage />} />
+{/* <Route path="/state/:countryId" element={<AddState />} /> */}
+
+
+
                   </Routes>
                 </ProtectedRoute>
               }
