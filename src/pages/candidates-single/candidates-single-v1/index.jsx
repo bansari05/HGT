@@ -1,143 +1,282 @@
-import candidates from "@/data/candidates";
-import candidateResume from "@/data/candidateResume";
+// import candidates from "@/data/candidates";
+// import candidateResume from "@/data/candidateResume";
+// import LoginPopup from "@/components/common/form/login/LoginPopup";
+// import FooterDefault from "@/components/footer/common-footer";
+// import DefaulHeader from "@/components/header/DefaulHeader";
+// import MobileMenu from "@/components/header/MobileMenu";
+// import Contact from "@/components/candidates-single-pages/shared-components/Contact";
+// import GalleryBox from "@/components/candidates-single-pages/shared-components/GalleryBox";
+// import Social from "@/components/candidates-single-pages/social/Social";
+// import JobSkills from "@/components/candidates-single-pages/shared-components/JobSkills";
+// import AboutVideo from "@/components/candidates-single-pages/shared-components/AboutVideo";
+// import { useLocation, useParams } from "react-router-dom";
+
+// import MetaComponent from "@/components/common/MetaComponent";
+// import { useEffect, useState } from "react";
+
+// const metadata = {
+//   title:
+//     "Candidate Single Dyanmic V1 || Superio - Job Borad ReactJs Template",
+//   description: "Superio - Job Borad ReactJs Template",
+// };
+
+// const CandidateSingleDynamicV1 = () => {
+//   const location = useLocation();
+//   const { applicationId } = useParams();
+//   const [application, setApplication] = useState(null);
+//   const [jobs, setJobs] = useState([]); // State to store all jobs
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [jobsLoading, setJobsLoading] = useState(true);
+//   const [jobsError, setJobsError] = useState(null);
+
+//   console.warn({
+//     dd: jobs
+//   })
+
+//   const formatDate = (dateStr) => {
+//     const date = new Date(dateStr);
+//     return date.toLocaleDateString("en-US", {
+//       month: "short", // "Aug"
+//       day: "numeric", // "19"
+//       year: "numeric", // "2020"
+//     });
+//   };
+
+//   useEffect(() => {
+//     const fetchApplication = async () => {
+//       setLoading(true);
+//       setError(null);
+//       if (!applicationId || isNaN(Number(applicationId))) {
+//         console.error("Invalid application ID:", applicationId);
+//         setError("Invalid application ID");
+//         setLoading(false);
+//         return;
+//       }
+
+//       try {
+//         const res = await fetch(
+//           `https://apihgt.solvifytech.in/api/v1/Application/SelectById/${applicationId}`,
+//           {
+//             headers: {
+//               Authorization:
+//                 "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjoxIiwiZXhwIjoxNzQ3MTk2NTYzLCJpYXQiOjE3NDcxOTQ3NjN9.eOeIIM3OfRTIOheSLh51kTE7TpyRIxqTX832k5XUUFo",
+//             },
+//           }
+//         );
+
+//         if (!res.ok) {
+//           const errorData = await res.json();
+//           throw new Error(
+//             errorData?.message ||
+//             `Failed to fetch application with ID: ${applicationId}`
+//           );
+//         }
+
+//         const data = await res.json();
+
+//         if (data.status === 0) {
+//           setError(
+//             data.message || `Error fetching application with ID: ${applicationId}`
+//           );
+//         } else {
+//           setApplication(data.data);
+//         }
+//       } catch (err) {
+//         console.error("Error fetching application:", err);
+//         setError(err.message);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     if (!location.state?.application) {
+//       fetchApplication();
+//     } else {
+//       setApplication(location.state.application);
+//       setLoading(false);
+//     }
+//   }, [location, applicationId]);
+
+//   useEffect(() => {
+//     const fetchAllJobs = async () => {
+//       setJobsLoading(true);
+//       setJobsError(null);
+//       try {
+//         const res = await fetch(
+//           `https://apihgt.solvifytech.in/api/v1/Job/SelectAll`,
+//           {
+//             headers: {
+//               Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM`,
+//             },
+//           }
+//         );
+//         if (!res.ok) {
+//           const errorData = await res.json();
+//           throw new Error(errorData?.message || "Failed to fetch all jobs");
+//         }
+//         const data = await res.json();
+//         if (data.status === 0) {
+//           setJobsError(data.message || "Error fetching all jobs");
+//         } else {
+//           setJobs(data.data || []);
+//         }
+//       } catch (err) {
+//         console.error("Error fetching all jobs:", err);
+//         setJobsError(err.message);
+//       } finally {
+//         setJobsLoading(false);
+//       }
+//     };
+
+//     fetchAllJobs();
+//   }, []);
+
+
+//   // Now you have 'jobs' array containing all job data.
+//   // You need to decide how to use this data in your component's UI.
+//   console.log("All Jobs:", jobs);
+
+//   const matchedJob = jobs.find((job) => job.id === application?.jobId);
+
+
+import { useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 import LoginPopup from "@/components/common/form/login/LoginPopup";
 import FooterDefault from "@/components/footer/common-footer";
 import DefaulHeader from "@/components/header/DefaulHeader";
 import MobileMenu from "@/components/header/MobileMenu";
 import Contact from "@/components/candidates-single-pages/shared-components/Contact";
-import GalleryBox from "@/components/candidates-single-pages/shared-components/GalleryBox";
 import Social from "@/components/candidates-single-pages/social/Social";
 import JobSkills from "@/components/candidates-single-pages/shared-components/JobSkills";
 import AboutVideo from "@/components/candidates-single-pages/shared-components/AboutVideo";
-import { useLocation, useParams } from "react-router-dom";
-
 import MetaComponent from "@/components/common/MetaComponent";
-import { useEffect, useState } from "react";
 
 const metadata = {
-  title:
-    "Candidate Single Dyanmic V1 || Superio - Job Borad ReactJs Template",
+  title: "Candidate Single Dyanmic V1 || Superio - Job Borad ReactJs Template",
   description: "Superio - Job Borad ReactJs Template",
 };
 
 const CandidateSingleDynamicV1 = () => {
   const location = useLocation();
   const { applicationId } = useParams();
+
   const [application, setApplication] = useState(null);
-  const [jobs, setJobs] = useState([]); // State to store all jobs
+  const [jobs, setJobs] = useState([]);
+  const [users, setUsers] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [jobsLoading, setJobsLoading] = useState(true);
-  const [jobsError, setJobsError] = useState(null);
 
-  console.warn({
-    dd: jobs
-  })
-
+  // Format date helper
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString("en-US", {
-      month: "short", // "Aug"
-      day: "numeric", // "19"
-      year: "numeric", // "2020"
+      month: "short",
+      day: "numeric",
+      year: "numeric",
     });
   };
 
   useEffect(() => {
-    const fetchApplication = async () => {
+    const fetchData = async () => {
       setLoading(true);
       setError(null);
+
+      // Validate applicationId
       if (!applicationId || isNaN(Number(applicationId))) {
-        console.error("Invalid application ID:", applicationId);
         setError("Invalid application ID");
         setLoading(false);
         return;
       }
 
       try {
-        const res = await fetch(
-          `https://apihgt.solvifytech.in/api/v1/Application/SelectById/${applicationId}`,
-          {
+        // Fetch Application, Users, and Jobs concurrently
+        const [appsResponse, usersResponse, jobsResponse] = await Promise.all([
+          fetch(`https://apihgt.solvifytech.in/api/v1/Application/SelectById/${applicationId}`, {
             headers: {
               Authorization:
                 "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjoxIiwiZXhwIjoxNzQ3MTk2NTYzLCJpYXQiOjE3NDcxOTQ3NjN9.eOeIIM3OfRTIOheSLh51kTE7TpyRIxqTX832k5XUUFo",
             },
-          }
-        );
+          }),
+          fetch(`https://apihgt.solvifytech.in/api/v1/User/SelectAll`, {
+            headers: {
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
+            },
+          }),
+          fetch(`https://apihgt.solvifytech.in/api/v1/Job/SelectAll`, {
+            headers: {
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
+            },
+          }),
+        ]);
 
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(
-            errorData?.message ||
-            `Failed to fetch application with ID: ${applicationId}`
-          );
+        // Check for any failed response
+        if (!appsResponse.ok) {
+          const errData = await appsResponse.json();
+          throw new Error(errData?.message || "Failed to fetch application");
+        }
+        if (!usersResponse.ok) {
+          const errData = await usersResponse.json();
+          throw new Error(errData?.message || "Failed to fetch users");
+        }
+        if (!jobsResponse.ok) {
+          const errData = await jobsResponse.json();
+          throw new Error(errData?.message || "Failed to fetch jobs");
         }
 
-        const data = await res.json();
+        // Parse JSON
+        const appsData = await appsResponse.json();
+        const usersData = await usersResponse.json();
+        const jobsData = await jobsResponse.json();
 
-        if (data.status === 0) {
-          setError(
-            data.message || `Error fetching application with ID: ${applicationId}`
-          );
-        } else {
-          setApplication(data.data);
+        // Handle errors from API responses
+        if (appsData.status === 0) {
+          throw new Error(appsData.message || "Error fetching application");
         }
+        if (usersData.status === 0) {
+          throw new Error(usersData.message || "Error fetching users");
+        }
+        if (jobsData.status === 0) {
+          throw new Error(jobsData.message || "Error fetching jobs");
+        }
+
+        // Set Application state
+        setApplication(appsData.data);
+
+        // Transform Users array into a map with userId as key for easy lookup
+        const userMap = (usersData.data || []).reduce((acc, user) => {
+          const id = user.user_id ?? user.id;
+          if (id !== undefined) acc[id] = user;
+          return acc;
+        }, {});
+        setUsers(userMap);
+
+        // Set jobs array
+        setJobs(jobsData.data || []);
       } catch (err) {
-        console.error("Error fetching application:", err);
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
 
+    // Only fetch if application data is not already in location.state
     if (!location.state?.application) {
-      fetchApplication();
+      fetchData();
     } else {
       setApplication(location.state.application);
       setLoading(false);
     }
-  }, [location, applicationId]);
+  }, [applicationId, location.state]);
 
-  useEffect(() => {
-    const fetchAllJobs = async () => {
-      setJobsLoading(true);
-      setJobsError(null);
-      try {
-        const res = await fetch(
-          `https://apihgt.solvifytech.in/api/v1/Job/SelectAll`,
-          {
-            headers: {
-              Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM`,
-            },
-          }
-        );
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData?.message || "Failed to fetch all jobs");
-        }
-        const data = await res.json();
-        if (data.status === 0) {
-          setJobsError(data.message || "Error fetching all jobs");
-        } else {
-          setJobs(data.data || []);
-        }
-      } catch (err) {
-        console.error("Error fetching all jobs:", err);
-        setJobsError(err.message);
-      } finally {
-        setJobsLoading(false);
-      }
-    };
-
-    fetchAllJobs();
-  }, []);
-
-
-  // Now you have 'jobs' array containing all job data.
-  // You need to decide how to use this data in your component's UI.
-  console.log("All Jobs:", jobs);
-
+  // Find matched job from jobs array for current application
   const matchedJob = jobs.find((job) => job.id === application?.jobId);
+
+  // Find user info if needed (for example, application.userId)
+  const matchedUser = users[application?.userId || application?.user_id];
 
 
   return (
@@ -169,7 +308,7 @@ const CandidateSingleDynamicV1 = () => {
                       alt="avatar"
                     />
                   </figure>
-                  <h4 className="name">{matchedJob?.job_title}</h4>
+                  <h4 className="name">{matchedUser?.full_name}</h4>
 
                   <ul className="candidate-info">
                     <li className="designation">{matchedJob?.job_title}</li>

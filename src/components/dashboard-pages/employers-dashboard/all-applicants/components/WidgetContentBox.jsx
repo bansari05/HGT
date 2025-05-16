@@ -45,10 +45,12 @@ const WidgetContentBox = () => {
         const usersData = await usersResponse.json();
         const jobsData = await jobsResponse.json();
 
-        const userMap = usersData.data?.reduce((acc, user) => ({
-          ...acc,
-          [user.user_id]: user
-        }), {});
+  const userMap = usersData.data?.reduce((acc, user) => {
+  const id = user.user_id ?? user.id;
+  if (id !== undefined) acc[id] = user;
+  return acc;
+}, {}) || {};
+
 
         const jobMap = jobsData.data?.reduce((acc, job) => ({
           ...acc,
@@ -227,95 +229,99 @@ const ApplicationCard = ({ application, userData, jobData, onAction, onDelete, i
   })
   const job = jobData || {};
 
+  console.warn({
+    job: job
+  })
+
   return (
-    <div className="candidate-block-three col-lg-6 col-md-12 col-sm-12">
-      <div className="inner-box">
-        <div className="content">
-          <figure className="image">
-            <img
-              src={user.avatar || "/public/images/user.jpg"}
-              alt={`avatar`}
-            />
-          </figure>
-          <h4 className="name">
-            <Link to={`/candidates-single-v1/${application.application_id}`}>
-              {job.full_name || `Applicant #${user.full_name}`}
-            </Link>
-          </h4>
+<div className="candidate-block-three col-lg-6 col-md-12 col-sm-12">
+  <div className="inner-box">
+    <div className="content">
+      <figure className="image">
+        <img
+          src={user.avatar || "/images/user.jpg"}
+          alt="avatar"
+        />
+      </figure>
+      <h4 className="name">
+        <Link to={`/candidates-single-v1/${application.application_id}`}>
+          {user.full_name || `Applicant #${application.application_id}`}
+        </Link>
+      </h4>
 
-          <ul className="candidate-info">
-           
-            <li>
-              <span className="icon flaticon-map-locator"></span>{" "}
-              {job.country || "N/A"}
-            </li>
-          </ul>
+      <ul className="candidate-info">
+        <li>
+          <span className="icon flaticon-map-locator"></span>{" "}
+          {user.country || "N/A"}
+        </li>
+      </ul>
 
-          <ul className="post-tags">
-            <li className="designation">{job.job_title || "Not specified"}</li>
-          </ul>
-        </div>
-
-        <div className="option-box">
-          <ul className="option-list">
-            <li>
-              <button
-                data-text="View Application"
-                onClick={() => onView(application.application_id)}
-                disabled={isLoading}
-                title="View Application"
-              >
-                <span className="la la-eye"></span>
-              </button>
-            </li>
-            {application.status !== "Approved" && (
-              <li>
-                <button
-                  onClick={() => onAction(application.application_id, "Approved")}
-                  disabled={isLoading}
-                  title="Approve Aplication"
-                >
-                  {isLoading ? (
-                    <span className="la la-spinner spinner"></span>
-                  ) : (
-                    <span className="la la-check"></span>
-                  )}
-                </button>
-              </li>
-            )}
-            {application.status !== "Rejected" && (
-              <li>
-                <button
-                  onClick={() => onAction(application.application_id, "Rejected")}
-                  disabled={isLoading}
-                  title="Reject Aplication"
-                >
-                  {isLoading ? (
-                    <span className="la la-spinner spinner"></span>
-                  ) : (
-                    <span className="la la-times-circle"></span>
-                  )}
-                </button>
-              </li>
-            )}
-
-            <li>
-              <button
-                onClick={() => onDelete(application.application_id)}
-                disabled={isLoading}
-                title="Delete Aplication"
-              >
-                {isLoading ? (
-                  <span className="la la-spinner spinner"></span>
-                ) : (
-                  <span className="la la-trash"></span>
-                )}
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <ul className="post-tags">
+        <li className="designation">{job.job_title || "Not specified"}</li>
+      </ul>
     </div>
+
+    <div className="option-box">
+      <ul className="option-list">
+        <li>
+          <button
+            data-text="View Application"
+            onClick={() => onView(application.application_id)}
+            disabled={isLoading}
+            title="View Application"
+          >
+            <span className="la la-eye"></span>
+          </button>
+        </li>
+        {application.status !== "Approved" && (
+          <li>
+            <button
+              onClick={() => onAction(application.application_id, "Approved")}
+              disabled={isLoading}
+              title="Approve Application"
+            >
+              {isLoading ? (
+                <span className="la la-spinner spinner"></span>
+              ) : (
+                <span className="la la-check"></span>
+              )}
+            </button>
+          </li>
+        )}
+        {application.status !== "Rejected" && (
+          <li>
+            <button
+              onClick={() => onAction(application.application_id, "Rejected")}
+              disabled={isLoading}
+              title="Reject Application"
+            >
+              {isLoading ? (
+                <span className="la la-spinner spinner"></span>
+              ) : (
+                <span className="la la-times-circle"></span>
+              )}
+            </button>
+          </li>
+        )}
+
+        <li>
+          <button
+            onClick={() => onDelete(application.application_id)}
+            disabled={isLoading}
+            title="Delete Application"
+          >
+            {isLoading ? (
+              <span className="la la-spinner spinner"></span>
+            ) : (
+              <span className="la la-trash"></span>
+            )}
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
   );
 };
 

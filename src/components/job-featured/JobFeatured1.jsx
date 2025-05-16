@@ -96,7 +96,7 @@ const JobFeatured1 = () => {
               </ul>
 
               <ul className="job-other-info">
-                <li className="green">{item.job_type || ''}</li>
+                <li className="green">{item.job_type || 'remote'}</li>
                 <li className="orange">Urgent</li>
               </ul>
 
