@@ -1,18 +1,6 @@
 import { Link } from "react-router-dom";
-import {
-  blogItems,
-  candidateItems,
-  employerItems,
-  findJobItems,
-  homeItems,
-  pageItems,
-  shopItems,
-} from "../../data/mainMenuData";
-import {
-  isActiveParent,
-  isActiveLink,
-  isActiveParentChaild,
-} from "../../utils/linkActiveChecker";
+import { blogItems, candidateItems, employerItems, findJobItems, homeItems, pageItems, shopItems, } from "../../data/mainMenuData";
+import { isActiveParent, isActiveLink, isActiveParentChaild } from "../../utils/linkActiveChecker";
 
 import { useLocation } from "react-router-dom";
 const HeaderNavContent = () => {
@@ -26,7 +14,6 @@ const HeaderNavContent = () => {
             className={`${isActiveParent(homeItems, pathname) ? "current" : ""
               } `}
           >
-            {/* <span>Home</span> */}
             <Link to={homeItems[0].items[0].routePath}>Home</Link>
 
           </li>

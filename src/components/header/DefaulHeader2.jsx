@@ -1,24 +1,29 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import HeaderNavContent from "./HeaderNavContent";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser } from "../../store/userSlice";
 
 const DefaulHeader2 = () => {
   const [navbar, setNavbar] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
 
   const changeBackground = () => {
     setNavbar(window.scrollY >= 10);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userData");
+    dispatch(clearUser());
+    navigate("/");
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", changeBackground);
-
-    // Check if user is logged in by checking token in localStorage
-    const token = localStorage.getItem("authToken");
-    if (token && token !== "undefined") {
-      setIsLoggedIn(true);
-    }
-
     return () => {
       window.removeEventListener("scroll", changeBackground);
     };
@@ -47,30 +52,33 @@ const DefaulHeader2 = () => {
           </Link>
 
           <div className="btn-box">
-            {/* {!isLoggedIn && ( */}
-            <a
-              href="#"
-              className="theme-btn btn-style-three call-modal"
-              data-bs-toggle="modal"
-              data-bs-target="#loginPopupModal"
-            >
-              Login / Register - Admin
-            </a>
-            {/* )} */}
-
-            <Link to="/employers-dashboard/post-jobs" className="theme-btn btn-style-one">
-              Job Post
-            </Link>
+            {user?.user_type !== "User" && (
+              <a
+                href="#"
+                className="theme-btn btn-style-three call-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#loginPopupModal"
+              >
+                Login / Register - Admin
+              </a>
+            )}
 
             {/* ✅ Show only when logged in */}
-            {isLoggedIn && (
-              <Link
-                to="/my-profile"
-                className="theme-btn btn-style-one"
-              >
-                User
+            {user?.access_token && (
+              <Link to="/my-profile" className="theme-btn btn-style-one">
+                Hi, {user?.full_name}
               </Link>
             )}
+
+            {
+              user?.user_type === "User" && (
+                <>
+                  <div className="d-flex align-items-center justify-content-center px-3" style={{ marginLeft: "18px", backgroundColor: "#04598b", color: "white", borderRadius: "8px" }} onClick={handleLogout}>
+                    <i className="fa-solid fa-arrow-right-from-bracket" style={{ fontSize: "20px", color: "white" }}></i>
+                  </div>
+                </>
+              )
+            }
           </div>
         </div>
       </div>
