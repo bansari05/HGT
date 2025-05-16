@@ -38,6 +38,7 @@ import UserPage from "./pages/User";
 
 import IndustriesPage from "./pages/employers-dashboard/industry";
 import AboutPage from "./pages/others/about";
+import ContactPage from "./pages/others/contact";
 
 function App() {
   useEffect(() => {
@@ -89,6 +90,7 @@ function App() {
               <Route path="register" element={<RegisterPage />} />
               <Route path="mybookmark/:jobId" element={<BookmarkPage />} />
               <Route path="my-profile" element={<UserPage />} />
+              <Route path="/contact" element={<ContactPage />} />
             </Routes>
           </BrowserRouter>
 
