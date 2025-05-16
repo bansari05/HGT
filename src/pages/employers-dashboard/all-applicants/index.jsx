@@ -4,8 +4,8 @@ import AllApplicants from "@/components/dashboard-pages/employers-dashboard/all-
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "All Applicants || Superio - Job Borad ReactJs Template",
-  description: "Superio - Job Borad ReactJs Template",
+  title: "All Applicants || HGT - Job Board",
+  description: "HGT - Job Board",
 };
 
 const AllApplicantsEmploeesPage = () => {

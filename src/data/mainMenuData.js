@@ -18,7 +18,7 @@ export const findJobItems = [
     items: [
       {
         name: "Job List V1",
-        routePath: "/job-list-v1",
+        routePath: "/jobs",
       },
       {
         name: "Job List V2",
@@ -92,7 +92,7 @@ export const findJobItems = [
     items: [
       {
         name: "Job Single V1",
-        routePath: "/job-single-v1/1",
+        routePath: "/jobs/1",
       },
       {
         name: "Job Single V2",

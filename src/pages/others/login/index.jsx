@@ -5,9 +5,9 @@ import LogIn from "@/components/pages-menu/login";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: 'Login || Superio - Job Borad ReactJs Template',
+  title: 'Login || HGT - Job Board',
   description:
-    'Superio - Job Borad ReactJs Template',
+    'HGT - Job Board',
   
 }
 

@@ -4,8 +4,8 @@ import PostJob from "@/components/dashboard-pages/employers-dashboard/post-jobs"
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Post Jobs || Superio - Job Borad ReactJs Template",
-  description: "Superio - Job Borad ReactJs Template",
+  title: "Post Jobs || HGT - Job Board",
+  description: "HGT - Job Board",
 };
 
 const PostJobsEmploeeDBPage = () => {

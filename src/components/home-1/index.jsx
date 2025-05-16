@@ -15,6 +15,10 @@ import { useEffect, useState } from "react";
 const index = () => {
   const [jobsLength, setJobsLength] = useState(0);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  },[]);
+
   const fetchJobs = async () => {
     try {
       const response = await fetch("https://apihgt.solvifytech.in/api/v1/Job/SelectAll", {

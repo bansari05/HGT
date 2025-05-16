@@ -4,8 +4,8 @@ import User from "@/components/User"
 
 
 const metadata = {
-  title: "Short ListedJobs || Superio - Job Borad ReactJs Template",
-  description: "Superio - Job Borad ReactJs Template",
+  title: "Short ListedJobs || HGT - Job Borad",
+  description: "HGT - Job Board",
 };
 
 const UserPage = () => {
