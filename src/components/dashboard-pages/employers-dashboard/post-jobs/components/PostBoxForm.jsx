@@ -103,7 +103,7 @@ const PostBoxForm = () => {
   const fetchJobCategories = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5009/api/v1/JobCategory/SelectActive",
+        "https://apihgt.solvifytech.in/api/v1/JobCategory/SelectActive",
         {
           method: "GET",
           headers: {
@@ -131,7 +131,7 @@ const PostBoxForm = () => {
   const fetchQualifications = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5009/api/v1/Qualification/SelectActive",
+        "https://apihgt.solvifytech.in/api/v1/Qualification/SelectActive",
         {
           method: "GET",
           headers: {

@@ -11,7 +11,7 @@ const Qualification = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:5009/api/v1/Qualification/SelectAll",
+        "https://apihgt.solvifytech.in/api/v1/Qualification/SelectAll",
         {
           method: "GET",
           headers: {
@@ -42,7 +42,7 @@ const Qualification = () => {
       // If editing an existing job type
       if (selectedQualification) {
         const response = await fetch(
-          `http://localhost:5009/api/v1/Qualification/Update`,
+          `https://apihgt.solvifytech.in/api/v1/Qualification/Update`,
           {
             method: "PUT",
             headers: {
@@ -67,7 +67,7 @@ const Qualification = () => {
       } else {
         // Adding new job type
         const response = await fetch(
-          "http://localhost:5009/api/v1/Qualification/Add",
+          "https://apihgt.solvifytech.in/api/v1/Qualification/Add",
           {
             method: "POST",
             headers: {
@@ -100,7 +100,7 @@ const Qualification = () => {
   const handleToggleStatus = async (id) => {
     try {
       const response = await fetch(
-        "http://localhost:5009/api/v1/Qualification/Status",
+        "https://apihgt.solvifytech.in/api/v1/Qualification/Status",
         {
           method: "PUT",
           headers: {
