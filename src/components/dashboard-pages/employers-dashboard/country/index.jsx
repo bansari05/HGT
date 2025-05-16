@@ -37,7 +37,7 @@ const Index = () => {
 
           <MenuToggler />
           {/* Collapsible sidebar button */}
- 
+
           <div className="row">
             <div
               className={`col-lg-12 ${
