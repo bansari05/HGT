@@ -189,7 +189,7 @@ const PostBoxForm = () => {
   const fetchJobTypes = async () => {
     try {
       const response = await fetch(
-        "https://apihgt.solvifytech.in/api/v1/JobType/SelectAll",
+        "https://apihgt.solvifytech.in/api/v1/JobType/SelectActive",
         {
           method: "GET",
           headers: {
@@ -229,7 +229,7 @@ const PostBoxForm = () => {
         emailId: values.email_id,
         companyName: values.company_name,
         specialisms: specialismsFormatted,
-        jobTypeId: values.job_type,
+        jobType: values.job_type,
         salary: values.salary,
         careerLevel: values.career_level,
         experience: values.experience,
@@ -292,17 +292,6 @@ const PostBoxForm = () => {
       console.error("Error:", error);
     }
   };
-
-  // const specialisms = [
-  //   { value: "Banking", label: "Banking" },
-  //   { value: "Digital & Creative", label: "Digital & Creative" },
-  //   { value: "Retail", label: "Retail" },
-  //   { value: "Human Resources", label: "Human Resources" },
-  //   { value: "Management", label: "Management" },
-  //   { value: "Accounting & Finance", label: "Accounting & Finance" },
-  //   { value: "Digital", label: "Digital" },
-  //   { value: "Creative Art", label: "Creative Art" },
-  // ];
 
   return (
     <Formik
@@ -526,30 +515,25 @@ const PostBoxForm = () => {
             <div className="form-group col-lg-6 col-md-12">
               <label>Industry</label>
               <Select
-                isMulti
                 name="industry"
-                options={industryOptions} 
-                className={`basic-multi-select ${
+                options={industryOptions}
+                className={`basic-select ${
                   errors.industry && touched.industry ? "is-invalid" : ""
                 }`}
                 classNamePrefix="select"
-                value={industryOptions.filter((industry) =>
-                  values.specialisms.includes(String(industry.value))
+                value={industryOptions.find(
+                  (option) => String(option.value) === String(values.industry)
                 )}
-                onChange={(selectedOptions) =>
+                onChange={(selectedOption) =>
                   setFieldValue(
                     "industry",
-                    selectedOptions.map((option) => String(option.value))
+                    selectedOption ? selectedOption.value : ""
                   )
                 }
-                onBlur={() =>
-                  setFieldValue("industry", values.industry, true)
-                }
+                onBlur={() => setFieldValue("industry", values.industry, true)}
               />
               {errors.industry && touched.industry && (
-                <div className="invalid-feedback d-block">
-                  {errors.industry}
-                </div>
+                <div className="invalid-feedback d-block">{errors.industry}</div>
               )}
             </div>
 
