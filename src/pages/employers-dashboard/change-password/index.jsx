@@ -4,8 +4,8 @@ import ChangePassword from "@/components/dashboard-pages/employers-dashboard/cha
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Change Password || Superio - Job Borad ReactJs Template",
-  description: "Superio - Job Borad ReactJs Template",
+  title: "Change Password || HGT - Job Board",
+  description: "HGT - Job Board",
 };
 
 const ChangePasswordEmploeeDBPage = () => {

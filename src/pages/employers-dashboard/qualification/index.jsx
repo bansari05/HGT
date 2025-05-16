@@ -2,8 +2,8 @@ import Qualification from "@/components/dashboard-pages/employers-dashboard/qual
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Company Profile || Superio - Job Board ReactJs Template",
-  description: "Superio - Job Board ReactJs Template",
+  title: "Company Profile || HGT - Job Board ReactJs Template",
+  description: "HGT - Job Board ReactJs Template",
 };
 
 const QualificationPage = () => {

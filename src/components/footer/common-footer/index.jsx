@@ -22,13 +22,20 @@ const index = ({ footerStyle = "" }) => {
                 </div>
                 <p className="phone-num">
                   <span>Call us </span>
-                  <a href="thebeehost@support.com">123 456 7890</a>
+                  <a href="tel:+19055660004">+1 (905) 566-0004</a>
                 </p>
-                <p className="address">
-                  329 Queensberry Street, North Melbourne VIC
-                  <br /> 3051, Australia. <br />
-                  <a href="mailto:support@superio.com" className="email">
-                    support@superio.com
+                <a 
+                  className="address" 
+                  href="https://www.google.com/maps?q=Unit+16,+83+Kennedy+Rd+South,+Brampton,+ON,+L6W+3E1,+Canada" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  Unit 16, 83 Kennedy Rd South,
+                  <br /> Brampton, ON, L6W 3E1, Canada.
+                </a>
+                <p>
+                  <a href="mailto:vipin@visamastercanada.com" className="email">
+                    vipin@visamastercanada.com
                   </a>
                 </p>
               </div>

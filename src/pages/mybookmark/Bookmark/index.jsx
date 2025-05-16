@@ -4,8 +4,8 @@ import Bookmarks from "@/components/mybookmark";
 
 
 const metadata = {
-  title: "Short ListedJobs || Superio - Job Borad ReactJs Template",
-  description: "Superio - Job Borad ReactJs Template",
+  title: "Short ListedJobs || HGT - Job Board",
+  description: "HGT - Job Board",
 };
 
 const BookmarkPage = () => {
