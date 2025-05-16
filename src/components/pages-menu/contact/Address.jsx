@@ -8,8 +8,8 @@ const Address = () => {
       title: "Address",
       text: (
         <>
-          329 Queensberry Street, North
-          <br /> Melbourne VIC 3051, Australia.
+          Unit 16, 83 Kennedy Rd South,
+          <br /> Brampton, ON, L6W 3E1, Canada.
         </>
       ),
     },
@@ -19,8 +19,8 @@ const Address = () => {
       title: "Call Us",
       text: (
         <>
-          <a href="tel:+4733378901" className="phone">
-            123 456 7890
+          <a href="tel:+19055660004" className="phone">
+            +1 (905) 566-0004
           </a>
         </>
       ),
@@ -32,7 +32,7 @@ const Address = () => {
       text: (
         <>
           {" "}
-          <a href="#">contact.london@example.com</a>
+          <a href="mailto:vipin@visamastercanada.com">vipin@visamastercanada.com</a>
         </>
       ),
     },
