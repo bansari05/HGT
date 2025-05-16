@@ -28,7 +28,7 @@ const SearchForm2 = () => {
         <div className="form-group col-lg-4 col-md-12 col-sm-12 location">
           <label className="title">Where</label>
           <span className="icon flaticon-map-locator"></span>
-          <input type="text" name="field_name" placeholder="City or postcode" />
+          <input type="text" name="field_name" placeholder="Postcode" />
         </div>
         {/* <!-- Form Group --> */}
 

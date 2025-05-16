@@ -79,7 +79,7 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch("http://localhost:5009/api/v1/JobCategory/SelectAll", {
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/JobCategory/SelectAll", {
         headers: {
           accept: "application/json",
           Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
