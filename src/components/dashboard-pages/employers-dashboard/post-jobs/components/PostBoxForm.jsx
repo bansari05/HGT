@@ -37,6 +37,7 @@ const PostBoxForm = () => {
   const navigate = useNavigate();
   const [jobCategoryOptions, setJobCategoryOptions] = useState([]);
   const [qualifications, setQualifications] = useState([]);
+  const [industryOptions, setIndustryOptions] = useState([]);
 
   const [formData, setFormData] = useState({
     job_title: "",
@@ -159,10 +160,36 @@ const PostBoxForm = () => {
     }
   };
 
+  const fetchIndustries = async () => {
+    try {
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/Industry/SelectActive", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjoxIiwiZXhwIjoxNzQ3Mjg1NzAzLCJpYXQiOjE3NDcyODM5MDN9.hYRa-xvBQfnnqOXBktddVZ5ldvVe-tZFyRgZvMbjxQs",
+        }
+      });
+
+      const result = await response.json();
+      if(result.status === 1) {
+        const industries = result.data.map(industry => ({
+          value: industry.industry_id,
+          label: industry.industry
+        }));
+        setIndustryOptions(industries);
+      } else {
+        console.warn("Failed to load industries");
+      }
+    } catch (error) {
+      console.error("Error fetching industries:", error);
+    }
+  };
+
   const fetchJobTypes = async () => {
     try {
       const response = await fetch(
-        "https://apihgt.solvifytech.in/api/v1/JobType/SelectAll",
+        "https://apihgt.solvifytech.in/api/v1/JobType/SelectActive",
         {
           method: "GET",
           headers: {
@@ -174,6 +201,7 @@ const PostBoxForm = () => {
       );
       fetchJobCategories();
       fetchQualifications();
+      fetchIndustries();
       const result = await response.json();
       if (result.status === 1) {
         setJobTypeOptions(result.data);
@@ -201,7 +229,7 @@ const PostBoxForm = () => {
         emailId: values.email_id,
         companyName: values.company_name,
         specialisms: specialismsFormatted,
-        jobTypeId: values.job_type,
+        jobType: values.job_type,
         salary: values.salary,
         careerLevel: values.career_level,
         experience: values.experience,
@@ -264,17 +292,6 @@ const PostBoxForm = () => {
       console.error("Error:", error);
     }
   };
-
-  // const specialisms = [
-  //   { value: "Banking", label: "Banking" },
-  //   { value: "Digital & Creative", label: "Digital & Creative" },
-  //   { value: "Retail", label: "Retail" },
-  //   { value: "Human Resources", label: "Human Resources" },
-  //   { value: "Management", label: "Management" },
-  //   { value: "Accounting & Finance", label: "Accounting & Finance" },
-  //   { value: "Digital", label: "Digital" },
-  //   { value: "Creative Art", label: "Creative Art" },
-  // ];
 
   return (
     <Formik
@@ -497,19 +514,27 @@ const PostBoxForm = () => {
             {/* Industry */}
             <div className="form-group col-lg-6 col-md-12">
               <label>Industry</label>
-              <Field
-                type="text"
+              <Select
                 name="industry"
-                placeholder="Enter industry"
-                className={`form-control ${
+                options={industryOptions}
+                className={`basic-select ${
                   errors.industry && touched.industry ? "is-invalid" : ""
                 }`}
+                classNamePrefix="select"
+                value={industryOptions.find(
+                  (option) => String(option.value) === String(values.industry)
+                )}
+                onChange={(selectedOption) =>
+                  setFieldValue(
+                    "industry",
+                    selectedOption ? selectedOption.value : ""
+                  )
+                }
+                onBlur={() => setFieldValue("industry", values.industry, true)}
               />
-              <ErrorMessage
-                name="industry"
-                component="div"
-                className="invalid-feedback"
-              />
+              {errors.industry && touched.industry && (
+                <div className="invalid-feedback d-block">{errors.industry}</div>
+              )}
             </div>
 
             {/* Qualification */}

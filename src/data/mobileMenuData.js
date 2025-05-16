@@ -251,7 +251,7 @@ const mobileMenudate = [
     items: [
       {
         name: "Blog List V1",
-        routePath: "/blog-list-v1",
+        routePath: "/blog",
       },
       {
         name: "Blog List V2",
