@@ -7,10 +7,16 @@ const Address = () => {
       iconName: "placeholder",
       title: "Address",
       text: (
-        <>
-          Unit 16, 83 Kennedy Rd South,
-          <br /> Brampton, ON, L6W 3E1, Canada.
-        </>
+        <a 
+          href="https://www.google.com/maps?q=Unit+16,+83+Kennedy+Rd+South,+Brampton,+ON,+L6W+3E1,+Canada" 
+          target="_blank" 
+          rel="noopener noreferrer"
+        >
+          <>
+            Unit 16, 83 Kennedy Rd South,
+            <br /> Brampton, ON, L6W 3E1, Canada.
+          </>
+        </a>
       ),
     },
     {

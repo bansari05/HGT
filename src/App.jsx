@@ -39,6 +39,8 @@ import UserPage from "./pages/User";
 import IndustriesPage from "./pages/employers-dashboard/industry";
 import AboutPage from "./pages/others/about";
 import ContactPage from "./pages/others/contact";
+import BlogListpage3 from "./components/blog-meu-pages/blog-list-v3";
+import BlogDetailsDynamic from "./pages/blog/blog-details";
 
 function App() {
   useEffect(() => {
@@ -91,6 +93,8 @@ function App() {
               <Route path="mybookmark/:jobId" element={<BookmarkPage />} />
               <Route path="my-profile" element={<UserPage />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="blog" element={<BlogListpage3 />} />
+              <Route path="blog-details/:id" element={<BlogDetailsDynamic />} />
             </Routes>
           </BrowserRouter>
 
