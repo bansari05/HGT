@@ -81,35 +81,11 @@ function App() {
               }
             />
 
-              {/* Admin-only routes */}
-              <Route
-                path="employers-dashboard/*"
-                element={
-                  <ProtectedRoute>
-                    <Routes>
-                      <Route path="dashboard" element={<DashboardEmploeeDBPage />} />
-                      <Route path="company-profile" element={<CompanyProfileEmploeeDBPage />} />
-                      <Route path="post-jobs" element={<PostJobsEmploeeDBPage />} />
-                      <Route path="post-jobs/:jobId" element={<PostJobsEmploeeDBPage />} />
-                      <Route path="manage-jobs" element={<ManageJobsEmploeeDBPage />} />
-                      <Route path="all-applicants" element={<AllApplicantsEmploeesPage />} />
-                      <Route path="shortlisted-resumes" element={<ShortListedResumeEmploeeDBPage />} />
-                      <Route path="packages" element={<PackageEmploeeDBPage />} />
-                      <Route path="messages" element={<MessageEmploeeDBPage />} />
-                      <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage />} />
-                      <Route path="change-password" element={<ChangePasswordEmploeeDBPage />} />
-                      <Route path="categories" element={<CategoriesPage />} />
-                      <Route path="job-type-master" element={<JobTypeMasterDBPage />} />
-                    </Routes>
-                  </ProtectedRoute>
-                }
-              />
-
               <Route path="candidates-single-v1/:applicationId" element={<CandidateSingleDynamicV1 />} />
               <Route path="job-list-v1" element={<JobListPage1 />} />
               <Route path="job-single-v1/:id" element={<JobSingleDynamicV1 />} />
               <Route path="register" element={<RegisterPage />} />
-              <Route path="mybookmark" element={<BookmarkPage />} />
+              <Route path="mybookmark/:jobId" element={<BookmarkPage />} />
               <Route path="my-profile" element={<UserPage />} />
             </Routes>
           </BrowserRouter>
