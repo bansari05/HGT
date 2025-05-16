@@ -99,7 +99,7 @@ const Categories = () => {
 
   const handleAddSubmit = async (categoryName) => {
     try {
-      const response = await fetch("http://localhost:5009/api/v1/JobCategory/Add", {
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/JobCategory/Add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -122,7 +122,7 @@ const Categories = () => {
 
   const handleEditSubmit = async (categoryName) => {
     try {
-      const response = await fetch(`http://localhost:5009/api/v1/JobCategory/Update`, {
+      const response = await fetch(`https://apihgt.solvifytech.in/api/v1/JobCategory/Update`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -148,7 +148,7 @@ const Categories = () => {
 
   const handleToggleStatus = async (categoryId) => {
     try {
-      const response = await fetch(`http://localhost:5009/api/v1/JobCategory/Status`, {
+      const response = await fetch(`https://apihgt.solvifytech.in/api/v1/JobCategory/Status`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
