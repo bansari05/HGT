@@ -28,7 +28,7 @@ const SearchForm = () => {
           <input
             type="text"
             name="search"
-            placeholder="Job title, keywords, or company"
+            placeholder="Job title"
           />
         </div>
 

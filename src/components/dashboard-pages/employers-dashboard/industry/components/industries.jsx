@@ -33,9 +33,6 @@ const AddIndustryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">{isEditing ? "Edit Industry" : "Add New Industry"}</h5>
-            <button type="button" className="close" onClick={handleClose}>
-              <span>&times;</span>
-            </button>
           </div>
           <div className="modal-body">
             <form onSubmit={onSubmit}>
@@ -174,15 +171,13 @@ const Industries = () => {
     <div className="tabs-box">
       <div className="widget-title">
         <h4>Industries</h4>
-        <div className="form-group col-lg-12 col-md-12 text-right">
-          <button
+        <button
             type="button"
             className="theme-btn btn-style-one"
             onClick={() => setShowAddModal(true)}
           >
             Add Industries
           </button>
-        </div>
       </div>
 
       <div className="widget-content">

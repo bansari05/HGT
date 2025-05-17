@@ -342,7 +342,7 @@ const PostBoxForm = () => {
             </div>
 
             {/* Email Address */}
-            <div className="form-group col-lg-6 col-md-12">
+            {/* <div className="form-group col-lg-6 col-md-12">
               <label>Email address</label>
               <Field
                 type="email"
@@ -357,10 +357,10 @@ const PostBoxForm = () => {
                 component="div"
                 className="invalid-feedback"
               />
-            </div>
+            </div> */}
 
             {/* Company Name */}
-            <div className="form-group col-lg-6 col-md-12">
+            {/* <div className="form-group col-lg-6 col-md-12">
               <label>Company Name</label>
               <Field
                 type="text"
@@ -377,11 +377,11 @@ const PostBoxForm = () => {
                 component="div"
                 className="invalid-feedback"
               />
-            </div>
+            </div> */}
 
             {/* Specialisms */}
             <div className="form-group col-lg-6 col-md-12">
-              <label>Specialisms</label>
+              <label>Job Category</label>
               <Select
                 isMulti
                 name="specialisms"
@@ -437,7 +437,7 @@ const PostBoxForm = () => {
             <div className="form-group col-lg-6 col-md-12">
               <label>Offered Salary</label>
               <Field
-                type="text"
+                type="number"
                 name="salary"
                 placeholder="Enter offered salary"
                 className={`form-control ${
@@ -475,7 +475,7 @@ const PostBoxForm = () => {
             <div className="form-group col-lg-6 col-md-12">
               <label>Experience</label>
               <Field
-                type="text"
+                type="number"
                 name="experience"
                 placeholder="Enter experience"
                 className={`form-control ${
@@ -680,7 +680,7 @@ const PostBoxForm = () => {
             </div>
 
             {/* Find On Map */}
-            <div className="form-group col-lg-6 col-md-12">
+            {/* <div className="form-group col-lg-6 col-md-12">
               <label>Find On Map</label>
               <Field
                 type="text"
@@ -695,10 +695,10 @@ const PostBoxForm = () => {
                 component="div"
                 className="invalid-feedback"
               />
-            </div>
+            </div> */}
 
             {/* Latitude */}
-            <div className="form-group col-lg-3 col-md-12">
+            {/* <div className="form-group col-lg-3 col-md-12">
               <label>Latitude</label>
               <Field
                 type="text"
@@ -713,10 +713,10 @@ const PostBoxForm = () => {
                 component="div"
                 className="invalid-feedback"
               />
-            </div>
+            </div> */}
 
             {/* Longitude */}
-            <div className="form-group col-lg-3 col-md-12">
+            {/* <div className="form-group col-lg-3 col-md-12">
               <label>Longitude</label>
               <Field
                 type="text"
@@ -731,23 +731,23 @@ const PostBoxForm = () => {
                 component="div"
                 className="invalid-feedback"
               />
-            </div>
+            </div> */}
 
             {/* Search Location Button */}
-            <div className="form-group col-lg-12 col-md-12">
+            {/* <div className="form-group col-lg-12 col-md-12">
               <button type="button" className="theme-btn btn-style-three">
                 Search Location
               </button>
-            </div>
+            </div> */}
 
             {/* Map */}
-            <div className="form-group col-lg-12 col-md-12">
+            {/* <div className="form-group col-lg-12 col-md-12">
               <div className="map-outer">
                 <div style={{ height: "420px", width: "100%" }}>
                   <Map />
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Submit Button */}
             <div className="form-group col-lg-12 col-md-12 text-right">

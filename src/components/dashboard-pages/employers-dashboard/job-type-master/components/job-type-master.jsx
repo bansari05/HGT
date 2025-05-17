@@ -142,15 +142,13 @@ const Jobtypemaster = () => {
   return (
     <div className="tabs-box">
       <div className="widget-title">
-        <h4>Job Type Master</h4>
-        <div className="form-group col-lg-12 col-md-12 text-right">
+        <h4>Job Type</h4>
           <button type="submit" className="theme-btn btn-style-one" onClick={() => {
             setCurrentJobType(null);
             setIsPopupOpen(true);
           }}>
-            Add Job
+            Add Job Type
           </button>
-        </div>
       </div>
 
       <div className="widget-content">
@@ -175,7 +173,7 @@ const Jobtypemaster = () => {
                       <ul className="option-list">
                         <li>
                           <button
-                            data-text="View Application"
+                            data-text="Change Status"
                             // title={item.is_active ? "Deactivate" : "Activate"}
                             onClick={() => handleToggleStatus(item.job_type_id)}
                           >
@@ -186,17 +184,10 @@ const Jobtypemaster = () => {
                         </li>
                         <li>
                           <button
-                            data-text="Edit Application"
+                            data-text="Edit Job Type"
                             onClick={() => handleEdit(item.job_type_id)}
                           >
                             <span className="la la-pencil"></span>
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            data-text="Delete Application"
-                          >
-                            <span className="la la-trash"></span>
                           </button>
                         </li>
                       </ul>

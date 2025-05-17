@@ -33,7 +33,7 @@ const Index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="Job Type Master" />
+          <BreadCrumb title="Job Type" />
           {/* breadCrumb */}
 
           <MenuToggler />
