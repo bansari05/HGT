@@ -14,7 +14,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages";
 import HomePage1 from "./pages/home/home-1";
 import DashboardEmploeeDBPage from "./pages/employers-dashboard/dashboard";
-import CompanyProfileEmploeeDBPage from "./pages/employers-dashboard/company-profile";
+// import CompanyProfileEmploeeDBPage from "./pages/employers-dashboard/company-profile";
 import PostJobsEmploeeDBPage from "./pages/employers-dashboard/post-jobs";
 import ManageJobsEmploeeDBPage from "./pages/employers-dashboard/manage-jobs";
 import AllApplicantsEmploeesPage from "./pages/employers-dashboard/all-applicants";
@@ -32,6 +32,7 @@ import BookmarkPage from "./pages/mybookmark/Bookmark";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CategoriesPage from "./pages/employers-dashboard/categories";
 import QualificationPage from "./pages/employers-dashboard/qualification";
+import CountryPage from "./pages/employers-dashboard/country";
 
 import CandidateSingleDynamicV1 from "./pages/candidates-single/candidates-single-v1"
 import UserPage from "./pages/User";
@@ -42,6 +43,7 @@ import ContactPage from "./pages/others/contact";
 import BlogListpage3 from "./components/blog-meu-pages/blog-list-v3";
 import BlogDetailsDynamic from "./pages/blog/blog-details";
 import LoginPage from "./pages/others/login";
+import StatePage from "./pages/employers-dashboard/state";
 
 function App() {
   useEffect(() => {
@@ -68,7 +70,7 @@ function App() {
                 <ProtectedRoute>
                   <Routes>
                     <Route path="dashboard" element={<DashboardEmploeeDBPage />} />
-                    <Route path="company-profile" element={<CompanyProfileEmploeeDBPage />} />
+                    {/* <Route path="company-profile" element={<CompanyProfileEmploeeDBPage />} /> */}
                     <Route path="post-jobs" element={<PostJobsEmploeeDBPage />} />
                     <Route path="post-jobs/:jobId" element={<PostJobsEmploeeDBPage />} />
                     <Route path="manage-jobs" element={<ManageJobsEmploeeDBPage />} />
@@ -82,6 +84,8 @@ function App() {
                     <Route path="qualification" element={<QualificationPage/>} />
                     <Route path="job-type-master" element={<JobTypeMasterDBPage />} />
                     <Route path="industry" element={<IndustriesPage />} />
+                    <Route path="country" element={<CountryPage />} />
+                    <Route path="state/:countryId" element={<StatePage />} />
                   </Routes>
                 </ProtectedRoute>
               }

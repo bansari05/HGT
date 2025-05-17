@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 import blogContent from "../../data/blogs";
+import { useEffect } from "react";
 
 
 const Blog8 = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       {blogContent.slice(0, 6).map((item) => (

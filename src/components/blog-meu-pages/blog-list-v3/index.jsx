@@ -2,7 +2,7 @@ import Blog8 from "../../blog/Blog8";
 import Breadcrumb from "../../common/Breadcrumb";
 import LoginPopup from "../../common/form/login/LoginPopup";
 import FooterDefault from "../../footer/common-footer";
-import DefaulHeader from "../../header/DefaulHeader";
+import DefaulHeader2 from "../../header/DefaulHeader2";
 import MobileMenu from "../../header/MobileMenu";
 import BlogPagination from "../blog-sidebar/BlogPagination";
 
@@ -15,7 +15,7 @@ const index = () => {
       <LoginPopup />
       {/* End Login Popup Modal */}
 
-      <DefaulHeader />
+      <DefaulHeader2 />
       {/* <!--End Main Header --> */}
 
       <MobileMenu />

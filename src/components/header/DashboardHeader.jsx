@@ -4,11 +4,12 @@ import employerMenuData from "../../data/employerMenuData";
 import HeaderNavContent from "./HeaderNavContent";
 import { isActiveLink } from "../../utils/linkActiveChecker";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const DashboardHeader = () => {
     const { pathname } = useLocation();
     const [navbar, setNavbar] = useState(false);
-    const [openDropdownId, setOpenDropdownId] = useState(null);
+    const user = useSelector((state) => state.user.user);
 
     const changeBackground = () => {
         if (window.scrollY >= 0) {
@@ -22,7 +23,6 @@ const DashboardHeader = () => {
         const activeParent = employerMenuData.find((item) =>
             item.subtype?.some((subItem) => isActiveLink(subItem.routePath, pathname))
         );
-        setOpenDropdownId(activeParent?.id || null);
         window.addEventListener("scroll", changeBackground);
     }, []);
 
@@ -54,40 +54,40 @@ const DashboardHeader = () => {
                         </div>
                         {/* End .logo-box */}
 
-                        <HeaderNavContent />
+                        {/* <HeaderNavContent /> */}
                         {/* <!-- Main Menu End--> */}
                     </div>
                     {/* End .nav-outer */}
                     <div className="outer-box">
-                        <button className="menu-btn">
+                        {/* <button className="menu-btn">
                             <span className="count">1</span>
                             <span className="icon la la-heart-o"></span>
-                        </button>
+                        </button> */}
                         {/* wishlisted menu */}
 
-                        <button className="menu-btn">
+                        {/* <button className="menu-btn">
                             <span className="icon la la-bell"></span>
-                        </button>
+                        </button> */}
                         {/* End notification-icon */}
 
                         {/* <!-- Dashboard Option --> */}
                         <div className="dropdown dashboard-option">
                             <a
-                                className="dropdown-toggle"
+                                className="" // dropdown-toggle
                                 role="button"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             >
-                                <img
+                                {/* <img
                                     alt="avatar"
                                     className="thumb"
                                     src="/images/resource/company-6.png"
 
-                                />
-                                <span className="name">My Account</span>
+                                /> */}
+                                <span className="name">{user?.full_name}</span>
                             </a>
 
-                            <ul className="dropdown-menu">
+                            {/* <ul className="dropdown-menu">
                                 {employerMenuData.map((item) => (
                                     <li
                                         className={`${isActiveLink(
@@ -107,7 +107,7 @@ const DashboardHeader = () => {
                                         </Link>
                                     </li>
                                 ))}
-                                {/* {employerMenuData.map((item) => {
+                                 {employerMenuData.map((item) => {
                                     const isLogout = item.name === "Logout";
                                     const hasSubtype = item.subtype?.length > 0;
                                     const isParentActive = hasSubtype && item.subtype.some(
@@ -159,8 +159,8 @@ const DashboardHeader = () => {
                                             )}
                                         </li>
                                     );
-                                })} */}
-                            </ul>
+                                })} 
+                            </ul>*/}
                         </div>
                         {/* End dropdown */}
                     </div>
