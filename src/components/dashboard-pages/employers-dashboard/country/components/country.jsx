@@ -1,11 +1,17 @@
 import { useState , useEffect} from "react";
 import AddCountryModel from "./country-popup";
+import { useNavigate } from "react-router-dom";
 
 const Country = () => {
     const [Country, setCountry] = useState([]);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [selectedCountry,setSelectedCountry] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    const handleFetchStates  = async (countryId) => {
+      navigate(`/employers-dashboard/state/${countryId}`);
+    }
 
     const fetchCountry= async () => {
       setLoading(true);
@@ -26,7 +32,7 @@ const Country = () => {
         setCountry(result.data || []);
       } catch (error) {
         console.error("Error fetching qualifications:", error.message);
-        alert("Error fetching data.");
+        // alert("Error fetching data.");
       } finally {
         setLoading(false);
       }
@@ -69,16 +75,16 @@ const Country = () => {
         const result = await response.json();
     
         if (response.ok) {
-          alert(isEdit ? "Country updated successfully!" : "Country added successfully!");
+          // alert(isEdit ? "Country updated successfully!" : "Country added successfully!");
           setIsPopupOpen(false);
           setSelectedCountry(null);
           fetchCountry();
         } else {
-          alert(result.message || "Failed to save country");
+          console.warn(result.message || "Failed to save country");
         }
       } catch (error) {
         console.error("Save Country Error:", error);
-        alert("Something went wrong while saving the country.");
+        // alert("Something went wrong while saving the country.");
       }
     };
     
@@ -98,14 +104,14 @@ const Country = () => {
         const result = await response.json();
     
         if (response.ok) {
-          alert("Status updated successfully!");
+          // alert("Status updated successfully!");
           fetchCountry(); 
         } else {
-          alert(result.message || "Failed to update status.");
+          console.warn(result.message || "Failed to update status.");
         }
       } catch (error) {
         console.error("Status toggle error:", error.message);
-        alert("Something went wrong while toggling status.");
+        // alert("Something went wrong while toggling status.");
       }
     };
    
@@ -114,7 +120,7 @@ const Country = () => {
       }, []);
 
 
- return (
+  return (
     <div className="tabs-box">
       <div className="widget-title">
         <h4>Country</h4>
@@ -167,6 +173,7 @@ const Country = () => {
                         <ul className="option-list">
                           <li>
                             <button
+                              data-text="Change Status"
                               title={c.is_active ? "Deactivate" : "Activate"}
                               onClick={() =>
                                 handleToggleStatus(c.country_id)
@@ -180,17 +187,15 @@ const Country = () => {
                             </button>
                           </li>
                           <li>
-                            <button onClick={() => handleEdit(c)}>
+                            <button data-text="Edit Country" onClick={() => handleEdit(c)}>
                               <span className="la la-pencil"></span>
                             </button>
                           </li>
                           <li>
-                            <button>
-                              <span className="la la-trash"></span>
-                            </button>
-                          </li>
-                          <li>
-                            <button>
+                            <button 
+                              data-text="Fetch States" 
+                              onClick={() => handleFetchStates(c.country_id)}
+                            >
                               <span className="la la-list"></span>
                             </button>
                           </li>

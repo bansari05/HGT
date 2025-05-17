@@ -4,11 +4,12 @@ import employerMenuData from "../../data/employerMenuData";
 import HeaderNavContent from "./HeaderNavContent";
 import { isActiveLink } from "../../utils/linkActiveChecker";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const DashboardHeader = () => {
     const { pathname } = useLocation();
     const [navbar, setNavbar] = useState(false);
-    const [openDropdownId, setOpenDropdownId] = useState(null);
+    const user = useSelector((state) => state.user.user);
 
     const changeBackground = () => {
         if (window.scrollY >= 0) {
@@ -22,7 +23,6 @@ const DashboardHeader = () => {
         const activeParent = employerMenuData.find((item) =>
             item.subtype?.some((subItem) => isActiveLink(subItem.routePath, pathname))
         );
-        setOpenDropdownId(activeParent?.id || null);
         window.addEventListener("scroll", changeBackground);
     }, []);
 
@@ -54,20 +54,20 @@ const DashboardHeader = () => {
                         </div>
                         {/* End .logo-box */}
 
-                        <HeaderNavContent />
+                        {/* <HeaderNavContent /> */}
                         {/* <!-- Main Menu End--> */}
                     </div>
                     {/* End .nav-outer */}
                     <div className="outer-box">
-                        <button className="menu-btn">
+                        {/* <button className="menu-btn">
                             <span className="count">1</span>
                             <span className="icon la la-heart-o"></span>
-                        </button>
+                        </button> */}
                         {/* wishlisted menu */}
 
-                        <button className="menu-btn">
+                        {/* <button className="menu-btn">
                             <span className="icon la la-bell"></span>
-                        </button>
+                        </button> */}
                         {/* End notification-icon */}
 
                         {/* <!-- Dashboard Option --> */}
@@ -84,7 +84,7 @@ const DashboardHeader = () => {
                                     src="/images/resource/company-6.png"
 
                                 /> */}
-                                <span className="name">Smith John</span>
+                                <span className="name">{user?.full_name}</span>
                             </a>
 
                             {/* <ul className="dropdown-menu">

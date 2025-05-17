@@ -51,13 +51,13 @@ const employerMenu = [
         routePath: "/employers-dashboard/industry",
         active: "",
       },
-      // {
-      //   id: 5,
-      //   name: "country",
-      //   icon: "la-globe",
-      //   routePath: "/employers-dashboard/country",
-      //   active: "",
-      // },
+      {
+        id: 5,
+        name: "country",
+        icon: "la-globe",
+        routePath: "/employers-dashboard/country",
+        active: "",
+      },
     ]
   },
   // {
