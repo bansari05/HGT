@@ -7,6 +7,8 @@ const Qualification = () => {
   const [selectedQualification, setSelectedQualification] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  
+
   const fetchQualifications = async () => {
     setLoading(true);
     try {
@@ -113,12 +115,11 @@ const Qualification = () => {
         }
       );
 
-      const result = await response.json();
-      if (result.status === 1) {
-        await fetchQualifications(); // Refresh list
-      } else {
-        alert(result.message || "Failed to update status");
+      if(!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update status");
       }
+      await fetchQualifications();
     } catch (error) {
       console.error("Error updating status:", error);
       alert("Error occurred while updating status.");
@@ -182,6 +183,7 @@ const Qualification = () => {
                         <ul className="option-list">
                           <li>
                             <button
+                              data-text="Change Status"
                               title={q.is_active ? "Deactivate" : "Activate"}
                               onClick={() =>
                                 handleToggleStatus(q.qualification_id)
@@ -195,13 +197,8 @@ const Qualification = () => {
                             </button>
                           </li>
                           <li>
-                            <button onClick={() => handleEdit(q)}>
+                            <button data-text="Edit Qualification" onClick={() => handleEdit(q)}>
                               <span className="la la-pencil"></span>
-                            </button>
-                          </li>
-                          <li>
-                            <button>
-                              <span className="la la-trash"></span>
                             </button>
                           </li>
                         </ul>
