@@ -26,9 +26,9 @@ const Blog = () => {
                 <li>
                   <a href="#">August 31, 2021</a>
                 </li>
-                <li>
+                {/* <li>
                   <a href="#">12 Comment</a>
-                </li>
+                </li> */}
               </ul>
               <h3>
                 <Link to={`/blog-details/${item.id}`}>{item.title}</Link>

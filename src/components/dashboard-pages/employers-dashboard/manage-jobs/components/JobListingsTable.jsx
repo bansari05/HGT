@@ -179,7 +179,7 @@ const JobListingsTable = () => {
         <div className="option-box">
           <ul className="option-list">
             <li>
-              <button data-text="View Application">
+              <button data-text="Change Status">
                 <span className="la la-eye"></span>
               </button>
             </li>
@@ -187,12 +187,6 @@ const JobListingsTable = () => {
               <button data-text="Edit Application" onClick={() => handleEdit(item.job_id)}>
                 <span className="la la-pencil"></span>
               </button>
-            </li>
-            <li>
-            <button data-text="Delete Application" onClick={() => handleDelete(item.job_id)}>
-  <span className="la la-trash"></span>
-</button>
-
             </li>
           </ul>
         </div>

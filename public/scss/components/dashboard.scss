@@ -1739,3 +1739,8 @@ Chat Widget
 .notification-list li.success .colored {
   color: rgba(52, 168, 83, 1);
 }
+
+.applicants-scroll {
+  max-height: 360px;
+  overflow-y: auto;
+}

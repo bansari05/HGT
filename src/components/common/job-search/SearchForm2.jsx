@@ -20,7 +20,7 @@ const SearchForm2 = () => {
           <input
             type="text"
             name="field_name"
-            placeholder="Job title, keywords, or company"
+            placeholder="Job title"
           />
         </div>
         {/* <!-- Form Group --> */}

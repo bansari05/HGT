@@ -35,7 +35,7 @@ const About = () => {
         </figure>
 
         {/* <!-- Count Employers --> */}
-        <div className="count-employers " data-aos="flip-right">
+        {/* <div className="count-employers " data-aos="flip-right">
           <div className="check-box">
             <span className="flaticon-tick"></span>
           </div>
@@ -48,7 +48,7 @@ const About = () => {
               alt="resource"
             />
           </figure>
-        </div>
+        </div> */}
       </div>
       {/* <!-- Image Column --> */}
     </>

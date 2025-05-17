@@ -4,7 +4,7 @@ const Address = () => {
   const addressContent = [
     {
       id: 1,
-      iconName: "placeholder",
+      iconName: "1",
       title: "Address",
       text: (
         <a 
@@ -21,7 +21,7 @@ const Address = () => {
     },
     {
       id: 2,
-      iconName: "smartphone",
+      iconName: "2",
       title: "Call Us",
       text: (
         <>
@@ -33,7 +33,7 @@ const Address = () => {
     },
     {
       id: 3,
-      iconName: "letter",
+      iconName: "3",
       title: "Email",
       text: (
         <>
@@ -54,7 +54,7 @@ const Address = () => {
             <span className="icon">
               <img
                
-                src={`/images/icons/${item.iconName}.svg`}
+                src={`/images/icons/${item.iconName}.png`}
                 alt="icon"
               />
             </span>

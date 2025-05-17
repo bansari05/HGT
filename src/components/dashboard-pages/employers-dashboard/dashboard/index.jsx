@@ -4,7 +4,6 @@ import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardEmployerSidebar from "../../../header/DashboardEmployerSidebar";
 import BreadCrumb from "../../BreadCrumb";
 import TopCardBlock from "./components/TopCardBlock";
-import ProfileChart from "./components/ProfileChart";
 import Notification from "./components/Notification";
 import Applicants from "./components/Applicants";
 import CopyrightFooter from "../../CopyrightFooter";
@@ -45,8 +44,18 @@ const Index = () => {
           <div className="row">
             <div className="col-xl-7 col-lg-12">
               {/* <!-- Graph widget --> */}
-              <div className="graph-widget ls-widget">
-                <ProfileChart />
+              <div className="applicants-widget ls-widget">
+                <div className="widget-title">
+                  <h4>Recent Applicants</h4>
+                </div>
+                <div className="widget-content">
+                  <div className="row applicants-scroll">
+                    {/* <!-- Candidate block three --> */}
+                    <Applicants />
+                    
+                  </div>
+                </div>
+                
               </div>
               {/* End profile chart */}
             </div>
@@ -60,23 +69,6 @@ const Index = () => {
                 </div>
                 <div className="widget-content">
                   <Notification />
-                </div>
-              </div>
-            </div>
-            {/* End .col */}
-
-            <div className="col-lg-12">
-              {/* <!-- applicants Widget --> */}
-              <div className="applicants-widget ls-widget">
-                <div className="widget-title">
-                  <h4>Recent Applicants</h4>
-                </div>
-                <div className="widget-content">
-                  <div className="row">
-                    {/* <!-- Candidate block three --> */}
-
-                    <Applicants />
-                  </div>
                 </div>
               </div>
             </div>

@@ -25,7 +25,7 @@ const employerMenu = [
     subtype: [
       {
         id: 1,
-        name: "Job Type Master",
+        name: "Job Type",
         icon: "la-tasks",
         routePath: "/employers-dashboard/job-type-master",
         active: "",

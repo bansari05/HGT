@@ -31,9 +31,6 @@ const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">{isEditing ? "Edit Category" : "Add New Category"}</h5>
-            <button type="button" className="close" onClick={handleClose}>
-              <span>&times;</span>
-            </button>
           </div>
           <div className="modal-body">
             <form onSubmit={onSubmit}>
@@ -174,7 +171,6 @@ const Categories = () => {
     <div className="tabs-box">
       <div className="widget-title">
         <h4>Categories</h4>
-        <div className="form-group col-lg-12 col-md-12 text-right">
           <button
             type="button"
             className="theme-btn btn-style-one"
@@ -182,7 +178,6 @@ const Categories = () => {
           >
             Add Categories
           </button>
-        </div>
       </div>
 
       <div className="widget-content">

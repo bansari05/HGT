@@ -7,7 +7,7 @@ const Applicants = () => {
     <>
       {candidatesData.slice(17, 23).map((candidate) => (
         <div
-          className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
+          className="candidate-block-three col-lg-12 col-md-12 col-sm-12"
           key={candidate.id}
         >
           <div className="inner-box">
