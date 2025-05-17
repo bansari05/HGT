@@ -132,7 +132,7 @@ const DashboardHeader = () => {
                                                 <>
                                                     <Link to={isLogout ? "#" : item.routePath}>
                                                         <i className={`la ${item.icon}`}></i> {item.name}
-                                                        <i className={`las la-angle-down dropdown-arrow ${openDropdownId === item.id ? "open" : ""} position-absolute`} style={{ right: 0, fontSize: "17px" }}></i>
+                                                        <i className={`las la-angle-left dropdown-arrow ${openDropdownId === item.id ? "open" : ""} position-absolute`} style={{ right: 0, fontSize: "17px" }}></i>
                                                     </Link>
                                                     {openDropdownId === item.id && (
                                                         <ul className="submenu">

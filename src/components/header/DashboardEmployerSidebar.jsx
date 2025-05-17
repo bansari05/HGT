@@ -64,7 +64,12 @@ const DashboardEmployerSidebar = () => {
                   <>
                     <Link to={isLogout ? "#" : item.routePath}>
                       <i className={`la ${item.icon}`}></i> {item.name}
-                      <i className={`las la-angle-down dropdown-arrow ${openDropdownId === item.id ? "open" : ""} position-absolute`} style={{ right: 0, fontSize: "17px" }}></i>
+                      <i 
+                        className={`las ${
+                          openDropdownId === item.id ? 'la-angle-down' : 'la-angle-right'
+                        } dropdown-arrow position-absolute`} 
+                        style={{ right: 0, fontSize: "17px" }}
+                      ></i>
                     </Link>
                     {openDropdownId === item.id && (
                       <ul className="submenu">
