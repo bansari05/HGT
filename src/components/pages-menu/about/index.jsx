@@ -1,7 +1,6 @@
 import LoginPopup from "../../common/form/login/LoginPopup";
 import Partner from "../../common/partner/Partner";
 import FooterDefault from "../../footer/common-footer";
-import DefaulHeader from "../../header/DefaulHeader";
 import MobileMenu from "../../header/MobileMenu";
 import ImageBox from "./ImgBox";
 import IntroDescriptions from "./IntroDescriptions";
@@ -11,6 +10,7 @@ import Block1 from "../../block/Block1";
 import Breadcrumb from "../../common/Breadcrumb";
 import WorkTogether from "./WorkTogether";
 import { useEffect } from "react";
+import DefaulHeader2 from "../../header/DefaulHeader2";
 
 
 const index = () => {
@@ -25,7 +25,7 @@ const index = () => {
       <LoginPopup />
       {/* End Login Popup Modal */}
 
-      <DefaulHeader />
+      <DefaulHeader2 />
       {/* <!--End Main Header --> */}
 
       <MobileMenu />

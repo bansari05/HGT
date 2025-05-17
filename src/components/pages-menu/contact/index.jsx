@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import LoginPopup from "../../common/form/login/LoginPopup";
 import FooterDefault from "../../footer/common-footer";
-import DefaulHeader from "../../header/DefaulHeader";
 import MobileMenu from "../../header/MobileMenu";
 import Address from "./Address";
 import ContactForm from "./ContactForm";
 import MapBox from "./MapBox";
+import DefaulHeader2 from "../../header/DefaulHeader2";
 
 const index = () => {
   useEffect(() => {
@@ -19,7 +19,7 @@ const index = () => {
       <LoginPopup />
       {/* End Login Popup Modal */}
 
-      <DefaulHeader />
+      <DefaulHeader2 />
       {/* <!--End Main Header --> */}
 
       <MobileMenu />

@@ -73,21 +73,21 @@ const DashboardHeader = () => {
                         {/* <!-- Dashboard Option --> */}
                         <div className="dropdown dashboard-option">
                             <a
-                                className="dropdown-toggle"
+                                className="" // dropdown-toggle
                                 role="button"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             >
-                                <img
+                                {/* <img
                                     alt="avatar"
                                     className="thumb"
                                     src="/images/resource/company-6.png"
 
-                                />
-                                <span className="name">My Account</span>
+                                /> */}
+                                <span className="name">Smith John</span>
                             </a>
 
-                            <ul className="dropdown-menu">
+                            {/* <ul className="dropdown-menu">
                                 {employerMenuData.map((item) => (
                                     <li
                                         className={`${isActiveLink(
@@ -107,7 +107,7 @@ const DashboardHeader = () => {
                                         </Link>
                                     </li>
                                 ))}
-                                {/* {employerMenuData.map((item) => {
+                                 {employerMenuData.map((item) => {
                                     const isLogout = item.name === "Logout";
                                     const hasSubtype = item.subtype?.length > 0;
                                     const isParentActive = hasSubtype && item.subtype.some(
@@ -159,8 +159,8 @@ const DashboardHeader = () => {
                                             )}
                                         </li>
                                     );
-                                })} */}
-                            </ul>
+                                })} 
+                            </ul>*/}
                         </div>
                         {/* End dropdown */}
                     </div>

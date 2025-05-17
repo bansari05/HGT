@@ -14,7 +14,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages";
 import HomePage1 from "./pages/home/home-1";
 import DashboardEmploeeDBPage from "./pages/employers-dashboard/dashboard";
-import CompanyProfileEmploeeDBPage from "./pages/employers-dashboard/company-profile";
+// import CompanyProfileEmploeeDBPage from "./pages/employers-dashboard/company-profile";
 import PostJobsEmploeeDBPage from "./pages/employers-dashboard/post-jobs";
 import ManageJobsEmploeeDBPage from "./pages/employers-dashboard/manage-jobs";
 import AllApplicantsEmploeesPage from "./pages/employers-dashboard/all-applicants";
@@ -68,7 +68,7 @@ function App() {
                 <ProtectedRoute>
                   <Routes>
                     <Route path="dashboard" element={<DashboardEmploeeDBPage />} />
-                    <Route path="company-profile" element={<CompanyProfileEmploeeDBPage />} />
+                    {/* <Route path="company-profile" element={<CompanyProfileEmploeeDBPage />} /> */}
                     <Route path="post-jobs" element={<PostJobsEmploeeDBPage />} />
                     <Route path="post-jobs/:jobId" element={<PostJobsEmploeeDBPage />} />
                     <Route path="manage-jobs" element={<ManageJobsEmploeeDBPage />} />
