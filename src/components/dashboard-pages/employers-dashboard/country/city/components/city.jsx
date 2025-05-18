@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import AddStateModel from "./state-popup";
+import { useParams } from "react-router-dom";
+import AddCityModel from "./city-popup";
 
-const State = () => {
-    const navigate = useNavigate();
-    const [selectedState,setSelectedState] = useState(null);
+const City = () => {
+    const [selectedCity, setSelectedCity] = useState([]);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [state, setState] = useState([]);
+    const [city, setCity] = useState([]);
     const [countryName, setCountryName] = useState("");
-    const { countryId } = useParams();
+    const [stateName, setStateName] = useState("");
+    const { countryId, stateId } = useParams();
 
-    const handleFetchCities = (stateId) => {
-        navigate(`/employers-dashboard/city/${countryId}/${stateId}`);
-    }
-
-    const fetchAllStatesByCountryId = async () => {
+    const fetchAllCityByStateId = async () => {
         try {
-            const response = await fetch(`https://apihgt.solvifytech.in/api/v1/State/SelectByCountryId/${countryId}`, {
+            const response = await fetch(`https://apihgt.solvifytech.in/api/v1/City/SelectByStateId/${stateId}`, {
                 headers: {
                     accept: "application/json",
                     Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
@@ -25,8 +21,9 @@ const State = () => {
             });
 
             const result = await response.json();
-            setState(result.data || []);
+            setCity(result.data || []);
             fetchCountryDetails();
+            fetchStateDetails();
         } catch (error) {
             console.error("Error fetching qualifications:", error.message);
         } finally {
@@ -34,28 +31,29 @@ const State = () => {
         }
     };
 
-    const handleEdit = (state) => {
-        setSelectedState(state);
+    const handleEdit = (city) => {
+        setSelectedCity(city);
         setIsPopupOpen(true);
     }
 
     const handleSave = async (formData) => {
         try {
-            const isEdit = selectedState !== null;
-            const url = isEdit ? "https://apihgt.solvifytech.in/api/v1/State/Update" : "https://apihgt.solvifytech.in/api/v1/State/Add";
+            const isEdit = selectedCity !== null;
+
+            const url = isEdit ? "https://apihgt.solvifytech.in/api/v1/City/Update" : "https://apihgt.solvifytech.in/api/v1/City/Add";
 
             const method = isEdit ? "PUT" : "POST";
 
             const bodyData = isEdit ? {
-                stateId : selectedState.state_id,
-                state: formData.state,
-                countryId: countryId,
+                cityId: selectedCity.city_id,
+                city: formData.city,
+                stateId: stateId,
             } : {
-                state: formData.state,
-                countryId: countryId,
-            };
+                city: formData.city,
+                stateId: stateId,
+            }
 
-            const response = await fetch (url, {
+            const response = await fetch(url, {
                 method,
                 headers: {
                     "Content-Type": "application/json",
@@ -64,25 +62,25 @@ const State = () => {
                     "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjoxIiwiZXhwIjoxNzQ3MzgwNzc4LCJpYXQiOjE3NDczNzg5Nzh9.ddzA_MeIScaOfC5TO8GToY3CoFYUOjeK95fVF8HHn5s",
                 },
                 body: JSON.stringify(bodyData),
-            });
+            })
 
             const result = await response.json();
 
             if(response.ok) {
                 setIsPopupOpen(false);
-                setSelectedState(null);
-                fetchAllStatesByCountryId();
+                setSelectedCity(null);
+                fetchAllCityByStateId();
             } else {
-                console.warn(result.message || "Failed to save country");
+                console.error("Error saving city:", result.message);
             }
         } catch (error) {
-           console.error("Save Country Error:", error); 
+            console.error("Error saving city:", error.message);
         }
     };
 
-    const handleToggleStatus = async (stateId) => {
+    const handleToggleStatus = async (cityId) => {
         try {
-            const response = await fetch(`https://apihgt.solvifytech.in/api/v1/State/Status`, {
+            const response = await fetch(`https://apihgt.solvifytech.in/api/v1/City/Status`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -90,20 +88,20 @@ const State = () => {
                     Authorization:
                     "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjoxIiwiZXhwIjoxNzQ3MzgwNzc4LCJpYXQiOjE3NDczNzg5Nzh9.ddzA_MeIScaOfC5TO8GToY3CoFYUOjeK95fVF8HHn5s",
                 },
-                body: JSON.stringify({ stateId }),
+                body: JSON.stringify({ cityId }),
             });
 
             const result = await response.json();
 
             if(response.ok) {
                 setIsPopupOpen(false);
-                setSelectedState(null);
-                fetchAllStatesByCountryId();
+                setSelectedCity(null);
+                fetchAllCityByStateId();
             } else {
-                console.warn(result.message || "Failed to save state");
+                console.error("Error toggling city status:", result.message);
             }
         } catch (error) {
-            console.error("Save state Error:", error);
+            console.error("Error toggling city status:", error.message);
         }
     };
 
@@ -121,11 +119,26 @@ const State = () => {
         } catch (error) {
             console.error("Error fetching country:", error);
         }
+    };
+
+    const fetchStateDetails = async () => {
+        try {
+            const response = await fetch(`https://apihgt.solvifytech.in/api/v1/State/SelectById/${stateId}`, {
+                headers: {
+                    accept: "application/json",
+                    Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
+                }  
+            });
+            const result = await response.json();
+            setStateName(result.data.state);
+        } catch (error) {
+            console.error("Error fetching country:", error);
+        }
     }
 
     useEffect(() => {
-        fetchAllStatesByCountryId();
-    },[]);
+        fetchAllCityByStateId();
+    }, []);
 
     return (
         <div className="tabs-box">
@@ -136,11 +149,11 @@ const State = () => {
                         type="button"
                         className="theme-btn btn-style-one"
                         onClick={() => {
-                        setSelectedState(null);
+                        setSelectedCity(null);
                         setIsPopupOpen(true);
                         }}
                     >
-                        Add State
+                        Add City
                     </button>
                 </div>
             </div>
@@ -151,7 +164,7 @@ const State = () => {
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>State Name</th>
+                                <th>City Name</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -163,17 +176,17 @@ const State = () => {
                                     Loading...
                                 </td>
                                 </tr>
-                            ) : state.length === 0 ? (
+                            ) : city.length === 0 ? (
                                 <tr>
                                 <td colSpan="4" className="text-center">
-                                    No States found
+                                    No Cities found
                                 </td>
                                 </tr>
                             ) : (
-                                state.map((c) => (
-                                <tr key={c.state_id}>
-                                    <td>{c.state_id}</td>
-                                    <td>{c.state}</td>
+                                city.map((c) => (
+                                <tr key={c.city_id}>
+                                    <td>{c.city_id}</td>
+                                    <td>{c.city}</td>
                                     <td>{c.is_active ? "Active" : "Inactive"}</td>
                                     <td>
                                     <div className="option-box">
@@ -183,7 +196,7 @@ const State = () => {
                                             data-text="Change Status"
                                             title={c.is_active ? "Deactivate" : "Activate"}
                                             onClick={() =>
-                                                handleToggleStatus(c.state_id)
+                                                handleToggleStatus(c.city_id)
                                             }
                                             >
                                             <span
@@ -198,14 +211,6 @@ const State = () => {
                                             <span className="la la-pencil"></span>
                                             </button>
                                         </li>
-                                        <li>
-                                            <button 
-                                            data-text="Fetch Cities" 
-                                            onClick={() => handleFetchCities(c.state_id)}
-                                            >
-                                            <span className="la la-list"></span>
-                                            </button>
-                                        </li>
                                         </ul>
                                     </div>
                                     </td>
@@ -218,18 +223,19 @@ const State = () => {
             </div>
 
             {isPopupOpen && (
-                <AddStateModel
-                onClose={() => {
-                    setIsPopupOpen(false);
-                    setSelectedState(null);
-                }}
-                onSave={handleSave}
-                countryName={countryName}
-                initialData={selectedState}
+                <AddCityModel
+                    onClose={() => {
+                        setIsPopupOpen(false);
+                        setSelectedCity(null);
+                    }}
+                    onSave={handleSave}
+                    countryName={countryName}
+                    stateName={stateName}
+                    initialData={selectedCity}
                 />
             )}
         </div>
     );
 }
 
-export default State;
+export default City;

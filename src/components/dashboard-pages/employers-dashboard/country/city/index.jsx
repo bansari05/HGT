@@ -6,7 +6,7 @@ import BreadCrumb from "../../../BreadCrumb";
 import CopyrightFooter from "../../../CopyrightFooter";
 import MenuToggler from "../../../MenuToggler";
 import { useSelector } from "react-redux";
-import State from "./components/state";
+import City from "./components/city";
 
 const Index = () => {
   const { chatSidebar } = useSelector((state) => state.toggle);
@@ -30,7 +30,7 @@ const Index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="States" />
+          <BreadCrumb title="Cities" />
           {/* breadCrumb */}
 
           <MenuToggler />
@@ -45,7 +45,7 @@ const Index = () => {
               {/* <div className="chat-widget"> */}
               <div className="ls-widget">
                   {/* <ChatBox /> */}
-                  <State />
+                  <City />
                 {/* </div> */}
               </div>
               {/* <!-- Chat Widget --> */}

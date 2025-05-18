@@ -1,18 +1,18 @@
 import MetaComponent from "@/components/common/MetaComponent";
-import State from "../../../components/dashboard-pages/employers-dashboard/country/state";
+import City from "../../../components/dashboard-pages/employers-dashboard/country/city";
 
 const metadata = {
   title: "Company Profile || Superio - Job Board ReactJs Template",
   description: "Superio - Job Board ReactJs Template",
 };
 
-const StatePage = () => {
+const CityPage = () => {
   return (
     <>
       <MetaComponent meta={metadata} />
-      <State />
+      <City />
     </>
   );
 };
 
-export default StatePage;
+export default CityPage;
