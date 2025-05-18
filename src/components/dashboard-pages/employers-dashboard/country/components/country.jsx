@@ -14,7 +14,7 @@ const Country = () => {
     }
 
     const fetchCountry= async () => {
-      setLoading(true);
+      // setLoading(true);
       try {
         const response = await fetch(
           "https://apihgt.solvifytech.in/api/v1/Country/SelectAll",
