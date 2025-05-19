@@ -1,76 +1,85 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import LoginPopup from "@/components/common/form/login/LoginPopup";
 import FooterDefault from "@/components/footer/common-footer";
 import DefaulHeader from "@/components/header/DefaulHeader";
 import MobileMenu from "@/components/header/MobileMenu";
-import DetailsContent from "@/components/blog-meu-pages/blog-details/details-content";
-import blogs from "@/data/blogs";
-import {useParams } from "react-router-dom";
-
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Blog Details Dyanmic V1 || HGT - Job Board",
+  title: "Blog Details Dynamic V1 || HGT - Job Board",
   description: "HGT - Job Board",
 };
 
 const BlogDetailsDynamic = () => {
-  let params = useParams();
-  const id = params.id;
+  const { id } = useParams();
+  const [blog, setBlog] = useState(null);
 
-  const blog = blogs.find((item) => item.id == id) || blogs[0];
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+    const fetchBlog = async () => {
+      try {
+        const response = await fetch(`https://apihgt.solvifytech.in/api/v1/Blog/SelectById/${id}`, {
+          headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
+        },
+        });
+        const data = await response.json();
+
+        if (data.status === 1 && data.data) {
+          setBlog(data.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch blog details:", error);
+      }
+    };
+
+    if (id) fetchBlog();
+  }, [id]);
 
   return (
     <>
-    <MetaComponent meta={metadata} />
-      {/* <!-- Header Span --> */}
+      <MetaComponent meta={metadata} />
       <span className="header-span"></span>
-
       <LoginPopup />
-      {/* End Login Popup Modal */}
-
       <DefaulHeader />
-      {/* <!--End Main Header --> */}
-
       <MobileMenu />
-      {/* End MobileMenu */}
 
-      {/* <!-- Blog Single --> */}
       <section className="blog-single">
         <div className="auto-container">
           <div className="upper-box">
-            <h3>{blog?.blogSingleTitle}</h3>
+            <h3>{blog?.title}</h3>
 
             <ul className="post-info">
               <li>
-                <span className="thumb">
-                  <img
-                  
-                    src={"/images/resource/thumb-1.png"}
-                    alt="resource"
-                  />
-                </span>
-                Alison Dawn
+                {blog?.name}
               </li>
-              <li>August 31, 2021</li>
+              <li>{blog?.created ? new Date(blog.created).toLocaleDateString() : ""}</li>
             </ul>
-            {/* End post info */}
           </div>
         </div>
-        {/* End auto-container */}
 
         <figure className="main-image">
-          <img  src={blog?.img} alt="resource" />
+          <img
+            src={`https://apihgt.solvifytech.in/${blog?.image}`}
+            alt="blog main"
+          />
         </figure>
 
-        <DetailsContent />
+        <div className="auto-container">
+          <div
+            className="content"
+            dangerouslySetInnerHTML={{ __html: blog?.content }}
+          />
+        </div>
       </section>
-      {/* <!-- End Blog Single --> */}
 
       <FooterDefault footerStyle="alternate5" />
-      {/* <!-- End Main Footer --> */}
     </>
   );
 };
 
-export default BlogDetailsDynamic
+export default BlogDetailsDynamic;
