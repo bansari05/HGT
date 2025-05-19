@@ -56,6 +56,28 @@ const JobListingsTable = () => {
     }
   };
 
+  const handleToggleStatus = async (jobId) => {
+    try {
+      const response = await fetch(`https://apihgt.solvifytech.in/api/v1/Job/Status`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
+        },
+        body: JSON.stringify({ jobId })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to toggle status");
+      }
+
+      await getJobs();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   useEffect(() => {
     getJobs();
   }, []);
@@ -143,13 +165,13 @@ const JobListingsTable = () => {
     : "N/A"}
 </td>
 
-      <td className="status">{item.status || "Active"}</td>
+      <td>{item.is_active ? "Active" : "Inactive"}</td>
       <td>
         <div className="option-box">
           <ul className="option-list">
             <li>
-              <button data-text="Change Status">
-                <span className="la la-eye"></span>
+              <button data-text="Change Status" onClick={() => handleToggleStatus(item.job_id)}>
+                <span className={`la ${item.status === "Active" ? "la-eye-slash" : "la-eye"}`}></span>
               </button>
             </li>
             <li>
