@@ -2,7 +2,7 @@
 
 
 import { useState } from "react";
-import CallToActions from "../components/CallToActions";
+// import CallToActions from "../components/CallToActions";
 import Categories from "../components/Categories";
 import DatePosted from "../components/DatePosted";
 import DestinationRangeSlider from "../components/DestinationRangeSlider";
@@ -85,7 +85,7 @@ const FilterSidebar = () => {
       </div>
       {/* Filter Outer */}
 
-      <CallToActions />
+      {/* <CallToActions /> */}
       {/* <!-- End Call To Action --> */}
     </div>
   );

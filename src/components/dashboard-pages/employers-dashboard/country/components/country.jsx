@@ -123,11 +123,11 @@ const Country = () => {
   return (
     <div className="tabs-box">
       <div className="widget-title">
-        <h4>Country</h4>
         <div className="form-group text-right">
           <button
             type="button"
             className="theme-btn btn-style-one"
+            style={{marginLeft: '775px'}}
             onClick={() => {
               setSelectedCountry(null);
               setIsPopupOpen(true);

@@ -12,7 +12,7 @@ const CallToAction = () => {
                 Connect with top talent worldwide — fast, simple, and reliable.
                 {/* <br /> CVs in our database. */}
               </div>
-              <a href="#" className="theme-btn btn-style-one bg-blue">
+              <a href="/contact" className="theme-btn btn-style-one bg-blue">
                 <span className="btn-title">Contact Us</span>
               </a>
             </div>
