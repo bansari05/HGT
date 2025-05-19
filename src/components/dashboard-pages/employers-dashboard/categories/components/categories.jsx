@@ -5,18 +5,34 @@ const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
   const [iconFile, setIconFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [fileError, setFileError] = useState("");
+  const [iconPreview, setIconPreview] = useState("");
 
   useEffect(() => {
     if (isEditing && initialData) {
       setCategoryName(initialData.job_category || "");
-      setIconFile(null); // Reset file input on edit open
+      setIconFile(null);
       setFileError("");
+
+      // Set preview to existing icon image
+      const fullPath = initialData.icon.startsWith("http")
+        ? initialData.icon
+        : `https://apihgt.solvifytech.in/${initialData.icon}`;
+      setIconPreview(fullPath);
     } else if (!isEditing) {
       setCategoryName("");
       setIconFile(null);
       setFileError("");
+      setIconPreview("");
     }
   }, [show, isEditing, initialData]);
+
+  useEffect(() => {
+    return () => {
+      if (iconPreview && iconPreview.startsWith("blob:")) {
+        URL.revokeObjectURL(iconPreview);
+      }
+    };
+  }, [iconPreview]);
 
   const onFileChange = (e) => {
     const file = e.target.files[0];
@@ -24,9 +40,12 @@ const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
       if (file.size > 100 * 1024) {
         setFileError("File size must be 100KB or less");
         setIconFile(null);
+        setIconPreview(isEditing && initialData?.icon ? `https://apihgt.solvifytech.in/${initialData.icon}` : "");
       } else {
         setFileError("");
         setIconFile(file);
+        const previewUrl = URL.createObjectURL(file);
+        setIconPreview(previewUrl);
       }
     }
   };
@@ -37,12 +56,15 @@ const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
 
     setLoading(true);
     try {
-      // Create FormData
       const formData = new FormData();
       formData.append("jobCategory", categoryName);
+
       if (iconFile) {
-        formData.append("iconFile", iconFile);
+        formData.append("iconFile", iconFile); // New image
+      } else if (isEditing && initialData?.icon) {
+        formData.append("icon", initialData.icon); // Existing image path
       }
+
       await handleSubmit(formData);
       handleClose();
     } catch (error) {
@@ -55,10 +77,7 @@ const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
   if (!show) return null;
 
   return (
-    <div
-      className="modal fade show"
-      style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
-    >
+    <div className="modal fade show" style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}>
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
@@ -83,6 +102,7 @@ const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
                   disabled={loading}
                 />
               </div>
+
               <div className="form-group mb-3">
                 <label htmlFor="iconFile" className="fw-bold">
                   Banner Image (max 100KB):
@@ -95,9 +115,18 @@ const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
                   onChange={onFileChange}
                   disabled={loading}
                 />
-                {fileError && (
-                  <small className="text-danger">{fileError}</small>
+
+                {iconPreview && (
+                  <div className="mt-2">
+                    <img
+                      src={iconPreview}
+                      alt="Icon Preview"
+                      style={{ maxWidth: "100px", maxHeight: "100px" }}
+                    />
+                  </div>
                 )}
+
+                {fileError && <small className="text-danger">{fileError}</small>}
               </div>
 
               <div className="modal-footer">
