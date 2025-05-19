@@ -60,41 +60,6 @@ const employerMenu = [
       },
     ]
   },
-  // {
-  //   id: 4,
-  //   name: "Qualification",
-  //   icon: "la-graduation-cap",
-  //   routePath: "/employers-dashboard/qualification",
-  //   active: "",
-  // },
-  // {
-  //   id: 5,
-  //   name: "country",
-  //   icon: "la-globe",
-  //   routePath: "/employers-dashboard/country",
-  //   active: "",
-  // },
-  // {
-  //   id: 6,
-  //   name: "Categories",
-  //   icon: "las la-sticky-note",
-  //   routePath: "/employers-dashboard/categories",
-  //   active: "",
-  // },
-  // {
-  //   id: 7,
-  //   name: "Industry",
-  //   icon: "las la-industry",
-  //   routePath: "/employers-dashboard/industry",
-  //   active: "",
-  // },
-  // {
-  //   id: 8,
-  //   name: "Job Type Master",
-  //   icon: "la-tasks",
-  //   routePath: "/employers-dashboard/job-type-master",
-  //   active: "",
-  // },
   {
     id: 9,
     name: "Post a New Job",
@@ -123,10 +88,35 @@ const employerMenu = [
     id: 12,
     name: "Blogs",
     icon: "la-list",
-    routePath: "/employers-dashboard/blog",
-    active: "",
-    type: "overview"
+    routePath: "",
+    active: "active",
+    type: "detail",
+    subtype: [
+      {
+        id: 1,
+        name: "Post a new Blog",
+        icon: "la-plus",
+        routePath: "/employers-dashboard/post-blog",
+        active: "",
+      },
+      {
+        id: 2,
+        name: "Manage Blogs",
+        icon: "la-tasks",
+        routePath: "/employers-dashboard/blog",
+        active: "",
+      },
+    ]
+
   },
+  // {
+  //   id: 12,
+  //   name: "Blogs",
+  //   icon: "la-list",
+  //   routePath: "/employers-dashboard/blog",
+  //   active: "",
+  //   type: "overview"
+  // },
   {
     id: 13,
     name: "Shortlisted Resumes",
