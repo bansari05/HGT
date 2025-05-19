@@ -1,265 +1,244 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object({
-    profile_picture: Yup.mixed().required('Profile picture is Required'),
-    name: Yup.string().required('Name is Required'),
-    gender: Yup.string().required('Gender is Required'),
-    dob: Yup.date().required('Date of Birth is Required'),
-    address: Yup.string().required('Address is Required'),
-    languages: Yup.string().required('Language is Required'),
-    education_level: Yup.string().required('Education is Required'),
-    experience: Yup.string().required('Experience is Required'),
-    current_salary: Yup.number().required('Current Salary is Required'),
-    expected_salary: Yup.number().required('Expected Salary is Required'),
-    professional_skills: Yup.string().required('Professional Skill is Required'),
-    facebook: Yup.string().url('Invalid URL').required('Facebook URL is Required'),
-    instagram: Yup.string().url('Invalid URL').required('Instagram URL is Required'),
-    linkedin: Yup.string().url('Invalid URL').required('Linkedin URL is Required'),
-    twitter: Yup.string().url('Invalid URL').required('Twitter URL is Required'),
+  userId: Yup.number().integer(),
+  fullName: Yup.string(),
+  contactNo: Yup.string().matches(/^[0-9]+$/, 'Contact number must contain only digits'),
+  emailId: Yup.string().email('Invalid email'),
+  password: Yup.string(),
+  userType: Yup.string().required('User type is required'),
+  profilePictureFile: Yup.mixed().test('fileSize', 'File too large (max 10MB)', value => {
+    if (!value) return true;
+    return value.size <= 10 * 1024 * 1024;
+  }),
+  profilePicture: Yup.string().nullable(),
+  address: Yup.string(),
+  dateOfBirth: Yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, 'Date must be YYYY-MM-DD'),
+  currentSalary: Yup.string(),
+  expectedSalary: Yup.string(),
+  gender: Yup.string(),
+  languages: Yup.string(),
+  qualification: Yup.string(),
+  facebook: Yup.string().url('Invalid Facebook URL'),
+  twitter: Yup.string().url('Invalid Twitter URL'),
+  linkedIn: Yup.string().url('Invalid LinkedIn URL'),
+  instagram: Yup.string().url('Invalid Instagram URL'),
+  professionalSkills: Yup.string(),
 });
 
-const initialValues = {
-    profile_picture: null,
-    name: '',
-    gender: '',
-    dob: '',
-    address: '',
-    languages: '',
-    education_level: '',
-    experience: '',
-    current_salary: '',
-    expected_salary: '',
-    professional_skills: '',
-    facebook: '',
-    instagram: '',
-    linkedin: '',
-    twitter: '',
+const userTypeOptions = ['Admin', 'User'];
+
+const UserForm = () => {
+  const fileInputRef = useRef(null);
+  const [initialValues, setInitialValues] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  const userId = userData?.user_id;
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const res = await fetch(`https://apihgt.solvifytech.in/api/v1/User/SelectById/${userId}`, {
+          headers: { Authorization: `Bearer ${userData?.access_token}` },
+        });
+        if (!res.ok) throw new Error('Failed to fetch user data');
+        const { data } = await res.json();
+
+        const profilePicUrl = data.profile_picture?.startsWith('http')
+          ? data.profile_picture
+          : `https://apihgt.solvifytech.in/${data.profile_picture}`;
+
+        setInitialValues({
+          userId: data.user_id || userId,
+          fullName: data.full_name || '',
+          contactNo: data.contact_no || '',
+          emailId: data.email_id || '',
+          password: data.password || '',
+          userType: data.user_type || '',
+          profilePictureFile: null,
+          profilePicture: data.profile_picture || null,
+          address: data.address || '',
+          dateOfBirth: data.date_of_birth ? data.date_of_birth.split('T')[0] : '',
+          currentSalary: data.current_salary || '',
+          expectedSalary: data.expected_salary || '',
+          gender: data.gender || '',
+          languages: data.languages || '',
+          qualification: data.qualification || '',
+          facebook: data.facebook || '',
+          twitter: data.twitter || '',
+          linkedIn: data.linked_in || '',
+          instagram: data.instagram || '',
+          professionalSkills: data.professional_skills || '',
+        });
+
+        setPreviewImage(profilePicUrl || '/images/user.jpg');
+      } catch (error) {
+        console.error('Fetch user error:', error);
+      }
+    }
+
+    if (userId) fetchUser();
+  }, [userId]);
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const formData = new FormData();
+
+      if (values.profilePictureFile instanceof File) {
+        formData.append('profilePictureFile', values.profilePictureFile);
+      }
+
+      formData.append('userId', values.userId);
+      formData.append('fullName', values.fullName);
+      formData.append('contactNo', values.contactNo);
+      formData.append('emailId', values.emailId);
+      if (values.password) formData.append('password', values.password);
+      formData.append('userType', values.userType);
+      formData.append('profilePicture', values.profilePicture || '');
+      formData.append('address', values.address);
+      formData.append('dateOfBirth', values.dateOfBirth);
+      formData.append('currentSalary', values.currentSalary);
+      formData.append('expectedSalary', values.expectedSalary);
+      formData.append('gender', values.gender);
+      formData.append('languages', values.languages);
+      formData.append('qualification', values.qualification);
+      formData.append('facebook', values.facebook);
+      formData.append('twitter', values.twitter);
+      formData.append('linkedIn', values.linkedIn);
+      formData.append('instagram', values.instagram);
+      formData.append('professionalSkills', values.professionalSkills);
+
+      const res = await fetch(`https://apihgt.solvifytech.in/api/v1/User/Update`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${userData?.access_token}`,
+        },
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Update failed');
+      }
+    } catch (err) {
+      alert('Error: ' + err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleImageChange = (e, setFieldValue) => {
+    const file = e.currentTarget.files[0];
+    if (file) {
+      setFieldValue('profilePictureFile', file);
+      const reader = new FileReader();
+      reader.onloadend = () => setPreviewImage(reader.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
+  };
+
+  if (!initialValues) return <p>Loading user data...</p>;
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+      enableReinitialize
+    >
+      {({ setFieldValue, isSubmitting }) => (
+        <Form className="default-form row">
+          {/* Profile Picture Upload */}
+          <div className="form-group col-lg-12 text-center">
+            <input
+              type="file"
+              ref={fileInputRef}
+              hidden
+              accept="image/*"
+              onChange={(e) => handleImageChange(e, setFieldValue)}
+            />
+            <div onClick={triggerFileInput} style={{ cursor: 'pointer' }}>
+              <img
+                src={previewImage}
+                alt="Profile"
+                style={{ width: 120, height: 120, borderRadius: '50%', objectFit: 'cover' }}
+              />
+              <div>Click to change profile picture</div>
+            </div>
+            <ErrorMessage name="profilePictureFile" component="div" className="text-danger" />
+          </div>
+
+          {/* All Fields */}
+          {[
+            { label: 'User ID', name: 'userId', type: 'number', disabled: true },
+            { label: 'Full Name', name: 'fullName' },
+            { label: 'Contact Number', name: 'contactNo' },
+            { label: 'Email', name: 'emailId', type: 'email' },
+            { label: 'Password', name: 'password', type: 'password', placeholder: 'Enter new password' },
+            {
+              label: 'User Type',
+              name: 'userType',
+              type: 'select',
+              options: userTypeOptions,
+            },
+            { label: 'Address', name: 'address' },
+            { label: 'Date of Birth', name: 'dateOfBirth', type: 'date' },
+            { label: 'Current Salary', name: 'currentSalary' },
+            { label: 'Expected Salary', name: 'expectedSalary' },
+            {
+              label: 'Gender',
+              name: 'gender',
+              type: 'select',
+              options: ['Male', 'Female', 'Transgender'],
+            },
+            { label: 'Languages', name: 'languages' },
+            { label: 'Qualification', name: 'qualification' },
+            { label: 'Facebook URL', name: 'facebook' },
+            { label: 'Twitter URL', name: 'twitter' },
+            { label: 'LinkedIn URL', name: 'linkedIn' },
+            { label: 'Instagram URL', name: 'instagram' },
+            { label: 'Professional Skills', name: 'professionalSkills' },
+          ].map(({ label, name, type = 'text', disabled = false, options, placeholder }, i) => (
+            <div className="form-group col-lg-6" key={i}>
+              <label htmlFor={name}>{label}</label>
+              {type === 'select' ? (
+                <Field as="select" name={name} disabled={disabled} className="form-control">
+                  <option value="">Select {label}</option>
+                  {options.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </Field>
+              ) : (
+                <Field
+                  id={name}
+                  name={name}
+                  type={type}
+                  disabled={disabled}
+                  placeholder={placeholder}
+                  className="form-control"
+                />
+              )}
+              <ErrorMessage name={name} component="div" className="text-danger" />
+            </div>
+          ))}
+
+          <div className="form-group col-12 text-center">
+            <button type="submit" disabled={isSubmitting} className="btn btn-primary">
+              {isSubmitting ? 'Updating...' : 'Update Profile'}
+            </button>
+          </div>
+        </Form>
+      )}
+    </Formik>
+  );
 };
 
-export default function UserForm() {
-    const [previewImage, setPreviewImage] = useState(null);
-    const fileInputRef = useRef(null);
-
-    const handleSubmit = (values) => {
-        console.log(values);
-    };
-
-    const handleImageChange = (event, setFieldValue, setPreviewImage) => {
-        const file = event.currentTarget.files[0];
-        if (file) {
-            setFieldValue('profile_picture', file); // Update form value (if needed)
-
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreviewImage(reader.result); // Update preview image state
-            };
-            reader.readAsDataURL(file);
-        } else {
-            setPreviewImage(null); // Clear preview if no file selected
-        }
-    };
-
-    const triggerFileSelect = () => {
-        fileInputRef.current.click();
-    };
-
-    return (
-        <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-        >
-            {({ setFieldValue, values, errors, touched }) => (
-                <Form className="default-form">
-                    <div className="row">
-                        {/* Profile Picture */}
-                        <div className="form-group col-lg-12" style={{ display: 'flex', marginBottom: '15px' }}>
-                            <div className="profile-image-upload" style={{ position: 'relative' }}>
-                                <input
-                                    type="file"
-                                    name="profile_picture"
-                                    accept="image/*"
-                                    ref={fileInputRef}
-                                    style={{ display: 'none' }}
-                                    onChange={(event) => handleImageChange(event, setFieldValue, setPreviewImage)}
-                                />
-
-                                <div className="profile-preview" onClick={triggerFileSelect} style={{ cursor: 'pointer', position: 'relative', width: '96px', height: '96px' }}>
-                                    <figure className="image is-96x96" style={{ margin: 0, width: '96px', height: '96px' }}>
-                                        <img
-                                            src={previewImage ? previewImage : "/public/images/user.jpg"}
-                                            alt={previewImage ? "Profile Preview" : "Default Avatar"}
-                                            style={{ objectFit: 'cover', borderRadius: '50%', border: '1px solid #ccc', width: '100%', height: '100%' }}
-                                        />
-                                    </figure>
-                                    <div className="upload-icon-overlay" style={{ position: 'absolute', bottom: '0px', right: '-10px', backgroundColor: '#04598b', color: 'white', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '18px', cursor: 'pointer', border: '2px solid white' }}>
-                                        <span className="plus-icon" style={{ fontSize: '20px' }}>+</span>
-                                    </div>
-                                </div>
-                                {errors.profile_picture && touched.profile_picture && (
-                                    <div className="error-message" style={{ color: 'red', marginTop: '5px', fontSize: '12px', textAlign: 'center' }}>{errors.profile_picture}</div>
-                                )}
-                            </div>
-                        </div>
-
-
-
-                        {/* Name */}
-                        <div className="form-group col-lg-6">
-                            <label>Name</label>
-                            <Field
-                                type="text"
-                                name="name"
-                                className={`form-control ${errors.name && touched.name ? 'is-invalid' : ''}`}
-                                placeholder="Enter Your Name"
-                            />
-                            <ErrorMessage name="name" component="div" className="invalid-feedback" />
-                        </div>
-
-                        {/* Gender */}
-                        <div className="form-group col-lg-6">
-                            <label>Gender</label>
-                            <Field as="select" name="gender" className={`form-control ${errors.gender && touched.gender ? 'is-invalid' : ''}`}>
-                                <option value="">Select</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
-                            </Field>
-                            <ErrorMessage name="gender" component="div" className="invalid-feedback" />
-                        </div>
-
-                        {/* Date of Birth */}
-                        <div className="form-group col-lg-6">
-                            <label>Date of Birth</label>
-                            <Field
-                                type="text"
-                                name="dob"
-                                className={`form-control ${errors.dob && touched.dob ? 'is-invalid' : ''}`}
-                                placeholder="05.15.2025"
-                            />
-                            <ErrorMessage name="dob" component="div" className="invalid-feedback" />
-                        </div>
-
-                        {/* Address */}
-                        <div className="form-group col-lg-6">
-                            <label>Address</label>
-                            <Field
-                                type="text"
-                                name="address"
-                                className={`form-control ${errors.address && touched.address ? 'is-invalid' : ''}`}
-                                placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
-                            />
-                            <ErrorMessage name="address" component="div" className="invalid-feedback" />
-                        </div>
-
-                        {/* Languages */}
-                        <div className="form-group col-lg-6">
-                            <label>Languages</label>
-                            <Field
-                                type="text"
-                                name="languages"
-                                placeholder="English, Hindi"
-                                className={`form-control ${errors.languages && touched.languages ? 'is-invalid' : ''}`}
-                            />
-                            <ErrorMessage name="languages" component="div" className="invalid-feedback" />
-                        </div>
-
-                        {/* Education Level */}
-                        <div className="form-group col-lg-6">
-                            <label>Education Level</label>
-                            <Field
-                                type="text"
-                                name="education_level"
-                                className={`form-control ${errors.education_level && touched.education_level ? 'is-invalid' : ''}`}
-                                placeholder="Bachelor's Degree in Computer Science"
-                            />
-                            <ErrorMessage name="education_level" component="div" className="invalid-feedback" />
-                        </div>
-
-                        {/* Experience */}
-                        <div className="form-group col-lg-6">
-                            <label>Experience (in years)</label>
-                            <Field
-                                type="number"
-                                name="experience"
-                                placeholder="3"
-                                className={`form-control no-spinner ${errors.experience && touched.experience ? 'is-invalid' : ''}`}
-                            />
-                            <ErrorMessage name="experience" component="div" className="invalid-feedback" />
-                        </div>
-
-                        {/* Current Salary */}
-                        <div className="form-group col-lg-6">
-                            <label>Current Salary</label>
-                            <Field
-                                type="number"
-                                name="current_salary"
-                                placeholder="25,000"
-                                className={`form-control no-spinner ${errors.current_salary && touched.current_salary ? 'is-invalid' : ''}`}
-                            />
-                            <ErrorMessage name="current_salary" component="div" className="invalid-feedback" />
-                        </div>
-
-                        {/* Expected Salary */}
-                        <div className="form-group col-lg-6">
-                            <label>Expected Salary</label>
-                            <Field
-                                type="number"
-                                name="expected_salary"
-                                placeholder="42,000"
-                                className={`form-control no-spinner ${errors.expected_salary && touched.expected_salary ? 'is-invalid' : ''}`}
-                            />
-                            <ErrorMessage name="expected_salary" component="div" className="invalid-feedback" />
-                        </div>
-
-                        {/* Professional Skills */}
-                        <div className="form-group col-lg-6">
-                            <label>Professional Skills</label>
-                            <Field
-                                type="text"
-                                name="professional_skills"
-                                placeholder="ReactJs"
-                                className={`form-control ${errors.professional_skills && touched.professional_skills ? 'is-invalid' : ''}`}
-                            />
-                            <ErrorMessage name="professional_skills" component="div" className="invalid-feedback" />
-                        </div>
-
-                        {/* Social Links */}
-                        <div className="form-group col-lg-6">
-                            <label>Facebook</label>
-                            <Field type="url" name="facebook" placeholder="userName" className={`form-control ${errors.facebook && touched.facebook ? 'is-invalid' : ''}`} />
-                            <ErrorMessage name="facebook" component="div" className="invalid-feedback" />
-                        </div>
-
-                        <div className="form-group col-lg-6">
-                            <label>Instagram</label>
-                            <Field type="url" name="instagram" placeholder="userName" className={`form-control ${errors.instagram && touched.instagram ? 'is-invalid' : ''}`} />
-                            <ErrorMessage name="instagram" component="div" className="invalid-feedback" />
-                        </div>
-
-                        <div className="form-group col-lg-6">
-                            <label>LinkedIn</label>
-                            <Field type="url" name="linkedin" placeholder="userName" className={`form-control ${errors.linkedin && touched.linkedin ? 'is-invalid' : ''}`} />
-                            <ErrorMessage name="linkedin" component="div" className="invalid-feedback" />
-                        </div>
-
-                        <div className="form-group col-lg-6">
-                            <label>Twitter</label>
-                            <Field type="url" name="twitter" placeholder="userName" className={`form-control ${errors.twitter && touched.twitter ? 'is-invalid' : ''}`} />
-                            <ErrorMessage name="twitter" component="div" className="invalid-feedback" />
-                        </div>
-
-                        {/* Submit Button */}
-                        <div className="form-group col-lg-12 col-md-12 text-right">
-                            <button type="submit" className="theme-btn btn-style-one">
-                                Submit
-                            </button>
-                        </div>
-                    </div>
-                </Form>
-            )}
-        </Formik>
-    );
-}
+export default UserForm;
