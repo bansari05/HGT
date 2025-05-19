@@ -56,37 +56,6 @@ const JobListingsTable = () => {
     }
   };
 
-  const handleDelete = async (jobId) => {
-    // const confirmDelete = window.confirm("Are you sure you want to delete this job?");
-    // if (!confirmDelete) return;
-  
-    try {
-      const response = await fetch("https://apihgt.solvifytech.in/api/v1/Job/Delete", {
-        method: "PUT",
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
-        },
-        body: JSON.stringify({ jobId }),
-      });
-  
-      const result = await response.json();
-  
-      if (response.ok) {
-        getJobs(); 
-      } else {
-        console.error("Failed to delete job:", result.message);
-      }
-    } catch (error) {
-      console.error("Error deleting job:", error);
-    }
-  };
-  
-  
-  
-
-
   useEffect(() => {
     getJobs();
   }, []);

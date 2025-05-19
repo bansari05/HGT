@@ -46,6 +46,7 @@ import LoginPage from "./pages/others/login";
 import StatePage from "./pages/employers-dashboard/state";
 import CityPage from "./pages/employers-dashboard/city";
 import BlogPage from "./pages/employers-dashboard/blog";
+import PostBlogsEmploeeDBPage from "./pages/employers-dashboard/post-blog";
 
 function App() {
   useEffect(() => {
@@ -90,6 +91,8 @@ function App() {
                     <Route path="state/:countryId" element={<StatePage />} />
                     <Route path="city/:countryId/:stateId" element={<CityPage />} />
                     <Route path="blog" element={<BlogPage />}/>
+                    <Route path="post-blog" element={<PostBlogsEmploeeDBPage />} />
+                    <Route path="post-blog/:blogId" element={<PostBlogsEmploeeDBPage />} />
                   </Routes>
                 </ProtectedRoute>
               }
