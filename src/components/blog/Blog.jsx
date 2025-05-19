@@ -74,9 +74,6 @@ const Blog = () => {
                 <img
                   src={`https://apihgt.solvifytech.in/${blog.image}`}
                   alt={blog.title}
-                  onError={(e) => {
-                    e.target.src = '/default-blog.jpg';
-                  }}
                 />
               </figure>
             </div>

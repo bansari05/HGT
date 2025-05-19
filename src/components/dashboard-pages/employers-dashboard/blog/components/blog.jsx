@@ -53,6 +53,28 @@ const Blog = () => {
     }
   };
 
+  const handleToggleStatus = async (blogId) => {
+    try {
+      const response = await fetch(`https://apihgt.solvifytech.in/api/v1/Blog/Status`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
+        },
+        body: JSON.stringify({ blogId })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to toggle status");
+      }
+
+      await getBlogs();
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   useEffect(() => {
     getBlogs();
   }, []);
@@ -82,6 +104,7 @@ const Blog = () => {
                     <th>Image</th>
                     <th>Content</th>
                     <th>Created Date</th>
+                    <th>Status</th>
                     <th>Action</th>
                     </tr>
                 </thead>
@@ -112,16 +135,22 @@ const Blog = () => {
                             day: "numeric"
                         }) : "N/A"}
                         </td>
+                        <td>{blog.is_active ? "Active" : "Inactive"}</td>
                         <td>
-                        <div className="option-box">
-                            <ul className="option-list">
-                            <li>
-                                <button data-text="Edit" onClick={() => handleEdit(blog.blog_id)}>
-                                <span className="la la-pencil"></span>
-                                </button>
-                            </li>
-                            </ul>
-                        </div>
+                          <div className="option-box">
+                              <ul className="option-list">
+                                <li>
+                                  <button data-text="Change Status" onClick={() => handleToggleStatus(blog.blog_id)}>
+                                    <span className={`la ${blog.is_active ? "la-eye-slash" : "la-eye"}`}></span>
+                                  </button>
+                                </li>
+                                <li>
+                                  <button data-text="Edit" onClick={() => handleEdit(blog.blog_id)}>
+                                    <span className="la la-pencil"></span>
+                                  </button>
+                                </li>
+                              </ul>
+                          </div>
                         </td>
                     </tr>
                     ))}
