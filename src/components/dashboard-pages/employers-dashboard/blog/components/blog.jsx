@@ -100,7 +100,11 @@ const Blog = () => {
                             />
                         )}
                         </td>
-                        <td>{blog.content}</td>
+                        <td>
+                          <div
+                            dangerouslySetInnerHTML={{ __html: blog.content }}
+                          />
+                        </td>
                         <td>
                         {blog.created ? new Date(blog.created).toLocaleDateString("en-US", {
                             year: "numeric",
