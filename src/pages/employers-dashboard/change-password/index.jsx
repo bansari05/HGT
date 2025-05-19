@@ -4,7 +4,7 @@ import ChangePassword from "@/components/dashboard-pages/employers-dashboard/cha
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Change Password || HGT - Job Board",
+  title: "Change Password || Higher Global Talent - Job Board",
   description: "HGT - Job Board",
 };
 

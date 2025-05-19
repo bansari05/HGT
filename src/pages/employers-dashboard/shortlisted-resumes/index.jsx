@@ -4,7 +4,7 @@ import ShortlistedResumes from "@/components/dashboard-pages/employers-dashboard
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Shortlisted Resumes || HGT - Job Board",
+  title: "Shortlisted Resumes || HGT - Shortlisted Resumes",
   description: "HGT - Job Board",
 };
 

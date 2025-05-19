@@ -4,7 +4,7 @@ import Home from "@/components/home-1";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Home-1 || HGT - Job Board",
+  title: "Home-1 || Higher Global Talent - Home",
   description: "HGT - Job Board",
 };
 

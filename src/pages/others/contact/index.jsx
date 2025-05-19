@@ -3,7 +3,7 @@ import Contact from "@/components/pages-menu/contact";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: 'Contact || HGT - Job Board',
+  title: 'Contact || Higher Global Talent - Contact',
   description:
     'HGT - Job Board',
   

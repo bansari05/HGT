@@ -5,7 +5,7 @@ import Pricing from "@/components/pages-menu/pricing";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: 'Pricing || HGT - Job Board',
+  title: 'Pricing || Higher Global Talent - Pricing',
   description:
     'HGT - Job Board',
   
