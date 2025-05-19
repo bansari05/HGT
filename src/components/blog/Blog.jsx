@@ -6,6 +6,20 @@ const Blog = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Function to strip HTML tags and truncate text
+  const getCleanContent = (html, length = 100) => {
+    // Remove HTML tags
+    const cleanText = html.replace(/<[^>]+>/g, '');
+    // Decode HTML entities
+    const txt = document.createElement("textarea");
+    txt.innerHTML = cleanText;
+    const decodedText = txt.value;
+    // Truncate to specified length
+    return decodedText.length > length 
+      ? decodedText.substring(0, length) + '...' 
+      : decodedText;
+  };
+
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -15,7 +29,7 @@ const Blog = () => {
             method: "GET",
             headers: {
               Accept: "application/json",
-              Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
+              Authorization: "Bearer YOUR_TOKEN_HERE",
             },
           }
         );
@@ -23,7 +37,7 @@ const Blog = () => {
         const data = await response.json();
         
         if (data.status === 1) {
-          setBlogs(data.data.slice(0, 3)); // Get first 3 blogs
+          setBlogs(data.data.slice(0, 3));
         } else {
           setError(new Error(data.message || "Failed to load blogs"));
         }
@@ -60,6 +74,9 @@ const Blog = () => {
                 <img
                   src={`https://apihgt.solvifytech.in/${blog.image}`}
                   alt={blog.title}
+                  onError={(e) => {
+                    e.target.src = '/default-blog.jpg';
+                  }}
                 />
               </figure>
             </div>
@@ -72,7 +89,7 @@ const Blog = () => {
               <h3>
                 <Link to={`/blog-details/${blog.blog_id}`}>{blog.title}</Link>
               </h3>
-              <p className="text">{blog.content.substring(0, 100)}...</p>
+              <p className="text">{getCleanContent(blog.content)}</p>
               <Link to={`/blog-details/${blog.blog_id}`} className="read-more">
                 Read More <i className="fa fa-angle-right"></i>
               </Link>
