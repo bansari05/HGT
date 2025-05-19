@@ -152,7 +152,7 @@ const employerMenu = [
   {
     id: 16,
     name: "Contact Us",
-    icon: "la-comment-o",
+    icon: "las la-address-book",
     routePath: "/employers-dashboard/contact-us",
     active: "",
     type: "overview"
