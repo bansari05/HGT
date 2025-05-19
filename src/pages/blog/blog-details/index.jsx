@@ -57,7 +57,12 @@ const BlogDetailsDynamic = () => {
               <li>
                 {blog?.name}
               </li>
-              <li>{blog?.created ? new Date(blog.created).toLocaleDateString() : ""}</li>
+              <li>
+                {blog?.created
+                  ? new Date(blog.created).toLocaleDateString("en-GB") // en-GB locale formats as dd/mm/yyyy
+                  : ""}
+              </li>
+
             </ul>
           </div>
         </div>
