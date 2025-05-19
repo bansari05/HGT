@@ -80,7 +80,7 @@ const initialState = {
         { id: 4, name: "3 Year", value: "3-year", isChecked: false },
         {
             id: 5,
-            name: "4 Year",
+            name: "4+ Year",
             value: "4-year",
             isChecked: false,
         },
