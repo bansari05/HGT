@@ -42,7 +42,7 @@ const Blog8 = () => {
             <div className="lower-content">
               <ul className="post-meta">
                 <li>
-                  <a href="#">{new Date(item.created).toLocaleDateString()}</a>
+                  <a href="#">{new Date(item.created).toLocaleDateString("en-GB")}</a>
                 </li>
               </ul>
               <h3>
@@ -62,6 +62,7 @@ const Blog8 = () => {
               </Link>
             </div>
           </div>
+
         </div>
       ))}
     </>
