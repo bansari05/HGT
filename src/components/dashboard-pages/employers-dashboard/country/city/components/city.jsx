@@ -143,11 +143,11 @@ const City = () => {
     return (
         <div className="tabs-box">
             <div className="widget-title">
-                <h4>States</h4>
                 <div className="form-group text-right">
                     <button
                         type="button"
                         className="theme-btn btn-style-one"
+                        style={{marginLeft: '815    px'}}
                         onClick={() => {
                         setSelectedCity(null);
                         setIsPopupOpen(true);
