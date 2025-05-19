@@ -119,14 +119,22 @@ const employerMenu = [
     active: "",
     type: "overview"
   },
-  // {
-  //   id: 12,
-  //   name: "Shortlisted Resumes",
-  //   icon: "la-bookmark-o",
-  //   routePath: "/employers-dashboard/shortlisted-resumes",
-  //   active: "",
-  //   type: "overview"
-  // },
+  {
+    id: 12,
+    name: "Blogs",
+    icon: "la-list",
+    routePath: "/employers-dashboard/blog",
+    active: "",
+    type: "overview"
+  },
+  {
+    id: 13,
+    name: "Shortlisted Resumes",
+    icon: "la-bookmark-o",
+    routePath: "/employers-dashboard/shortlisted-resumes",
+    active: "",
+    type: "overview"
+  },
   // {
   //   id: 13,
   //   name: "Packages",

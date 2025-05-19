@@ -1,6 +1,32 @@
-
+import { useEffect, useState } from "react";
 
 const ImageBox = () => {
+
+  const [dashboardData, setDashboardData] = useState(null);
+  
+    const fetchDashboardData = async () => {
+      try {
+        const res = await fetch("https://apihgt.solvifytech.in/api/v1/Dashboard/Select", {
+          method: "GET",
+          headers: {
+              Accept: "application/json",
+              Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
+          },
+        });
+  
+        const data = await res.json();
+        if (data.status === 1 && data.data.length > 0) {
+          setDashboardData(data.data[0]);
+        }
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchDashboardData();
+    },[]);
+
   return (
     <div className="image-box">
       <figure className="main-image" data-aos="fade-in" data-aos-delay="500">
@@ -17,12 +43,12 @@ const ImageBox = () => {
         <span className="icon flaticon-email-3"></span>
         <p>
           Work Inquiry From <br />
-          Ali Tufan
+          {dashboardData?.latest_work_enquiry}
         </p>
       </div>
       {/* <!-- Info BLock Two --> */}
       <div className="info_block_two" data-aos="fade-in" data-aos-delay="2000">
-        <p>10k+ Candidates</p>
+        <p>{dashboardData?.candidates} Candidates</p>
         <div className="image">
           <img
            
@@ -38,8 +64,8 @@ const ImageBox = () => {
         data-aos-delay="1500"
       >
         <span className="icon flaticon-briefcase"></span>
-        <p>Creative Agency</p>
-        <span className="sub-text">Startup</span>
+        <p>{dashboardData?.latest_job?.split(" - ")[0]}</p>
+        <span className="sub-text">{dashboardData?.latest_job?.split(" - ")[1]}</span>
         <span className="right_icon fa fa-check"></span>
       </div>
       {/* <!-- Info BLock Four --> */}

@@ -45,6 +45,7 @@ import BlogDetailsDynamic from "./pages/blog/blog-details";
 import LoginPage from "./pages/others/login";
 import StatePage from "./pages/employers-dashboard/state";
 import CityPage from "./pages/employers-dashboard/city";
+import BlogPage from "./pages/employers-dashboard/blog";
 
 function App() {
   useEffect(() => {
@@ -88,6 +89,7 @@ function App() {
                     <Route path="country" element={<CountryPage />} />
                     <Route path="state/:countryId" element={<StatePage />} />
                     <Route path="city/:countryId/:stateId" element={<CityPage />} />
+                    <Route path="blog" element={<BlogPage />}/>
                   </Routes>
                 </ProtectedRoute>
               }
