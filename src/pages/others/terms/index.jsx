@@ -5,13 +5,11 @@ import Terms from "@/components/pages-menu/terms";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: 'Terms || HGT - Job Board',
+  title: 'Terms || Superio - Job Borad ReactJs Template',
   description:
-    'HGT - Job Board',
+    'Superio - Job Borad ReactJs Template',
   
 }
-
-
 
 const TermsPage = () => {
   return (

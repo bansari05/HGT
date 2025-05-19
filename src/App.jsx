@@ -46,6 +46,7 @@ import LoginPage from "./pages/others/login";
 import StatePage from "./pages/employers-dashboard/state";
 import CityPage from "./pages/employers-dashboard/city";
 import BlogPage from "./pages/employers-dashboard/blog";
+// import TermsPage from "./pages/terms";
 import PostBlogsEmploeeDBPage from "./pages/employers-dashboard/post-blog";
 import ContactUsDBPage from "./pages/employers-dashboard/contact-us";
 import { ToastContainer } from "react-toastify";
@@ -114,6 +115,7 @@ function App() {
               <Route path="mybookmark/:jobId" element={<BookmarkPage />} />
               <Route path="my-profile" element={<UserPage />} />
               <Route path="/contact" element={<ContactPage />} />
+              {/* <Route path="/terms" element={<TermsPage />} /> */}
               <Route path="blog" element={<BlogListpage3 />} />
               <Route path="blog-details/:id" element={<BlogDetailsDynamic />} />
             </Routes>

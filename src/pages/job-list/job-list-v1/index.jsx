@@ -17,4 +17,4 @@ const JobListPage1 = () => {
   );
 };
 
-export default JobListPage1
+export default JobListPage1;

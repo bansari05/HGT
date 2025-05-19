@@ -11,7 +11,7 @@ const WorkTogether = () => {
                 Whether you need 1 employee or 1,000, Hire Global Talent is here to help. <br /> Post a job with us or request staff today — we’ll handle the rest.
                 {/*  CVs in our database. */}
               </div>
-              <a href="#" className="theme-btn btn-style-one bg-blue">
+              <a href="/contact" className="theme-btn btn-style-one bg-blue">
                 <span className="btn-title">Contact Us</span>
               </a>
             </div>
