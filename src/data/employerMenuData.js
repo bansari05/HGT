@@ -109,6 +109,31 @@ const employerMenu = [
     ]
 
   },
+  {
+    id: 13,
+    name: "Testimonials",
+    icon: "la-comments",
+    routePath: "",
+    active: "active",
+    type: "detail",
+    subtype: [
+      {
+        id: 1,
+        name: "Add Testimonial",
+        icon: "la-plus",
+        routePath: "/employers-dashboard/post-testimonial",
+        active: "",
+      },
+      {
+        id: 2,
+        name: "Testimonials List",
+        icon: "la-tasks",
+        routePath: "/employers-dashboard/testimonial",
+        active: "",
+      },
+    ]
+
+  },
   // {
   //   id: 12,
   //   name: "Blogs",
