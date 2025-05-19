@@ -121,7 +121,7 @@ const JobListingsTable = () => {
             <div className="content">
               <span className="company-logo">
                 <img
-                  src={'/public/images/hgt-logo.png' || "/default-logo.png"}
+                  src={'/images/hgt-logo.png' || "/default-logo.png"}
                   alt="logo"
                 />
               </span>

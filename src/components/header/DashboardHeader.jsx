@@ -46,7 +46,7 @@ const DashboardHeader = () => {
                                 <Link to="/">
                                     <img
                                         alt="brand"
-                                        src="/public/images/hgt-logo.png"
+                                        src="/images/hgt-logo.png"
 
                                     />
                                 </Link>

@@ -38,7 +38,7 @@ const DefaulHeader2 = () => {
           <div className="logo-box">
             <div className="logo">
               <Link to="/">
-                <img src="/public/images/hgt-logo.png" alt="brand" />
+                <img src="/images/hgt-logo.png" alt="brand" />
               </Link>
             </div>
           </div>

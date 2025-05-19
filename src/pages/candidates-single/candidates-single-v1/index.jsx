@@ -162,7 +162,7 @@ const CandidateSingleDynamicV1 = () => {
                   <figure className="image">
                     <img
 
-                      src={'/public/images/user.jpg'}
+                      src={'/images/user.jpg'}
                       alt="avatar"
                     />
                   </figure>

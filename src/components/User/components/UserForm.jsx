@@ -140,7 +140,7 @@ export default function UserForm() {
                 >
                   <figure className="image is-96x96" style={{ margin: 0, width: "96px", height: "96px" }}>
                     <img
-                      src={previewImage || "/public/images/user.jpg"}
+                      src={previewImage || "/images/user.jpg"}
                       alt={previewImage ? "Profile Preview" : "Default Avatar"}
                       style={{ objectFit: "cover", borderRadius: "50%", border: "1px solid #ccc", width: "100%", height: "100%" }}
                     />
