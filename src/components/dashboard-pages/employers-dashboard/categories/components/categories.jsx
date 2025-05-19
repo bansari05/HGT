@@ -2,19 +2,70 @@ import { useState, useEffect } from "react";
 
 const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEditing }) => {
   const [categoryName, setCategoryName] = useState("");
+  const [iconFile, setIconFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [fileError, setFileError] = useState("");
+  const [iconPreview, setIconPreview] = useState("");
 
   useEffect(() => {
     if (isEditing && initialData) {
-      setCategoryName(initialData.job_category);
+      setCategoryName(initialData.job_category || "");
+      setIconFile(null);
+      setFileError("");
+
+      // Set preview to existing icon image
+      const fullPath = initialData.icon.startsWith("http")
+        ? initialData.icon
+        : `https://apihgt.solvifytech.in/${initialData.icon}`;
+      setIconPreview(fullPath);
+    } else if (!isEditing) {
+      setCategoryName("");
+      setIconFile(null);
+      setFileError("");
+      setIconPreview("");
     }
   }, [show, isEditing, initialData]);
 
+  useEffect(() => {
+    return () => {
+      if (iconPreview && iconPreview.startsWith("blob:")) {
+        URL.revokeObjectURL(iconPreview);
+      }
+    };
+  }, [iconPreview]);
+
+  const onFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 100 * 1024) {
+        setFileError("File size must be 100KB or less");
+        setIconFile(null);
+        setIconPreview(isEditing && initialData?.icon ? `https://apihgt.solvifytech.in/${initialData.icon}` : "");
+      } else {
+        setFileError("");
+        setIconFile(file);
+        const previewUrl = URL.createObjectURL(file);
+        setIconPreview(previewUrl);
+      }
+    }
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (fileError) return;
+
     setLoading(true);
     try {
-      await handleSubmit(categoryName);
+      const formData = new FormData();
+      formData.append("jobCategory", categoryName);
+
+      if (iconFile) {
+        formData.append("iconFile", iconFile); // New image
+      } else if (isEditing && initialData?.icon) {
+        formData.append("icon", initialData.icon); // Existing image path
+      }
+
+      await handleSubmit(formData);
       handleClose();
     } catch (error) {
       console.error("Submission error:", error);
@@ -30,28 +81,73 @@ const AddCategoryModal = ({ show, handleClose, handleSubmit, initialData, isEdit
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">{isEditing ? "Edit Category" : "Add New Category"}</h5>
+            <h5 className="modal-title">
+              {isEditing ? "Edit Category" : "Add New Category"}
+            </h5>
           </div>
           <div className="modal-body">
-            <form onSubmit={onSubmit}>
-              <div className="form-group">
-                <label htmlFor="categoryName" className="fw-bold">Category Name:</label>
+            <form onSubmit={onSubmit} encType="multipart/form-data">
+              <div className="form-group mb-3">
+                <label htmlFor="categoryName" className="fw-bold">
+                  Category Name:
+                </label>
                 <input
                   type="text"
                   className="form-control"
                   id="categoryName"
                   value={categoryName}
                   onChange={(e) => setCategoryName(e.target.value)}
+                  maxLength={200}
                   required
                   disabled={loading}
                 />
               </div>
+
+              <div className="form-group mb-3">
+                <label htmlFor="iconFile" className="fw-bold">
+                  Banner Image (max 100KB):
+                </label>
+                <input
+                  type="file"
+                  className="form-control"
+                  id="iconFile"
+                  accept="image/*"
+                  onChange={onFileChange}
+                  disabled={loading}
+                />
+
+                {iconPreview && (
+                  <div className="mt-2">
+                    <img
+                      src={iconPreview}
+                      alt="Icon Preview"
+                      style={{ maxWidth: "100px", maxHeight: "100px" }}
+                    />
+                  </div>
+                )}
+
+                {fileError && <small className="text-danger">{fileError}</small>}
+              </div>
+
               <div className="modal-footer">
-                <button type="button" className="btn btn-style-three" onClick={handleClose} disabled={loading}>
+                <button
+                  type="button"
+                  className="btn btn-style-three"
+                  onClick={handleClose}
+                  disabled={loading}
+                >
                   Cancel
                 </button>
-                <button type="submit" className="theme-btn btn-style-one" disabled={loading}>
-                  {loading ? "Submitting..." : isEditing ? "Update Category" : "Add Category"}
+                <button
+                  type="submit"
+                  className="theme-btn btn-style-one"
+                  disabled={loading || fileError}
+                >
+                  {loading
+                    ? "Submitting..."
+                    : isEditing
+                    ? "Update Category"
+                    : "Add Category"}
                 </button>
               </div>
             </form>
@@ -75,17 +171,23 @@ const Categories = () => {
   }, []);
 
   const fetchCategories = async () => {
+    setLoading(true);
+    setError("");
     try {
-      const response = await fetch("https://apihgt.solvifytech.in/api/v1/JobCategory/SelectAll", {
-        headers: {
-          accept: "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
-        },
-      });
-      
+      const response = await fetch(
+        "https://apihgt.solvifytech.in/api/v1/JobCategory/SelectAll",
+        {
+          headers: {
+            accept: "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
+          },
+        }
+      );
+
       if (!response.ok) throw new Error("Failed to fetch categories");
       const result = await response.json();
-      
+
       setCategories(Array.isArray(result.data) ? result.data : result);
     } catch (error) {
       setError(error.message);
@@ -94,16 +196,20 @@ const Categories = () => {
     }
   };
 
-  const handleAddSubmit = async (categoryName) => {
+  const handleAddSubmit = async (formData) => {
+    setError("");
     try {
-      const response = await fetch("https://apihgt.solvifytech.in/api/v1/JobCategory/Add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
-        },
-        body: JSON.stringify({ jobCategory: categoryName })
-      });
+      const response = await fetch(
+        "https://apihgt.solvifytech.in/api/v1/JobCategory/Add",
+        {
+          method: "POST",
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
+          },
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -117,19 +223,23 @@ const Categories = () => {
     }
   };
 
-  const handleEditSubmit = async (categoryName) => {
+  const handleEditSubmit = async (formData) => {
+    setError("");
     try {
-      const response = await fetch(`https://apihgt.solvifytech.in/api/v1/JobCategory/Update`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
-        },
-        body: JSON.stringify({ 
-          jobCategoryId: selectedCategory.job_category_id,
-          jobCategory: categoryName 
-        })
-      });
+      // Add jobCategoryId to FormData as required
+      formData.append("jobCategoryId", selectedCategory.job_category_id);
+
+      const response = await fetch(
+        `https://apihgt.solvifytech.in/api/v1/JobCategory/Update`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
+          },
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -144,17 +254,22 @@ const Categories = () => {
   };
 
   const handleToggleStatus = async (categoryId) => {
+    setError("");
     try {
-      const response = await fetch(`https://apihgt.solvifytech.in/api/v1/JobCategory/Status`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
-        },
-        body: JSON.stringify({ 
-          jobCategoryId: categoryId 
-        })
-      });
+      const response = await fetch(
+        `https://apihgt.solvifytech.in/api/v1/JobCategory/Status`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
+          },
+          body: JSON.stringify({
+            jobCategoryId: categoryId,
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -169,15 +284,15 @@ const Categories = () => {
 
   return (
     <div className="tabs-box">
-      <div className="widget-title">
+      <div className="widget-title d-flex justify-content-between align-items-center">
         <h4>Categories</h4>
-          <button
-            type="button"
-            className="theme-btn btn-style-one"
-            onClick={() => setShowAddModal(true)}
-          >
-            Add Categories
-          </button>
+        <button
+          type="button"
+          className="theme-btn btn-style-one"
+          onClick={() => setShowAddModal(true)}
+        >
+          Add Categories
+        </button>
       </div>
 
       <div className="widget-content">
@@ -188,6 +303,8 @@ const Categories = () => {
               <tr>
                 <th>ID</th>
                 <th>Job Category Name</th>
+                <th>Icon</th>
+                <th>Total Positions</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -195,34 +312,51 @@ const Categories = () => {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="4" className="text-center">Loading categories...</td>
+                  <td colSpan="4" className="text-center">
+                    Loading categories...
+                  </td>
                 </tr>
               ) : categories.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="text-center">No categories found</td>
+                  <td colSpan="4" className="text-center">
+                    No categories found
+                  </td>
                 </tr>
               ) : (
                 categories.map((category) => (
                   <tr key={category.job_category_id}>
                     <td>{category.job_category_id}</td>
                     <td>{category.job_category}</td>
+                    <td><img src={`https://apihgt.solvifytech.in/${category.icon}`} alt="" width={50} height={50} /></td>
+                    <td>{category.total_positions}</td>
                     <td>{category.is_active ? "Active" : "Inactive"}</td>
                     <td>
                       <div className="option-box">
-                        <ul className="option-list">
+                        <ul className="option-list d-flex gap-2">
                           <li>
-                            <button data-text="Change Status" onClick={() => handleToggleStatus(category.job_category_id)}>
-                              <span className={`la ${category.is_active ? "la-eye-slash" : "la-eye"}`}></span>
+                            <button
+                              data-text="Change Status"
+                              onClick={() =>
+                                handleToggleStatus(category.job_category_id)
+                              }
+                            >
+                              <span
+                                className={`la ${
+                                  category.is_active
+                                    ? "la-eye-slash"
+                                    : "la-eye"
+                                }`}
+                              ></span>
                             </button>
                           </li>
                           <li>
-                            <button 
-                                data-text="Edit Category"
-                                onClick={() => {
-                                  setSelectedCategory(category);
-                                  setShowEditModal(true);
-                                }}
-                              >
+                            <button
+                              data-text="Edit Category"
+                              onClick={() => {
+                                setSelectedCategory(category);
+                                setShowEditModal(true);
+                              }}
+                            >
                               <span className="la la-pencil"></span>
                             </button>
                           </li>
@@ -243,7 +377,6 @@ const Categories = () => {
         handleSubmit={handleAddSubmit}
         isEditing={false}
       />
-
       <AddCategoryModal
         show={showEditModal}
         handleClose={() => setShowEditModal(false)}
