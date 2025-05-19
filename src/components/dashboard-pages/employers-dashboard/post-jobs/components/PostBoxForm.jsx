@@ -3,64 +3,62 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Select from "react-select";
-import Map from "../../../Map";
+import { toast } from "react-toastify";
 
-const validationSchema = Yup.object({
-  job_title: Yup.string().required("Job title is required"),
-  job_description: Yup.string().required("Job description is required"),
-  email_id: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  company_name: Yup.string().required("Company name is required"),
-  specialisms: Yup.array().min(1, "At least one specialism is required"),
-  job_type: Yup.string().required("Job type is required"),
-  salary: Yup.string().required("Salary is required"),
-  career_level: Yup.string().required("Career level is required"),
-  experience: Yup.string().required("Experience is required"),
-  gender: Yup.string().required("Gender is required"),
-  industry: Yup.string().required("Industry is required"),
-  qualification: Yup.string().required("Qualification is required"),
-  dead_line_date: Yup.string().required("Deadline date is required"),
-  country: Yup.string().required("Country is required"),
-  state: Yup.string().required("State is required"),
-  city: Yup.string().required("City is required"),
-  address: Yup.string().required("Address is required"),
-  pincode: Yup.string().required("Pincode is required"),
-  findOnMap: Yup.string().required("Map URL is required"),
-  lat: Yup.string().required("Latitude is required"),
-  long: Yup.string().required("Longitude is required"),
+const formValidation = Yup.object({
+  jobTitle: Yup.string().max(30, "Job title length should be less than or equal to 30 characters.").required("Job title is required."),
+  jobDescription: Yup.string().max(500, "Job description length should be less than or equal to 500 characters.").required("Job description is required."),
+  specialisms: Yup.array()
+    .min(1, "Select at least one specialism")
+    .required("Specialisms is required."),
+  jobType: Yup.array()
+    .min(1, "Select at least one job type")
+    .required("Required"),
+  jobCategory: Yup.string().max(200, "Job category should be less than or equal to 200 characters.").required("Job category is required."),
+  salary: Yup.string().max(20, "Salary length should be less than or equal to 20 characters.").required("Salary is required."),
+  careerLevel: Yup.string().max(20, "Career level length should be less than or equal to 20 characters.").required("Career level is required."),
+  experience: Yup.number().moreThan(-1, "Invalid experience.").required("Experience is required."),
+  gender: Yup.string().trim().required('Gender is required.').oneOf(['Male', 'Female', 'Other'], 'Gender must be one of Male, Female or Other.'),
+  industry: Yup.string().max(200, "Industry should be less than or equal to 200 characters.").required("Industry is required."),
+  qualification: Yup.string().max(50, "Qualification should be less than or equal to 50 characters.").required("Qualification is required."),
+  deadLineDate: Yup.string().required("Deadline date is required"),
+  country: Yup.string().max(50, "Country should be less than or equal to 50 characters.").required("Country is required."),
+  state: Yup.string().max(50, "State should be less than or equal to 50 characters.").required("State is required."),
+  city: Yup.string().max(50, "City should be less than or equal to 50 characters.").required("City is required."),
+  address: Yup.string().max(500, "Address should be less than or equal to 500 characters.").required("Address is required"),
+  pincode: Yup.string().max(30, "Pincode should be less than or equal to 30 characters.").required("Pincode is required")
 });
 
 const PostBoxForm = () => {
-  const [jobTypeOptions, setJobTypeOptions] = useState([]);
   const { jobId } = useParams();
   const navigate = useNavigate();
   const [jobCategoryOptions, setJobCategoryOptions] = useState([]);
   const [qualifications, setQualifications] = useState([]);
   const [industryOptions, setIndustryOptions] = useState([]);
+  const [jobTypeOptions, setJobTypeOptions] = useState([]);
+  const [countryOptions, setCountryOptions] = useState([]);
+  const [stateOptions, setStateOptions] = useState([]);
+  const [cityOptions, setCityOptions] = useState([]);
 
-  const [formData, setFormData] = useState({
-    job_title: "",
-    job_description: "",
-    email_id: "",
-    company_name: "",
+
+  const [initialValues, setInitialValues] = useState({
+    jobTitle: "",
+    jobDescription: "",
     specialisms: [],
-    job_type: "",
+    jobType: [],
+    jobCategory: "",
     salary: "",
-    career_level: "",
-    experience: "",
+    careerLevel: "",
+    experience: 0,
     gender: "",
     industry: "",
     qualification: "",
-    dead_line_date: "",
+    deadLineDate: "",
     country: "",
     state: "",
     city: "",
     address: "",
-    pincode: "",
-    findOnMap: "",
-    lat: "",
-    long: "",
+    pincode: ""
   });
 
   useEffect(() => {
@@ -101,115 +99,107 @@ const PostBoxForm = () => {
     }
   }, [jobId]);
 
-  const fetchJobCategories = async () => {
+  const fetchCountries = async () => {
     try {
-      const response = await fetch(
-        "https://apihgt.solvifytech.in/api/v1/JobCategory/SelectActive",
-        {
-          method: "GET",
-          headers: {
-            accept: "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
-          },
-        }
-      );
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/Country/SelectActive");
       const result = await response.json();
-      if (result.status === 1) {
-        const categories = result.data.map((category) => ({
-          value: category.job_category_id,
-          label: category.job_category,
-        }));
-        setJobCategoryOptions(categories);
-      } else {
-        console.warn("Failed to load job categories");
+      switch (result.status) {
+        case 1:
+          const countries = result.data.map((country) => ({
+            value: country.country_id,
+            label: country.country,
+          }));
+          setCountryOptions(countries);
+          break;
+        case 0:
+          toast.error(result?.message);
       }
     } catch (error) {
-      console.error("Error fetching job categories:", error);
+      toast.error(error?.message);
+    }
+  };
+
+  const fetchJobCategories = async () => {
+    try {
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/JobCategory/SelectActive");
+      const result = await response.json();
+      switch (result.status) {
+        case 1:
+          const categories = result.data.map((category) => ({
+            value: category.job_category_id,
+            label: category.job_category,
+          }));
+          setJobCategoryOptions(categories);
+          fetchCountries();
+          break;
+        case 0:
+          toast.error(result?.message);
+      }
+    } catch (error) {
+      toast.error(error?.message);
     }
   };
 
   const fetchQualifications = async () => {
     try {
-      const response = await fetch(
-        "https://apihgt.solvifytech.in/api/v1/Qualification/SelectActive",
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjoxIiwiZXhwIjoxNzQ3Mjg1NzAzLCJpYXQiOjE3NDcyODM5MDN9.hYRa-xvBQfnnqOXBktddVZ5ldvVe-tZFyRgZvMbjxQs",
-          },
-        }
-      );
-
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/Qualification/SelectActive");
       const result = await response.json();
-      if (result.status === 1) {
-        const qualifications = result.data.map((qualification) => ({
-          value: qualification.qualification_id,
-          label: qualification.qualification,
-        }));
-        setQualifications(qualifications);
-      } else {
-        console.warn("Failed to load job categories");
+      switch (result.status) {
+        case 1:
+          const qualifications = result.data.map((qualification) => ({
+            value: qualification.qualification_id,
+            label: qualification.qualification,
+          }));
+          setQualifications(qualifications);
+          fetchJobCategories();
+          break;
+        case 0:
+          toast.error(result?.message);
       }
-      // setQualifications(result.data || []);
     } catch (error) {
-      console.error("Error fetching qualifications:", error.message);
-      alert("Error fetching data.");
+      toast.error(error?.message);
     }
   };
 
   const fetchIndustries = async () => {
     try {
-      const response = await fetch("https://apihgt.solvifytech.in/api/v1/Industry/SelectActive", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjoxIiwiZXhwIjoxNzQ3Mjg1NzAzLCJpYXQiOjE3NDcyODM5MDN9.hYRa-xvBQfnnqOXBktddVZ5ldvVe-tZFyRgZvMbjxQs",
-        }
-      });
-
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/Industry/SelectActive");
       const result = await response.json();
-      if(result.status === 1) {
-        const industries = result.data.map(industry => ({
-          value: industry.industry_id,
-          label: industry.industry
-        }));
-        setIndustryOptions(industries);
-      } else {
-        console.warn("Failed to load industries");
+      switch (result.status) {
+        case 1:
+          const industries = result.data.map(industry => ({
+            value: industry.industry_id,
+            label: industry.industry
+          }));
+          setIndustryOptions(industries);
+          fetchQualifications();
+          break;
+        case 0:
+          toast.error(result?.message);
       }
     } catch (error) {
-      console.error("Error fetching industries:", error);
+      toast.error(error?.message);
     }
   };
 
   const fetchJobTypes = async () => {
     try {
-      const response = await fetch(
-        "https://apihgt.solvifytech.in/api/v1/JobType/SelectActive",
-        {
-          method: "GET",
-          headers: {
-            accept: "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
-          },
-        }
-      );
-      fetchJobCategories();
-      fetchQualifications();
-      fetchIndustries();
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/JobType/SelectActive");
       const result = await response.json();
-      if (result.status === 1) {
-        setJobTypeOptions(result.data);
-      } else {
-        console.warn("Failed to load job types");
+      switch (result.status) {
+        case 1:
+          const jobTypes = result.data.map((jobType) => ({
+            value: jobType.job_type_id,
+            label: jobType.job_type
+          }));
+          setJobTypeOptions(jobTypes);
+          fetchIndustries();
+          break;
+        case 0:
+          toast.error(result?.message);
       }
     } catch (error) {
-      console.error("Error fetching job types:", error);
+      toast.error(error?.message);
     }
   };
 
@@ -217,19 +207,57 @@ const PostBoxForm = () => {
     fetchJobTypes();
   }, []);
 
+  const fetchState = async (selectedCountry) => {
+    try {
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/State/SelectActive");
+      const result = await response.json();
+      switch (result.status) {
+        case 1:
+          const states = result.data.map((state) => ({
+            value: state.state_id,
+            label: state.state,
+          }));
+          setStateOptions(states);
+          break;
+        case 0:
+          toast.error(result?.message);
+      }
+    } catch (error) {
+      toast.error(error?.message);
+    }
+  }
+
+  const fetchCity = async (selectedCity) => {
+    try {
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/City/SelectActive");
+      const result = await response.json();
+      switch (result.status) {
+        case 1:
+          const city = result.data.map((cities) => ({
+            value: cities.city_id,
+            label: cities.city,
+          }));
+          setCityOptions(city);
+          break;
+        case 0:
+          toast.error(result?.message);
+      }
+    } catch (error) {
+      toast.error(error?.message);
+    }
+  }
+
   const handleSubmit = async (values) => {
     try {
-      const specialismsFormatted = Array.isArray(values.specialisms)
-        ? values.specialisms.join(",")
-        : values.specialisms;
+      const specialismsFormatted = Array.isArray(values.specialisms) ? values.specialisms.join(",") : values.specialisms;
 
       const body = {
         jobTitle: values.job_title,
         jobDescription: values.job_description,
         emailId: values.email_id,
         companyName: values.company_name,
-        specialisms: specialismsFormatted,
-        jobType: values.job_type,
+        specialisms: values.specialisms.join(","),
+        jobType: values.jobType.join(","),
         salary: values.salary,
         careerLevel: values.career_level,
         experience: values.experience,
@@ -251,7 +279,6 @@ const PostBoxForm = () => {
 
       if (isUpdate) {
         body.jobId = parseInt(jobId, 10);
-        console.log("Updating job with ID:", jobId);
       }
 
       const url = isUpdate
@@ -260,7 +287,6 @@ const PostBoxForm = () => {
 
       const method = isUpdate ? "PUT" : "POST";
 
-      console.log(`Making ${method} request to ${url}`);
 
       const response = await fetch(url, {
         method: method,
@@ -295,12 +321,12 @@ const PostBoxForm = () => {
 
   return (
     <Formik
-      initialValues={formData}
-      validationSchema={validationSchema}
+      initialValues={initialValues}
+      validationSchema={formValidation}
       onSubmit={handleSubmit}
       enableReinitialize
     >
-      {({ setFieldValue, values, errors, touched }) => (
+      {(prop) => (
         <Form className="default-form">
           <div className="row">
             {/* Job Title */}
@@ -308,17 +334,11 @@ const PostBoxForm = () => {
               <label>Job Title</label>
               <Field
                 type="text"
-                name="job_title"
+                name="jobTitle"
                 placeholder="Title"
-                className={`form-control ${
-                  errors.job_title && touched.job_title ? "is-invalid" : ""
-                }`}
+                className={`form-control ${prop.errors.jobTitle && prop.touched.jobTitle ? "is-invalid" : ""}`}
               />
-              <ErrorMessage
-                name="job_title"
-                component="div"
-                className="invalid-feedback"
-              />
+              <ErrorMessage name="jobTitle" component="div" className="invalid-feedback" />
             </div>
 
             {/* Job Description */}
@@ -326,123 +346,105 @@ const PostBoxForm = () => {
               <label>Job Description</label>
               <Field
                 as="textarea"
-                name="job_description"
+                name="jobDescription"
                 placeholder="Enter job description"
-                className={`form-control ${
-                  errors.job_description && touched.job_description
-                    ? "is-invalid"
-                    : ""
-                }`}
+                className={`form-control ${prop.errors.jobDescription && prop.touched.jobDescription ? "is-invalid" : ""}`}
               />
               <ErrorMessage
-                name="job_description"
+                name="jobDescription"
                 component="div"
                 className="invalid-feedback"
               />
             </div>
 
-            {/* Email Address */}
-            {/* <div className="form-group col-lg-6 col-md-12">
-              <label>Email address</label>
-              <Field
-                type="email"
-                name="email_id"
-                placeholder="hr@example.com"
-                className={`form-control ${
-                  errors.email_id && touched.email_id ? "is-invalid" : ""
-                }`}
-              />
-              <ErrorMessage
-                name="email_id"
-                component="div"
-                className="invalid-feedback"
-              />
-            </div> */}
-
-            {/* Company Name */}
-            {/* <div className="form-group col-lg-6 col-md-12">
-              <label>Company Name</label>
-              <Field
-                type="text"
-                name="company_name"
-                placeholder="Company Name"
-                className={`form-control ${
-                  errors.company_name && touched.company_name
-                    ? "is-invalid"
-                    : ""
-                }`}
-              />
-              <ErrorMessage
-                name="company_name"
-                component="div"
-                className="invalid-feedback"
-              />
-            </div> */}
-
             {/* Specialisms */}
             <div className="form-group col-lg-6 col-md-12">
-              <label>Job Category</label>
+              <label>Specialisms</label>
               <Select
                 isMulti
                 name="specialisms"
-                options={jobCategoryOptions} // Change to use jobCategoryOptions
-                className={`basic-multi-select ${
-                  errors.specialisms && touched.specialisms ? "is-invalid" : ""
-                }`}
-                classNamePrefix="select"
-                value={jobCategoryOptions.filter((category) =>
-                  values.specialisms.includes(String(category.value))
+                options={jobCategoryOptions}
+                value={jobCategoryOptions.filter(option =>
+                  prop.values.specialisms.includes(option.value)
                 )}
-                onChange={(selectedOptions) =>
-                  setFieldValue(
+                onChange={(selected) =>
+                  prop.setFieldValue(
                     "specialisms",
-                    selectedOptions.map((option) => String(option.value))
+                    selected.map(option => option.value)
                   )
                 }
-                onBlur={() =>
-                  setFieldValue("specialisms", values.specialisms, true)
-                }
+                onBlur={() => prop.setFieldTouched("specialisms", true)}
+                className={`basic-multi-select ${prop.errors.specialisms && prop.touched.specialisms ? "is-invalid" : ""
+                  }`}
+                classNamePrefix="select"
               />
-              {errors.specialisms && touched.specialisms && (
-                <div className="invalid-feedback d-block">
-                  {errors.specialisms}
-                </div>
-              )}
+              <ErrorMessage
+                name="specialisms"
+                component="div"
+                className="invalid-feedback d-block"
+              />
             </div>
 
             {/* Job Type */}
             <div className="form-group col-lg-6 col-md-12">
               <label>Job Type</label>
+              <Select
+                isMulti
+                name="jobType"
+                options={jobTypeOptions}
+                value={jobTypeOptions.filter(option =>
+                  prop.values.jobType.includes(option.value)
+                )}
+                onChange={(selected) =>
+                  prop.setFieldValue(
+                    "jobType",
+                    selected.map(option => option.value)
+                  )
+                }
+                onBlur={() => prop.setFieldTouched("jobType", true)}
+                className={`basic-multi-select ${prop.errors.jobType && prop.touched.jobType ? "is-invalid" : ""
+                  }`}
+                classNamePrefix="select"
+              />
+              <ErrorMessage
+                name="jobType"
+                component="div"
+                className="invalid-feedback d-block"
+              />
+            </div>
+
+            {/* Job Category */}
+            <div className="form-group col-lg-6 col-md-12">
+              <label>Job Category</label>
               <Field
                 as="select"
-                name="job_type"
-                className={`form-select ${
-                  errors.job_type && touched.job_type ? "is-invalid" : ""
-                }`}
+                name="jobCategory"
+                className={`form-select ${prop.errors.jobCategory && prop.touched.jobCategory ? "is-invalid" : ""}`}
               >
-                {jobTypeOptions.map((type) => (
-                  <option key={type.job_type_id} value={type.job_type_id}>
-                    {type.job_type}
-                  </option>
-                ))}
+                <option value="">Select</option>
+                {
+                  jobCategoryOptions?.map((type) => (
+                    <option key={type.value} value={type.label}>
+                      {type.label}
+                    </option>
+                  ))
+                }
               </Field>
               <ErrorMessage
-                name="job_type"
+                name="jobCategory"
                 component="div"
                 className="invalid-feedback"
               />
             </div>
 
-            {/* Offered Salary */}
+            {/* Salary */}
             <div className="form-group col-lg-6 col-md-12">
-              <label>Offered Salary</label>
+              <label>Salary</label>
               <Field
                 type="number"
                 name="salary"
-                placeholder="Enter offered salary"
-                className={`form-control ${
-                  errors.salary && touched.salary ? "is-invalid" : ""
-                }`}
+                placeholder="Enter salary"
+                className={`form-control ${prop.errors.salary && prop.touched.salary ? "is-invalid" : ""}`}
               />
               <ErrorMessage
                 name="salary"
@@ -456,16 +458,12 @@ const PostBoxForm = () => {
               <label>Career Level</label>
               <Field
                 type="text"
-                name="career_level"
+                name="careerLevel"
                 placeholder="Enter career level"
-                className={`form-control ${
-                  errors.career_level && touched.career_level
-                    ? "is-invalid"
-                    : ""
-                }`}
+                className={`form-control ${prop.errors.careerLevel && prop.touched.careerLevel ? "is-invalid" : ""}`}
               />
               <ErrorMessage
-                name="career_level"
+                name="careerLevel"
                 component="div"
                 className="invalid-feedback"
               />
@@ -478,9 +476,7 @@ const PostBoxForm = () => {
                 type="number"
                 name="experience"
                 placeholder="Enter experience"
-                className={`form-control ${
-                  errors.experience && touched.experience ? "is-invalid" : ""
-                }`}
+                className={`form-control ${prop.errors.experience && prop.touched.experience ? "is-invalid" : ""}`}
               />
               <ErrorMessage
                 name="experience"
@@ -495,14 +491,12 @@ const PostBoxForm = () => {
               <Field
                 as="select"
                 name="gender"
-                className={`form-select ${
-                  errors.gender && touched.gender ? "is-invalid" : ""
-                }`}
+                className={`form-select ${prop.errors.gender && prop.touched.gender ? "is-invalid" : ""}`}
               >
                 <option value="">Select</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
-                <option value="Any">Any</option>
+                <option value="Other">Other</option>
               </Field>
               <ErrorMessage
                 name="gender"
@@ -514,27 +508,21 @@ const PostBoxForm = () => {
             {/* Industry */}
             <div className="form-group col-lg-6 col-md-12">
               <label>Industry</label>
-              <Select
+              <Field
+                as="select"
                 name="industry"
-                options={industryOptions}
-                className={`basic-select ${
-                  errors.industry && touched.industry ? "is-invalid" : ""
-                }`}
-                classNamePrefix="select"
-                value={industryOptions.find(
-                  (option) => String(option.value) === String(values.industry)
-                )}
-                onChange={(selectedOption) =>
-                  setFieldValue(
-                    "industry",
-                    selectedOption ? selectedOption.value : ""
-                  )
+                className={`form-select ${prop.errors.industry && prop.touched.industry ? "is-invalid" : ""}`}
+              >
+                <option value="">Select</option>
+                {
+                  industryOptions?.map((val) => (
+                    <option key={val.value} value={val.value}>
+                      {val.label}
+                    </option>
+                  ))
                 }
-                onBlur={() => setFieldValue("industry", values.industry, true)}
-              />
-              {errors.industry && touched.industry && (
-                <div className="invalid-feedback d-block">{errors.industry}</div>
-              )}
+              </Field>
+              <ErrorMessage name="industry" component="div" className="invalid-feedback" />
             </div>
 
             {/* Qualification */}
@@ -543,11 +531,7 @@ const PostBoxForm = () => {
               <Field
                 as="select"
                 name="qualification"
-                className={`form-select ${
-                  errors.qualification && touched.qualification
-                    ? "is-invalid"
-                    : ""
-                }`}
+                className={`form-select ${prop.errors.qualification && prop.touched.qualification ? "is-invalid" : ""}`}
               >
                 <option value="">Select</option>
                 {qualifications.map((q) => (
@@ -567,17 +551,13 @@ const PostBoxForm = () => {
             <div className="form-group col-lg-12 col-md-12">
               <label>Application Deadline Date</label>
               <Field
-                type="text"
-                name="dead_line_date"
+                type="date"
+                name="deadLineDate"
                 placeholder="06.05.2025"
-                className={`form-control ${
-                  errors.dead_line_date && touched.dead_line_date
-                    ? "is-invalid"
-                    : ""
-                }`}
+                className={`form-control ${prop.errors.deadLineDate && prop.touched.deadLineDate ? "is-invalid" : ""}`}
               />
               <ErrorMessage
-                name="dead_line_date"
+                name="deadLineDate"
                 component="div"
                 className="invalid-feedback"
               />
@@ -589,16 +569,20 @@ const PostBoxForm = () => {
               <Field
                 as="select"
                 name="country"
-                className={`form-select ${
-                  errors.country && touched.country ? "is-invalid" : ""
-                }`}
-              >
+                className={`form-select ${prop.errors.country && prop.touched.country ? "is-invalid" : ""}`}
+                onChange={(e) => {
+                  const selectedValue = e.target.value;
+                  prop.setFieldValue("country", selectedValue);
+                  fetchState(selectedValue);
+                }}>
                 <option value="">Select</option>
-                <option value="Australia">Australia</option>
-                <option value="United States">United States</option>
-                <option value="India">India</option>
-                <option value="Japan">Japan</option>
-                <option value="China">China</option>
+                {
+                  countryOptions?.map((val) => (
+                    <>
+                      <option key={val?.value} value={val?.label}>{val?.label}</option>
+                    </>
+                  ))
+                }
               </Field>
               <ErrorMessage
                 name="country"
@@ -611,36 +595,41 @@ const PostBoxForm = () => {
             <div className="form-group col-lg-4 col-md-12">
               <label>State</label>
               <Field
-                type="text"
+                as="select" // Changed from type="text"
                 name="state"
-                placeholder="State"
-                className={`form-control ${
-                  errors.state && touched.state ? "is-invalid" : ""
-                }`}
-              />
-              <ErrorMessage
-                name="state"
-                component="div"
-                className="invalid-feedback"
-              />
+                className={`form-select ${prop.errors.state && prop.touched.state ? "is-invalid" : ""}`}
+                onChange={(e) => {
+                  const selectedValue = e.target.value;
+                  prop.setFieldValue("state", selectedValue);
+                  fetchCity(selectedValue); // Pass state ID if needed
+                }}
+              >
+                <option value="">Select</option>
+                {stateOptions?.map((val) => (
+                  <option key={val.value} value={val.value}> {/* Use value, not label */}
+                    {val.label}
+                  </option>
+                ))}
+              </Field>
+              <ErrorMessage name="state" component="div" className="invalid-feedback" />
             </div>
 
             {/* City */}
             <div className="form-group col-lg-4 col-md-12">
               <label>City</label>
               <Field
-                type="text"
+                as="select" // Changed from type="text"
                 name="city"
-                placeholder="City"
-                className={`form-control ${
-                  errors.city && touched.city ? "is-invalid" : ""
-                }`}
-              />
-              <ErrorMessage
-                name="city"
-                component="div"
-                className="invalid-feedback"
-              />
+                className={`form-select ${prop.errors.city && prop.touched.city ? "is-invalid" : ""}`}
+              >
+                <option value="">Select</option>
+                {cityOptions?.map((val) => (
+                  <option key={val.value} value={val.value}> {/* Use value, not label */}
+                    {val.label}
+                  </option>
+                ))}
+              </Field>
+              <ErrorMessage name="city" component="div" className="invalid-feedback" />
             </div>
 
             {/* Complete Address */}
@@ -650,9 +639,8 @@ const PostBoxForm = () => {
                 type="text"
                 name="address"
                 placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
-                className={`form-control ${
-                  errors.address && touched.address ? "is-invalid" : ""
-                }`}
+                className={`form-control ${prop.errors.address && prop.touched.address ? "is-invalid" : ""
+                  }`}
               />
               <ErrorMessage
                 name="address"
@@ -668,9 +656,8 @@ const PostBoxForm = () => {
                 type="text"
                 name="pincode"
                 placeholder="Pincode/ZIP"
-                className={`form-control ${
-                  errors.pincode && touched.pincode ? "is-invalid" : ""
-                }`}
+                className={`form-control ${prop.errors.pincode && prop.touched.pincode ? "is-invalid" : ""
+                  }`}
               />
               <ErrorMessage
                 name="pincode"
@@ -679,80 +666,10 @@ const PostBoxForm = () => {
               />
             </div>
 
-            {/* Find On Map */}
-            {/* <div className="form-group col-lg-6 col-md-12">
-              <label>Find On Map</label>
-              <Field
-                type="text"
-                name="findOnMap"
-                placeholder="Map URL"
-                className={`form-control ${
-                  errors.findOnMap && touched.findOnMap ? "is-invalid" : ""
-                }`}
-              />
-              <ErrorMessage
-                name="findOnMap"
-                component="div"
-                className="invalid-feedback"
-              />
-            </div> */}
-
-            {/* Latitude */}
-            {/* <div className="form-group col-lg-3 col-md-12">
-              <label>Latitude</label>
-              <Field
-                type="text"
-                name="lat"
-                placeholder="Latitude"
-                className={`form-control ${
-                  errors.lat && touched.lat ? "is-invalid" : ""
-                }`}
-              />
-              <ErrorMessage
-                name="lat"
-                component="div"
-                className="invalid-feedback"
-              />
-            </div> */}
-
-            {/* Longitude */}
-            {/* <div className="form-group col-lg-3 col-md-12">
-              <label>Longitude</label>
-              <Field
-                type="text"
-                name="long"
-                placeholder="Longitude"
-                className={`form-control ${
-                  errors.long && touched.long ? "is-invalid" : ""
-                }`}
-              />
-              <ErrorMessage
-                name="long"
-                component="div"
-                className="invalid-feedback"
-              />
-            </div> */}
-
-            {/* Search Location Button */}
-            {/* <div className="form-group col-lg-12 col-md-12">
-              <button type="button" className="theme-btn btn-style-three">
-                Search Location
-              </button>
-            </div> */}
-
-            {/* Map */}
-            {/* <div className="form-group col-lg-12 col-md-12">
-              <div className="map-outer">
-                <div style={{ height: "420px", width: "100%" }}>
-                  <Map />
-                </div>
-              </div>
-            </div> */}
-
             {/* Submit Button */}
             <div className="form-group col-lg-12 col-md-12 text-right">
               {/* <button type="submit" className="theme-btn btn-style-one">Submit Job</button> */}
-              <button type="submit" className="theme-btn btn-style-one">
+              <button type="submit" className={`theme-btn ${!prop.isValid ? "btn-style-one-disabled" : "btn-style-one"}`}>
                 {jobId ? "Update Job" : "Submit Job"}
               </button>
             </div>
