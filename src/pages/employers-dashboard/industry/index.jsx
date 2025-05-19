@@ -4,7 +4,7 @@ import Industries from "@/components/dashboard-pages/employers-dashboard/industr
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Company Profile || HGT - Job Board",
+  title: "Company Profile || Higher Global Talent - Job Board",
   description: "HGT - Job Board",
 };
 

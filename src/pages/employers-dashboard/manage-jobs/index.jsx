@@ -4,7 +4,7 @@ import ManageJobs from "@/components/dashboard-pages/employers-dashboard/manage-
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Manage Jobs || HGT - Job Board",
+  title: "Manage Jobs || Higher Global Talent - Messages",
   description: "HGT - Job Board",
 };
 

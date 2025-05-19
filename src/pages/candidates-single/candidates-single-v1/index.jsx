@@ -12,7 +12,7 @@ import AboutVideo from "@/components/candidates-single-pages/shared-components/A
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Candidate Single Dyanmic V1 || HGT - Job Board",
+  title: "Candidate Single Dyanmic V1 || Higher Global Talent - Candidates",
   description: "HGT - Job Board",
 };
 
@@ -162,7 +162,7 @@ const CandidateSingleDynamicV1 = () => {
                   <figure className="image">
                     <img
 
-                      src={'/public/images/user.jpg'}
+                      src={'/images/user.jpg'}
                       alt="avatar"
                     />
                   </figure>
@@ -216,7 +216,7 @@ const CandidateSingleDynamicV1 = () => {
                 <div className="job-detail">
                   <div className="video-outer">
                     <h4>Candidates About</h4>
-                    <AboutVideo />
+                    {/* <AboutVideo /> */}
                   </div>
                   {/* <!-- About Video Box --> */}
                   <p>

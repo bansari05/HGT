@@ -36,7 +36,7 @@ const DefaulHeader = () => {
             <div className="logo">
               <Link to="/">
                 <img
-                  src="/public/images/hgt-logo.png"
+                  src="/images/hgt-logo.png"
                   alt="brand"
                 />
               </Link>

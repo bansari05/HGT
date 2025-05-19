@@ -4,7 +4,7 @@ import ResumeAlerts from "@/components/dashboard-pages/employers-dashboard/resum
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Resume Alerts || HGT - Job Board",
+  title: "Resume Alerts || HGT - Resume Alerts",
   description: "HGT - Job Board",
 };
 

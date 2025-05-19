@@ -16,7 +16,7 @@ import MetaComponent from "@/components/common/MetaComponent";
 import { formatDistanceToNow } from 'date-fns';
 
 const metadata = {
-  title: "Job Single Dyanmic V1 || HGT - Job Board",
+  title: "Job Single Dyanmic V1 || Higher Global Talent - Job Single",
   description: "HGT - Job Board",
 };
 
@@ -40,7 +40,7 @@ const JobSingleDynamicV1 = () => {
               <div className="inner-box">
                 <div className="content">
                   <span className="company-logo">
-                    <img src={company.logo || "/public/images/hgt-logo.png"} alt="logo" />
+                    <img src={company.logo || "/images/hgt-logo.png"} alt="logo" />
                   </span>
                   <h4>{company.job_title}</h4>
 

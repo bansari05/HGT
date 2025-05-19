@@ -4,7 +4,7 @@ import PostTestimonial from "@/components/dashboard-pages/employers-dashboard/po
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Post Jobs || HGT - Job Board",
+  title: "Post Jobs || Higher Global Talent - Testimonials",
   description: "HGT - Job Board",
 };
 

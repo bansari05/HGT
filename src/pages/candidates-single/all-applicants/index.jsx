@@ -5,7 +5,7 @@ import AllApplicants from "../../../components/dashboard-pages/employers-dashboa
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: 'All Applicants || HGT - Job Board',
+  title: 'All Applicants || Higher Global Talent - All Applicants',
   description:
     'HGT - Job Board',
   
