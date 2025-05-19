@@ -4,12 +4,10 @@ import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardEmployerSidebar from "../../../header/DashboardEmployerSidebar";
 import BreadCrumb from "../../BreadCrumb";
 import CopyrightFooter from "../../CopyrightFooter";
+import PostBoxForm from "./components/PostBoxForm";
 import MenuToggler from "../../MenuToggler";
-import { useSelector } from "react-redux";
-import Testimonials from "../testimonials/components/testimonials";
 
-const Index = () => {
-  const { chatSidebar } = useSelector((state) => state.toggle);
+const index = () => {
   return (
     <div className="page-wrapper dashboard">
       <span className="header-span"></span>
@@ -30,28 +28,31 @@ const Index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="Blogs" />
+          <BreadCrumb title="Post a New Blog!" />
           {/* breadCrumb */}
 
           <MenuToggler />
           {/* Collapsible sidebar button */}
 
           <div className="row">
-            <div
-              className={`col-lg-12 ${
-                chatSidebar ? "active-chat-contacts" : ""
-              }`}
-            >
-              {/* <div className="chat-widget"> */}
+            <div className="col-lg-12">
+              {/* <!-- Ls widget --> */}
               <div className="ls-widget">
-                  {/* <ChatBox /> */}
-                  <Testimonials />
-                {/* </div> */}
+                <div className="tabs-box">
+                  <div className="widget-title">
+                    <h4>Post Testimonial</h4>
+                  </div>
+
+                  <div className="widget-content">
+                    {/* End job steps form */}
+                    <PostBoxForm />
+                    {/* End post box form */}
+                  </div>
+                </div>
               </div>
-              {/* <!-- Chat Widget --> */}
             </div>
           </div>
-          {/* End row */}
+          {/* End .row */}
         </div>
         {/* End dashboard-outer */}
       </section>
@@ -64,4 +65,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default index;

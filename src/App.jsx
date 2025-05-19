@@ -49,6 +49,8 @@ import BlogPage from "./pages/employers-dashboard/blog";
 import PostBlogsEmploeeDBPage from "./pages/employers-dashboard/post-blog";
 import ContactUsDBPage from "./pages/employers-dashboard/contact-us";
 import { ToastContainer } from "react-toastify";
+import TestimonialsPage from "./pages/employers-dashboard/testimonials";
+import PostTestimonialsEmploeeDBPage from "./pages/employers-dashboard/post-testimonials";
 
 function App() {
   useEffect(() => {
@@ -92,10 +94,13 @@ function App() {
                       <Route path="country" element={<CountryPage />} />
                       <Route path="state/:countryId" element={<StatePage />} />
                       <Route path="city/:countryId/:stateId" element={<CityPage />} />
-                      <Route path="blog" element={<BlogPage />} />
                       <Route path="contact-us" element={<ContactUsDBPage />} />
-                    <Route path="post-blog" element={<PostBlogsEmploeeDBPage />} />
-                    <Route path="post-blog/:blogId" element={<PostBlogsEmploeeDBPage />} />
+                      <Route path="blog" element={<BlogPage />} />
+                      <Route path="post-blog" element={<PostBlogsEmploeeDBPage />} />
+                      <Route path="post-blog/:blogId" element={<PostBlogsEmploeeDBPage />} />
+                      <Route path="testimonial" element={<TestimonialsPage />}/>
+                      <Route path="post-testimonial" element={<PostTestimonialsEmploeeDBPage />} />
+                      <Route path="post-testimonial/:testimonialId" element={<PostTestimonialsEmploeeDBPage />} />
                     </Routes>
                   </ProtectedRoute>
                 }

@@ -6,7 +6,7 @@ import BreadCrumb from "../../BreadCrumb";
 import CopyrightFooter from "../../CopyrightFooter";
 import MenuToggler from "../../MenuToggler";
 import { useSelector } from "react-redux";
-import Testimonials from "../testimonials/components/testimonials";
+import Testimonials from "./components/testimonials";
 
 const Index = () => {
   const { chatSidebar } = useSelector((state) => state.toggle);
@@ -30,7 +30,7 @@ const Index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="Blogs" />
+          <BreadCrumb title="Testimonials" />
           {/* breadCrumb */}
 
           <MenuToggler />

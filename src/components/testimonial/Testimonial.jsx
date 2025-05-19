@@ -55,7 +55,7 @@ const Testimonial = () => {
         <div className="testimonial-block" key={testimonial.testimonial_id}>
           <div className="inner-box">
             <h4 className="title">{testimonial.title}</h4>
-            <div className="text">{testimonial.description}</div>
+            <div className="text" dangerouslySetInnerHTML={{ __html: testimonial.description }} />
             <div className="info-box">
               <div className="thumb">
                 <img
