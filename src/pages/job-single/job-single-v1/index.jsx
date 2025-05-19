@@ -16,7 +16,7 @@ import MetaComponent from "@/components/common/MetaComponent";
 import { formatDistanceToNow } from 'date-fns';
 
 const metadata = {
-  title: "Job Single Dyanmic V1 || HGT - Job Board",
+  title: "Job Single Dyanmic V1 || Higher Global Talent - Job Single",
   description: "HGT - Job Board",
 };
 

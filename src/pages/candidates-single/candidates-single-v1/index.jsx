@@ -12,7 +12,7 @@ import AboutVideo from "@/components/candidates-single-pages/shared-components/A
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Candidate Single Dyanmic V1 || HGT - Job Board",
+  title: "Candidate Single Dyanmic V1 || Higher Global Talent - Candidates",
   description: "HGT - Job Board",
 };
 

@@ -4,7 +4,7 @@ import Bookmarks from "@/components/mybookmark";
 
 
 const metadata = {
-  title: "Short ListedJobs || HGT - Job Board",
+  title: "Short ListedJobs || Higher Global Talent - Bookmark",
   description: "HGT - Job Board",
 };
 

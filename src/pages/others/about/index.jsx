@@ -5,7 +5,7 @@ import About from "@/components/pages-menu/about";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: 'About || HGT - Job Board',
+  title: 'About || Higher Global Talent - About',
   description:
     'HGT - Job Board',
   

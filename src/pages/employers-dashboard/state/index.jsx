@@ -2,7 +2,7 @@ import MetaComponent from "@/components/common/MetaComponent";
 import State from "../../../components/dashboard-pages/employers-dashboard/country/state";
 
 const metadata = {
-  title: "Company Profile || Superio - Job Board ReactJs Template",
+  title: "Company Profile || Higher Global Talent - State",
   description: "Superio - Job Board ReactJs Template",
 };
 

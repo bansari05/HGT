@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Page Not Found || HGT - Job Board",
+  title: "Page Not Found || Higher Global Talent - 404 Not found",
   description: "HGT - Job Board",
 };
 

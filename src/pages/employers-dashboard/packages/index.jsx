@@ -4,7 +4,7 @@ import Packages from "@/components/dashboard-pages/employers-dashboard/packages"
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Packages || HGT - Job Board",
+  title: "Packages || Higher Global Talent - Packages",
   description: "HGT - Job Board",
 };
 

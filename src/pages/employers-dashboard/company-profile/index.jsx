@@ -4,7 +4,7 @@ import CompanyProfile from "@/components/dashboard-pages/employers-dashboard/com
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Company Profile || HGT - Job Board",
+  title: "Company Profile || Higher Global Talent - Company Profile",
   description: "HGT - Job Board",
 };
 

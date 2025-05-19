@@ -2,7 +2,7 @@ import MetaComponent from "@/components/common/MetaComponent";
 import ContactUsIndex from "@/components/dashboard-pages/employers-dashboard/contact-us";
 
 const metadata = {
-    title: "Manage Contacts || HGT - Contact Board",
+    title: "Manage Contacts || Higher Global Talent - Contact Board",
     description: "HGT - Contact Board",
 };
 

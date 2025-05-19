@@ -8,7 +8,7 @@ import MobileMenu from "@/components/header/MobileMenu";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Blog Details Dynamic V1 || HGT - Job Board",
+  title: "Blog Details Dynamic V1 || Higher Global Talent - Blog",
   description: "HGT - Job Board",
 };
 

@@ -4,7 +4,7 @@ import JobList from "@/components/job-listing-pages/job-list-v1";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Job List V1 || HGT - Job Board",
+  title: "Job List V1 || Higher Global Talent - Job List",
   description: "HGT - Job Board",
 };
 

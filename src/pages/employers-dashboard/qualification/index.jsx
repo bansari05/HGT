@@ -2,7 +2,7 @@ import Qualification from "@/components/dashboard-pages/employers-dashboard/qual
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Company Profile || HGT - Job Board ReactJs Template",
+  title: "Company Profile || Higher Global Talent - Qualifications",
   description: "HGT - Job Board ReactJs Template",
 };
 
