@@ -47,6 +47,8 @@ import StatePage from "./pages/employers-dashboard/state";
 import CityPage from "./pages/employers-dashboard/city";
 import BlogPage from "./pages/employers-dashboard/blog";
 import PostBlogsEmploeeDBPage from "./pages/employers-dashboard/post-blog";
+import ContactUsDBPage from "./pages/employers-dashboard/contact-us";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   useEffect(() => {
@@ -58,45 +60,46 @@ function App() {
 
   return (
     <>
-    <Provider store={store}>
-      <div className="page-wrapper">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="home-1" element={<HomePage1 />} />
-            <Route path="/about" element={<AboutPage />}/>
+      <Provider store={store}>
+        <div className="page-wrapper">
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="home-1" element={<HomePage1 />} />
+              <Route path="/about" element={<AboutPage />} />
 
-            {/* Admin-only routes */}
-            <Route
-              path="employers-dashboard/*"
-              element={
-                <ProtectedRoute>
-                  <Routes>
-                    <Route path="dashboard" element={<DashboardEmploeeDBPage />} />
-                    {/* <Route path="company-profile" element={<CompanyProfileEmploeeDBPage />} /> */}
-                    <Route path="post-jobs" element={<PostJobsEmploeeDBPage />} />
-                    <Route path="post-jobs/:jobId" element={<PostJobsEmploeeDBPage />} />
-                    <Route path="manage-jobs" element={<ManageJobsEmploeeDBPage />} />
-                    <Route path="all-applicants" element={<AllApplicantsEmploeesPage />} />
-                    <Route path="shortlisted-resumes" element={<ShortListedResumeEmploeeDBPage />} />
-                    <Route path="packages" element={<PackageEmploeeDBPage />} />
-                    <Route path="messages" element={<MessageEmploeeDBPage />} />
-                    <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage />} />
-                    <Route path="change-password" element={<ChangePasswordEmploeeDBPage />} />
-                    <Route path="categories" element={<CategoriesPage/>} />
-                    <Route path="qualification" element={<QualificationPage/>} />
-                    <Route path="job-type-master" element={<JobTypeMasterDBPage />} />
-                    <Route path="industry" element={<IndustriesPage />} />
-                    <Route path="country" element={<CountryPage />} />
-                    <Route path="state/:countryId" element={<StatePage />} />
-                    <Route path="city/:countryId/:stateId" element={<CityPage />} />
-                    <Route path="blog" element={<BlogPage />}/>
+              {/* Admin-only routes */}
+              <Route
+                path="employers-dashboard/*"
+                element={
+                  <ProtectedRoute>
+                    <Routes>
+                      <Route path="dashboard" element={<DashboardEmploeeDBPage />} />
+                      {/* <Route path="company-profile" element={<CompanyProfileEmploeeDBPage />} /> */}
+                      <Route path="post-jobs" element={<PostJobsEmploeeDBPage />} />
+                      <Route path="post-jobs/:jobId" element={<PostJobsEmploeeDBPage />} />
+                      <Route path="manage-jobs" element={<ManageJobsEmploeeDBPage />} />
+                      <Route path="all-applicants" element={<AllApplicantsEmploeesPage />} />
+                      <Route path="shortlisted-resumes" element={<ShortListedResumeEmploeeDBPage />} />
+                      <Route path="packages" element={<PackageEmploeeDBPage />} />
+                      <Route path="messages" element={<MessageEmploeeDBPage />} />
+                      <Route path="resume-alerts" element={<ResumeAlertsEmploeeDBPage />} />
+                      <Route path="change-password" element={<ChangePasswordEmploeeDBPage />} />
+                      <Route path="categories" element={<CategoriesPage />} />
+                      <Route path="qualification" element={<QualificationPage />} />
+                      <Route path="job-type-master" element={<JobTypeMasterDBPage />} />
+                      <Route path="industry" element={<IndustriesPage />} />
+                      <Route path="country" element={<CountryPage />} />
+                      <Route path="state/:countryId" element={<StatePage />} />
+                      <Route path="city/:countryId/:stateId" element={<CityPage />} />
+                      <Route path="blog" element={<BlogPage />} />
+                      <Route path="contact-us" element={<ContactUsDBPage />} />
                     <Route path="post-blog" element={<PostBlogsEmploeeDBPage />} />
                     <Route path="post-blog/:blogId" element={<PostBlogsEmploeeDBPage />} />
-                  </Routes>
-                </ProtectedRoute>
-              }
-            />
+                    </Routes>
+                  </ProtectedRoute>
+                }
+              />
 
               <Route path="candidates-single-v1/:applicationId" element={<CandidateSingleDynamicV1 />} />
               <Route path="job-list-v1" element={<JobListPage1 />} />
@@ -113,6 +116,7 @@ function App() {
 
           {/* <!-- Scroll To Top --> */}
           <ScrollToTop />
+          <ToastContainer closeOnClick />
         </div>
       </Provider>
     </>

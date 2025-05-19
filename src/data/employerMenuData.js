@@ -151,6 +151,14 @@ const employerMenu = [
   },
   {
     id: 16,
+    name: "Contact Us",
+    icon: "la-comment-o",
+    routePath: "/employers-dashboard/contact-us",
+    active: "",
+    type: "overview"
+  },
+  {
+    id: 17,
     name: "Change Password",
     icon: "la-lock",
     routePath: "/employers-dashboard/change-password",
@@ -158,7 +166,7 @@ const employerMenu = [
     type: "overview"
   },
   {
-    id: 17,
+    id: 18,
     name: "Logout",
     icon: "la-sign-out",
     routePath: "/",
