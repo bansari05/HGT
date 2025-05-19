@@ -17,9 +17,9 @@ const JobListingsTable = () => {
           Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
         },
       });
-  
+
       const result = await response.json();
-  
+
       if (response.ok) {
         setJobs(result.data || []);
         console.log("Jobs fetched successfully:", result.data);
@@ -42,11 +42,11 @@ const JobListingsTable = () => {
           Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
         }
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
-        localStorage.setItem("editJobData", JSON.stringify(data.data));
+        // localStorage.setItem("editJobData", JSON.stringify(data.data));
         navigate(`/employers-dashboard/post-jobs/${jobId}`);
       } else {
         console.error(data.message);
@@ -102,7 +102,7 @@ const JobListingsTable = () => {
           <table className="default-table manage-job-table">
             <thead>
               <tr>
-              {/* <th>ID</th> */}
+                {/* <th>ID</th> */}
                 <th>Title</th>
                 <th>Applications</th>
                 <th>Created & Expired</th>
@@ -111,6 +111,61 @@ const JobListingsTable = () => {
               </tr>
             </thead>
 
+<<<<<<< HEAD
+            <tbody>
+              {jobs.map((item) => (
+                <tr key={item.job_id}>
+                  {/* <td>{item.job_id}</td>   */}
+                  <td>
+                    <div className="job-block">
+                      <div className="inner-box">
+                        <div className="content">
+                          <span className="company-logo">
+                            <img
+                              src={'/public/images/hgt-logo.png' || "/default-logo.png"}
+                              alt="logo"
+                            />
+                          </span>
+                          <h4>
+                            <Link to={`/job-single-v3/${item.job_id}`}>
+                              {item.title || item.job_title}
+                            </Link>
+                          </h4>
+                          <ul className="job-info">
+                            <li>
+                              <span className="icon flaticon-briefcase"></span>
+                              {item.industry || "N/A"}
+                            </li>
+                            <li>
+                              <span className="icon flaticon-map-locator"></span>
+                              {item.country || "N/A"}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="applied">
+                    <a href="#">{item.applications_count || "0"} Applied</a>
+                  </td>
+                  <td>
+                    {item.created
+                      ? new Date(item.created).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })
+                      : "N/A"}
+                    <br />
+                    {item.dead_line_date || item.deadline_date
+                      ? new Date(item.dead_line_date || item.deadline_date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })
+                      : "N/A"}
+                  </td>
+=======
 <tbody>
   {jobs.map((item) => (
     <tr key={item.job_id}>
@@ -164,34 +219,35 @@ const JobListingsTable = () => {
       })
     : "N/A"}
 </td>
+>>>>>>> 666fc91ae9f74c7e5debbc5e37f300ce3d549247
 
-      <td>{item.is_active ? "Active" : "Inactive"}</td>
-      <td>
-        <div className="option-box">
-          <ul className="option-list">
-            <li>
-              <button data-text="Change Status" onClick={() => handleToggleStatus(item.job_id)}>
-                <span className={`la ${item.status === "Active" ? "la-eye-slash" : "la-eye"}`}></span>
-              </button>
-            </li>
-            <li>
-              <button data-text="Edit Application" onClick={() => handleEdit(item.job_id)}>
-                <span className="la la-pencil"></span>
-              </button>
-            </li>
-          </ul>
-        </div>
-      </td>
-    </tr>
-  ))}
-  {jobs.length === 0 && (
-    <tr>
-      <td colSpan="6" style={{ textAlign: "center" }}>
-        No job listings found.
-      </td>
-    </tr>
-  )}
-</tbody>
+                  <td>{item.is_active ? "Active" : "Inactive"}</td>
+                  <td>
+                    <div className="option-box">
+                      <ul className="option-list">
+                        <li>
+                          <button data-text="Change Status" onClick={() => handleToggleStatus(item.job_id)}>
+                            <span className={`la ${item.status === "Active" ? "la-eye-slash" : "la-eye"}`}></span>
+                          </button>
+                        </li>
+                        <li>
+                          <button data-text="Edit Application" onClick={() => handleEdit(item.job_id)}>
+                            <span className="la la-pencil"></span>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {jobs.length === 0 && (
+                <tr>
+                  <td colSpan="6" style={{ textAlign: "center" }}>
+                    No job listings found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
 
 
           </table>
