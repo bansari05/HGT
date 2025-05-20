@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import jobs from "@/data/job-featured";
 import LoginPopup from "@/components/common/form/login/LoginPopup";
 import FooterDefault from "@/components/footer/common-footer";
 import DefaulHeader from "@/components/header/DefaulHeader";
@@ -25,6 +26,31 @@ const JobSingleDynamicV1 = () => {
   const id = params.id;
   const company = jobs.find((item) => item.id == id) || jobs[0];
 
+  const [categoryDetails, setCategoryDetails] = useState({})
+
+  const fetchJobDetail = async () => {
+    try {
+      const response = await fetch(`https://apihgt.solvifytech.in/api/v1/Job/SelectById/${id}`, {
+        headers: {
+          accept: "application/json",
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
+        },
+      });
+      if (!response.ok) throw new Error("Failed to fetch details");
+      const {data,status} = await response.json();
+      console.log({data,status});
+      if (status == 1 ) {
+        setCategoryDetails(data)
+      }
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
+    }
+  }
+
+  useEffect(()=>{
+    fetchJobDetail()
+  },[id])
+
   return (
     <>
       <MetaComponent meta={metadata} />
@@ -42,7 +68,7 @@ const JobSingleDynamicV1 = () => {
                   <span className="company-logo">
                     <img src={company.logo || "/images/hgt-logo.png"} alt="logo" />
                   </span>
-                  <h4>{company.job_title}</h4>
+                  <h4>{categoryDetails.job_title}</h4>
 
                   <ul className="job-info">
                     <li>
@@ -51,17 +77,18 @@ const JobSingleDynamicV1 = () => {
                     </li>
                     <li>
                       <span className="icon flaticon-map-locator"></span>
+                      {`${categoryDetails.city}(${categoryDetails.country})`}
                       {company.country}
                     </li>
                     <li>
                       <span className="icon flaticon-clock-3"></span>
-                       {company.created
-                                          ? `${formatDistanceToNow(new Date(company.created), { addSuffix: true })}`
+                       {categoryDetails.dead_line_date
+                                          ? `${formatDistanceToNow(new Date(categoryDetails.dead_line_date), { addSuffix: true })}`
                                           : 'N/A'}
                     </li>
                     <li>
                       <span className="icon flaticon-money"></span>
-                      {company.salary}
+                      {categoryDetails.salary}
                     </li>
                   </ul>
 
@@ -116,13 +143,7 @@ const JobSingleDynamicV1 = () => {
           <div className="auto-container">
             <div className="row">
               <div className="content-column col-lg-8 col-md-12 col-sm-12">
-                <JobDetailsDescriptions />
-                <div className="other-options">
-                  <div className="social-share">
-                    <h5>Share this job</h5>
-                    <SocialTwo />
-                  </div>
-                </div>
+                <JobDetailsDescriptions jobDetails={categoryDetails}/>
                 <div className="related-jobs">
                   <div className="title-box">
                     <h3>Related Jobs</h3>
@@ -136,47 +157,44 @@ const JobSingleDynamicV1 = () => {
                 <aside className="sidebar">
                   <div className="sidebar-widget">
                     <h4 className="widget-title">Job Overview</h4>
-                    <JobOverView />
+                    <JobOverView jobDetails={categoryDetails}/>
 
-                    <h4 className="widget-title mt-5">Job Location</h4>
-                    <div className="widget-content">
-                      <div className="map-outer">
-                        <div style={{ height: "300px", width: "100%" }}>
-                          <MapJobFinder />
-                        </div>
-                      </div>
-                    </div>
+                    {/*<h4 className="widget-title mt-5">Job Location</h4>*/}
+                    {/*<div className="widget-content">*/}
+                    {/*  <div className="map-outer">*/}
+                    {/*    <div style={{ height: "300px", width: "100%" }}>*/}
+                    {/*      <MapJobFinder />*/}
+                    {/*    </div>*/}
+                    {/*  </div>*/}
+                    {/*</div>*/}
 
-                    <h4 className="widget-title">Job Skills</h4>
-                    <div className="widget-content">
-                      <JobSkills />
-                    </div>
+                    {/*<h4 className="widget-title mt-5">Job Skills</h4>*/}
+                    {/*<div className="widget-content">*/}
+                    {/*  <JobSkills />*/}
+                    {/*</div>*/}
                   </div>
 
-                  <div className="sidebar-widget company-widget">
-                    <div className="widget-content">
-                      <div className="company-title">
-                        <div className="company-logo">
-                          <img src={company.logo} alt="resource" />
-                        </div>
-                        <h5 className="company-name">{company.company}</h5>
-                        <a href="#" className="profile-link">
-                          View company profile
-                        </a>
-                      </div>
-                      <CompnayInfo />
-                      <div className="btn-box">
-                        <a
-                          href="#"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="theme-btn btn-style-three"
-                        >
-                          {company?.link}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+                  {/*<div className="sidebar-widget company-widget">*/}
+                  {/*  <div className="widget-content">*/}
+                  {/*    <div className="company-title">*/}
+                  {/*      <div className="company-logo">*/}
+                  {/*        <img src={company.logo} alt="resource" />*/}
+                  {/*      </div>*/}
+                  {/*      <h5 className="company-name">{categoryDetails.company_name}</h5>*/}
+                  {/*    </div>*/}
+                  {/*    <CompnayInfo />*/}
+                  {/*    <div className="btn-box">*/}
+                  {/*      <a*/}
+                  {/*        href="#"*/}
+                  {/*        target="_blank"*/}
+                  {/*        rel="noopener noreferrer"*/}
+                  {/*        className="theme-btn btn-style-three"*/}
+                  {/*      >*/}
+                  {/*        {company?.link}*/}
+                  {/*      </a>*/}
+                  {/*    </div>*/}
+                  {/*  </div>*/}
+                  {/*</div>*/}
                 </aside>
               </div>
             </div>

@@ -21,7 +21,6 @@ const JobCategorie1 = () => {
         );
 
         const data = await response.json();
-        console.log(data)
         if (data.status === 1) {
           setCategories(data.data);
         } else {

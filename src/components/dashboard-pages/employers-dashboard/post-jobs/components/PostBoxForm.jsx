@@ -40,6 +40,7 @@ const PostBoxForm = () => {
   const [stateOptions, setStateOptions] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
 
+
   const [initialValues, setInitialValues] = useState({
     jobTitle: "",
     jobDescription: "",
@@ -59,6 +60,44 @@ const PostBoxForm = () => {
     address: "",
     pincode: ""
   });
+
+  useEffect(() => {
+    if (jobId) {
+      const editJobData = localStorage.getItem("editJobData");
+      if (editJobData) {
+        const jobData = JSON.parse(editJobData);
+        setFormData({
+          job_title: jobData.job_title || "",
+          job_description: jobData.job_description || "",
+          email_id: jobData.email_id || "",
+          company_name: jobData.company_name || "",
+          specialisms: jobData.specialisms
+            ? typeof jobData.specialisms === "string"
+              ? jobData.specialisms.split(",").map((s) => s.trim())
+              : jobData.specialisms
+            : [],
+          job_type: jobData.job_type_id ? String(jobData.job_type_id) : "",
+          salary: jobData.salary || "",
+          career_level: jobData.career_level || "",
+          experience: String(jobData.experience) || "",
+          gender: jobData.gender || "",
+          industry: jobData.industry || "",
+          qualification: jobData.qualification || "",
+          dead_line_date: jobData.dead_line_date
+            ? jobData.dead_line_date.split("T")[0]
+            : "",
+          country: jobData.country || "",
+          state: jobData.state || "",
+          city: jobData.city || "",
+          address: jobData.address || "",
+          pincode: jobData.pincode || "",
+          findOnMap: jobData.find_on_map || "",
+          lat: jobData.lat || "",
+          long: jobData.long || "",
+        });
+      }
+    }
+  }, [jobId]);
 
   const fetchCountries = async () => {
     try {
@@ -164,79 +203,15 @@ const PostBoxForm = () => {
     }
   };
 
-  const getJobData = async (jobId) => {
-    try {
-      const token = localStorage.getItem("authToken");
-      const response = await fetch(`https://apihgt.solvifytech.in/api/v1/Job/SelectById/${jobId}`, {
-        headers: {
-          "Accept": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      });
-      const result = await response.json();
-      const data = result?.data;
-      console.log("data", data);
-
-      switch (result.status) {
-        case 1:
-          setInitialValues((prev) => ({
-            ...prev,
-            jobTitle: data?.job_title,
-            jobDescription: data?.job_description,
-            jobCategory: data?.job_category,
-            specialisms: data.specialisms
-              ? typeof data.specialisms === "string"
-                ? data.specialisms.split(",").map((s) => s.trim())
-                : data.specialisms
-              : [],
-            jobType: data?.job_type ? String(data.job_type) : "",
-            salary: data?.salary || "",
-            careerLevel: data?.career_level || "",
-            experience: String(data?.experience) || "",
-            gender: data?.gender || "",
-            industry: data?.industry || "",
-            qualification: data?.qualification || "",
-            deadLineDate: data?.dead_line_date
-              ? data?.dead_line_date.split("T")[0]
-              : "",
-            country: data?.country || "",
-            state: data?.state || "",
-            city: data?.city || "",
-            address: data?.address || "",
-            pincode: data?.pincode || ""
-          }))
-          break;
-        case 0:
-          toast.error(result?.message);
-      }
-    } catch (error) {
-      toast.error(error?.message);
-    }
-  };
-
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      toast.error("Invalid access token.");
-    }
-    if (jobId) {
-      getJobData(jobId);
-    }
     fetchJobTypes();
   }, []);
 
-  const fetchState = async (selectedCountryId) => {
+  const fetchState = async (selectedCountry) => {
     try {
-      const token = localStorage.getItem("authToken");
-      const response = await fetch(`https://apihgt.solvifytech.in/api/v1/State/SelectByCountryId/${selectedCountryId}`, {
-        headers: {
-          "Accept": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const response = await fetch("https://apihgt.solvifytech.in/api/v1/State/SelectActive");
       const result = await response.json();
-
-      switch (result?.status) {
+      switch (result.status) {
         case 1:
           const states = result.data.map((state) => ({
             value: state.state_id,
@@ -274,25 +249,30 @@ const PostBoxForm = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const token = localStorage.getItem("authToken");
+      const specialismsFormatted = Array.isArray(values.specialisms) ? values.specialisms.join(",") : values.specialisms;
+
       const body = {
-        jobTitle: values.jobTitle,
-        jobDescription: values.jobDescription,
+        jobTitle: values.job_title,
+        jobDescription: values.job_description,
+        emailId: values.email_id,
+        companyName: values.company_name,
         specialisms: values.specialisms.join(","),
         jobType: values.jobType.join(","),
         salary: values.salary,
-        careerLevel: values.careerLevel,
+        careerLevel: values.career_level,
         experience: values.experience,
         gender: values.gender,
-        jobCategory: values.jobCategory,
         industry: values.industry,
         qualification: values.qualification,
-        deadLineDate: values.deadLineDate,
+        deadLineDate: values.dead_line_date,
         country: values.country,
         state: values.state,
         city: values.city,
         address: values.address,
-        pincode: values.pincode
+        pincode: values.pincode,
+        findOnMap: values.findOnMap,
+        lat: values.lat,
+        long: values.long,
       };
 
       const isUpdate = !!jobId;
@@ -301,9 +281,12 @@ const PostBoxForm = () => {
         body.jobId = parseInt(jobId, 10);
       }
 
-      const url = isUpdate ? "https://apihgt.solvifytech.in/api/v1/Job/Update" : "https://apihgt.solvifytech.in/api/v1/Job/Add";
+      const url = isUpdate
+        ? "https://apihgt.solvifytech.in/api/v1/Job/Update"
+        : "https://apihgt.solvifytech.in/api/v1/Job/Add";
 
       const method = isUpdate ? "PUT" : "POST";
+
 
       const response = await fetch(url, {
         method: method,
@@ -311,7 +294,7 @@ const PostBoxForm = () => {
           accept: "application/json",
           "Content-Type": "application/json",
           Authorization:
-            `Bearer ${token}`,
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM",
         },
         body: JSON.stringify(body),
       });
@@ -380,19 +363,19 @@ const PostBoxForm = () => {
               <Select
                 isMulti
                 name="specialisms"
-                placeholder="Select specialisms"
                 options={jobCategoryOptions}
                 value={jobCategoryOptions.filter(option =>
-                  prop.values.specialisms.includes(option.label)
+                  prop.values.specialisms.includes(option.value)
                 )}
                 onChange={(selected) =>
                   prop.setFieldValue(
                     "specialisms",
-                    selected.map(option => option.label)
+                    selected.map(option => option.value)
                   )
                 }
                 onBlur={() => prop.setFieldTouched("specialisms", true)}
-                className={`basic-multi-select ${prop.errors.specialisms && prop.touched.specialisms ? "is-invalid" : ""}`}
+                className={`basic-multi-select ${prop.errors.specialisms && prop.touched.specialisms ? "is-invalid" : ""
+                  }`}
                 classNamePrefix="select"
               />
               <ErrorMessage
@@ -408,15 +391,14 @@ const PostBoxForm = () => {
               <Select
                 isMulti
                 name="jobType"
-                placeholder="Select job type"
                 options={jobTypeOptions}
                 value={jobTypeOptions.filter(option =>
-                  prop.values.jobType.includes(option.label)
+                  prop.values.jobType.includes(option.value)
                 )}
                 onChange={(selected) =>
                   prop.setFieldValue(
                     "jobType",
-                    selected.map(option => option.label)
+                    selected.map(option => option.value)
                   )
                 }
                 onBlur={() => prop.setFieldTouched("jobType", true)}
@@ -439,10 +421,10 @@ const PostBoxForm = () => {
                 name="jobCategory"
                 className={`form-select ${prop.errors.jobCategory && prop.touched.jobCategory ? "is-invalid" : ""}`}
               >
-                <option value="">Select job category</option>
+                <option value="">Select</option>
                 {
                   jobCategoryOptions?.map((type) => (
-                    <option key={type.value + type.label} value={type.label}>
+                    <option key={type.value} value={type.label}>
                       {type.label}
                     </option>
                   ))
@@ -511,7 +493,7 @@ const PostBoxForm = () => {
                 name="gender"
                 className={`form-select ${prop.errors.gender && prop.touched.gender ? "is-invalid" : ""}`}
               >
-                <option value="">Select gender</option>
+                <option value="">Select</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
@@ -531,10 +513,10 @@ const PostBoxForm = () => {
                 name="industry"
                 className={`form-select ${prop.errors.industry && prop.touched.industry ? "is-invalid" : ""}`}
               >
-                <option value="">Select industry</option>
+                <option value="">Select</option>
                 {
                   industryOptions?.map((val) => (
-                    <option key={val.value + val.label} value={val.label}>
+                    <option key={val.value} value={val.value}>
                       {val.label}
                     </option>
                   ))
@@ -551,9 +533,9 @@ const PostBoxForm = () => {
                 name="qualification"
                 className={`form-select ${prop.errors.qualification && prop.touched.qualification ? "is-invalid" : ""}`}
               >
-                <option value="">Select qualification</option>
+                <option value="">Select</option>
                 {qualifications.map((q) => (
-                  <option key={q.value + q?.label} value={q.label}>
+                  <option key={q.value} value={q.value}>
                     {q.label}
                   </option>
                 ))}
@@ -566,12 +548,12 @@ const PostBoxForm = () => {
             </div>
 
             {/* Application Deadline Date */}
-            <div className="form-group col-md-12 col-lg-6">
+            <div className="form-group col-lg-12 col-md-12">
               <label>Application Deadline Date</label>
               <Field
                 type="date"
                 name="deadLineDate"
-                style={{ backgroundColor: "#f0f5f7", height: "62px" }}
+                placeholder="06.05.2025"
                 className={`form-control ${prop.errors.deadLineDate && prop.touched.deadLineDate ? "is-invalid" : ""}`}
               />
               <ErrorMessage
@@ -591,12 +573,14 @@ const PostBoxForm = () => {
                 onChange={(e) => {
                   const selectedValue = e.target.value;
                   prop.setFieldValue("country", selectedValue);
-                  fetchState(parseInt(selectedValue.slice(-1)));
+                  fetchState(selectedValue);
                 }}>
                 <option value="">Select</option>
                 {
                   countryOptions?.map((val) => (
-                    <option key={val?.value + val?.label} value={`${val?.label} ${val?.value}`}>{val?.label}</option>
+                    <>
+                      <option key={val?.value} value={val?.label}>{val?.label}</option>
+                    </>
                   ))
                 }
               </Field>
@@ -622,7 +606,7 @@ const PostBoxForm = () => {
               >
                 <option value="">Select</option>
                 {stateOptions?.map((val) => (
-                  <option key={val.value + val.label} value={val.label}> {/* Use value, not label */}
+                  <option key={val.value} value={val.value}> {/* Use value, not label */}
                     {val.label}
                   </option>
                 ))}
@@ -639,8 +623,8 @@ const PostBoxForm = () => {
                 className={`form-select ${prop.errors.city && prop.touched.city ? "is-invalid" : ""}`}
               >
                 <option value="">Select</option>
-                {cityOptions?.map((val, index) => (
-                  <option key={val.value + index} value={val.label}> {/* Use value, not label */}
+                {cityOptions?.map((val) => (
+                  <option key={val.value} value={val.value}> {/* Use value, not label */}
                     {val.label}
                   </option>
                 ))}
@@ -691,9 +675,8 @@ const PostBoxForm = () => {
             </div>
           </div>
         </Form>
-      )
-      }
-    </Formik >
+      )}
+    </Formik>
   );
 };
 

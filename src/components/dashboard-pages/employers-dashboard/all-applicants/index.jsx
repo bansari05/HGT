@@ -30,9 +30,9 @@ const AddApplicationForm = ({ show, handleClose, handleSubmit }) => {
           Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM"
         },
       });
-
+  
       const result = await response.json();
-
+  
       if (response.ok) {
         setJobs(result.data || []);
         console.log("Jobs fetched successfully:", result.data);
@@ -155,7 +155,7 @@ const Index = () => {
 
       <DashboardEmployerSidebar />
 
-      <AddApplicationForm
+      <AddApplicationForm 
         show={showModal}
         handleClose={() => setShowModal(false)}
         handleSubmit={handleSubmitApplication}
@@ -166,7 +166,7 @@ const Index = () => {
         <div className="dashboard-outer">
           <div className="d-flex justify-content-between align-items-center">
             <BreadCrumb title="All Applicants!" />
-            <button
+            <button 
               className="theme-btn btn-style-one"
               onClick={() => setShowModal(true)}
             >
@@ -184,24 +184,7 @@ const Index = () => {
                 <div className="tabs-box">
                   <div className="widget-title">
                     <h4>Applicant</h4>
-                    {/* <WidgetTopFilterBox /> */}
-                    <div className="chosen-outer">
-                      <select className="chosen-single form-select chosen-container">
-                        <option>Select Jobs</option>
-                        <option>Last 12 Months</option>
-                        <option>Last 16 Months</option>
-                        <option>Last 24 Months</option>
-                        <option>Last 5 year</option>
-                      </select>
-                      {/* <!--Tabs Box--> */}
-
-                      <select className="chosen-single form-select chosen-container" >
-                        <option>All Status</option>
-                        <option value={"Pending"}>Pending</option>
-                        <option value={"ShortListed"}>Short Listed</option>
-                      </select>
-                      {/* <!--Tabs Box--> */}
-                    </div>
+                    <WidgetTopFilterBox />
                   </div>
                   <WidgetContentBox />
                   {/* End widget-content */}

@@ -166,14 +166,14 @@ const employerMenu = [
   //   active: "",
   //   type: "overview"
   // },
-  // {
-  //   id: 15,
-  //   name: "Resume Alerts",
-  //   icon: "la-bell",
-  //   routePath: "/employers-dashboard/resume-alerts",
-  //   active: "",
-  //   type: "overview"
-  // },
+  {
+    id: 15,
+    name: "Resume Alerts",
+    icon: "la-bell",
+    routePath: "/employers-dashboard/resume-alerts",
+    active: "",
+    type: "overview"
+  },
   {
     id: 16,
     name: "Contact Us",
