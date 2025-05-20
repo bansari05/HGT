@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const WidgetContentBox = () => {
   const [applications, setApplications] = useState([]);
@@ -17,57 +16,57 @@ const WidgetContentBox = () => {
     applications.filter(app => app.status === "Rejected")
   ], [applications]);
 
-  const fetchData = async () => {
-    try {
-      const [appsResponse, usersResponse, jobsResponse] = await Promise.all([
-        fetch(`https://apihgt.solvifytech.in/api/v1/Application/SelectAll`, {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM`
-          }
-        }),
-        fetch(`https://apihgt.solvifytech.in/api/v1/User/SelectAll`, {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM`
-          }
-        }),
-        fetch(`https://apihgt.solvifytech.in/api/v1/Job/SelectAll`, {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM`
-          }
-        })
-      ]);
-
-      if (!appsResponse.ok || !usersResponse.ok || !jobsResponse.ok) {
-        throw new Error('Failed to fetch data');
-      }
-
-      const appsData = await appsResponse.json();
-      const usersData = await usersResponse.json();
-      const jobsData = await jobsResponse.json();
-
-      const userMap = usersData.data?.reduce((acc, user) => {
-        const id = user.user_id ?? user.id;
-        if (id !== undefined) acc[id] = user;
-        return acc;
-      }, {}) || {};
-
-
-      const jobMap = jobsData.data?.reduce((acc, job) => ({
-        ...acc,
-        [job.job_id]: job
-      }), {});
-
-      setApplications(appsData.data || []);
-      setUserDataMap(userMap || {});
-      setJobDataMap(jobMap || {});
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [appsResponse, usersResponse, jobsResponse] = await Promise.all([
+          fetch(`https://apihgt.solvifytech.in/api/v1/Application/SelectAll`, {
+            headers: {
+              Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM`
+            }
+          }),
+          fetch(`https://apihgt.solvifytech.in/api/v1/User/SelectAll`, {
+            headers: {
+              Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM`
+            }
+          }),
+          fetch(`https://apihgt.solvifytech.in/api/v1/Job/SelectAll`, {
+            headers: {
+              Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM`
+            }
+          })
+        ]);
+
+        if (!appsResponse.ok || !usersResponse.ok || !jobsResponse.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        const appsData = await appsResponse.json();
+        const usersData = await usersResponse.json();
+        const jobsData = await jobsResponse.json();
+
+  const userMap = usersData.data?.reduce((acc, user) => {
+  const id = user.user_id ?? user.id;
+  if (id !== undefined) acc[id] = user;
+  return acc;
+}, {}) || {};
+
+
+        const jobMap = jobsData.data?.reduce((acc, job) => ({
+          ...acc,
+          [job.job_id]: job
+        }), {});
+
+        setApplications(appsData.data || []);
+        setUserDataMap(userMap || {});
+        setJobDataMap(jobMap || {});
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     fetchData();
   }, []);
 
@@ -155,7 +154,8 @@ const WidgetContentBox = () => {
 
             <TabList className="aplicantion-status tab-buttons clearfix">
               <Tab className="tab-btn totals">Total(s): {applications.length}</Tab>
-              {/* <Tab className="tab-btn approved">Approved: {approvedApplications.length}</Tab> */}
+              <Tab className="tab-btn approved">Approved: {approvedApplications.length}</Tab>
+              <Tab className="tab-btn rejected">Rejected(s): {rejectedApplications.length}</Tab>
             </TabList>
           </div>
 
@@ -168,8 +168,7 @@ const WidgetContentBox = () => {
                 onAction={handleApplicationAction}
                 onDelete={handleDeleteApplication}
                 actionLoading={actionLoading}
-                onView={handleViewApplication}
-                fetchData={fetchData}
+                onView={handleViewApplication} 
               />
             </TabPanel>
 
@@ -181,7 +180,6 @@ const WidgetContentBox = () => {
                 onAction={handleApplicationAction}
                 onDelete={handleDeleteApplication}
                 actionLoading={actionLoading}
-                fetchData={fetchData}
               />
             </TabPanel>
 
@@ -193,7 +191,6 @@ const WidgetContentBox = () => {
                 onAction={handleApplicationAction}
                 onDelete={handleDeleteApplication}
                 actionLoading={actionLoading}
-                fetchData={fetchData}
               />
             </TabPanel>
           </div>
@@ -203,7 +200,7 @@ const WidgetContentBox = () => {
   );
 };
 
-const ApplicationList = ({ applications, userDataMap, jobDataMap, onAction, onDelete, actionLoading, onView, fetchData }) => (
+const ApplicationList = ({ applications, userDataMap, jobDataMap, onAction, onDelete, actionLoading, onView }) => (
   <div className="row">
     {applications.length > 0 ? (
       applications.map(application => (
@@ -215,8 +212,7 @@ const ApplicationList = ({ applications, userDataMap, jobDataMap, onAction, onDe
           onAction={onAction}
           onDelete={onDelete}
           isLoading={actionLoading[application.application_id]}
-          onView={onView}
-          fetchData={fetchData}
+           onView={onView}
         />
       ))
     ) : (
@@ -225,10 +221,10 @@ const ApplicationList = ({ applications, userDataMap, jobDataMap, onAction, onDe
   </div>
 );
 
-const ApplicationCard = ({ application, userData, jobData, onAction, onDelete, isLoading, fetchData }) => {
-
+const ApplicationCard = ({ application, userData, jobData, onAction, onDelete, isLoading }) => {
+ 
   const user = userData || {};
-  console.warn({
+   console.warn ({
     jj: user
   })
   const job = jobData || {};
@@ -237,131 +233,94 @@ const ApplicationCard = ({ application, userData, jobData, onAction, onDelete, i
     job: job
   })
 
-  const approveStatus = async (changeApplicationId, applicationStatusType) => {
-    try {
-      const token = localStorage.getItem("authToken");
-      const statusBody = {
-        applicationId: changeApplicationId,
-        status: applicationStatusType
-      }
-      const response = await fetch("https://apihgt.solvifytech.in/api/v1/Application/Status", {
-        method: "PUT",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(statusBody)
-      });
-
-      const result = await response.json();
-      switch (result.status) {
-        case 1:
-          toast.success(result.message);
-          fetchData();
-          break;
-        case 0:
-          toast.error(result?.message);
-      }
-    } catch (error) {
-      toast.error(error?.message);
-    }
-  };
-
   return (
-    <div className="candidate-block-three col-lg-6 col-md-12 col-sm-12">
-      <div className="inner-box p-0 px-2  pb-2">
-        <div className="content">
-          <figure className="image m-0">
-            <img
-              className=""
-              src={user.avatar || "/images/user.jpg"}
-              alt="avatar"
-            />
-          </figure>
-          <h4 className="name ms-3 ms-sm-0">
-            <Link to={`/candidates-single-v1/${application.application_id}`}>
-              {user.full_name || `Applicant #${application.application_id}`}
-            </Link>
-          </h4>
+<div className="candidate-block-three col-lg-6 col-md-12 col-sm-12">
+  <div className="inner-box">
+    <div className="content">
+      <figure className="image">
+        <img
+          src={user.avatar || "/images/user.jpg"}
+          alt="avatar"
+        />
+      </figure>
+      <h4 className="name">
+        <Link to={`/candidates-single-v1/${application.application_id}`}>
+          {user.full_name || `Applicant #${application.application_id}`}
+        </Link>
+      </h4>
 
-          {/* <ul className="candidate-info">
-            <li>
-              <span className="icon flaticon-map-locator"></span>{" "}
-              {user.country || "N/A"}
-            </li>
-          </ul> */}
+      <ul className="candidate-info">
+        <li>
+          <span className="icon flaticon-map-locator"></span>{" "}
+          {user.country || "N/A"}
+        </li>
+      </ul>
 
-          <ul className="post-tags">
-            <li className="designation">{job.job_title || "Not specified"}</li>
-          </ul>
-        </div>
-
-        <div className="option-box" style={{ marginTop: "-2px" }}>
-          <ul className="option-list">
-            <li>
-              <Link
-                to={`/candidates-single-v1/${application?.application_id}`}
-                data-text="View Application"
-                // onClick={() => onView(application.application_id)}
-                disabled={isLoading}
-                title="View Application"
-              >
-                {/* <Link to={`/candidates-single-v1/${application.application_id}`}> */}
-                <span className="la la-eye"></span>
-                {/* </Link> */}
-              </Link>
-            </li>
-            {application.status !== "ShortListed" && (
-              <li>
-                <button
-                  data-text="ShortList Application"
-                  onClick={() => approveStatus(application?.application_id, "ShortListed")}
-                  disabled={isLoading}
-                  title="ShortList Application"
-                >
-                  {isLoading ? (
-                    <span className="la la-spinner spinner"></span>
-                  ) : (
-                    <span className="la la-check"></span>
-                  )}
-                </button>
-              </li>
-            )}
-            {/* {application.status !== "Rejected" && (
-              <li>
-                <button
-                  onClick={() => onAction(application.application_id, "Rejected")}
-                  disabled={isLoading}
-                  title="Reject Application"
-                >
-                  {isLoading ? (
-                    <span className="la la-spinner spinner"></span>
-                  ) : (
-                    <span className="la la-times-circle"></span>
-                  )}
-                </button>
-              </li>
-            )} */}
-
-            <li>
-              <button
-                data-text="Delete Application"
-                onClick={() => onDelete(application.application_id)}
-                disabled={isLoading}
-                title="Delete Application"
-              >
-                {isLoading ? (
-                  <span className="la la-spinner spinner"></span>
-                ) : (
-                  <span className="la la-trash"></span>
-                )}
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <ul className="post-tags">
+        <li className="designation">{job.job_title || "Not specified"}</li>
+      </ul>
     </div>
+
+    <div className="option-box">
+      <ul className="option-list">
+        <li>
+          <button
+            data-text="View Application"
+            onClick={() => onView(application.application_id)}
+            disabled={isLoading}
+            title="View Application"
+          >
+            <span className="la la-eye"></span>
+          </button>
+        </li>
+        {application.status !== "Approved" && (
+          <li>
+            <button
+              onClick={() => onAction(application.application_id, "Approved")}
+              disabled={isLoading}
+              title="Approve Application"
+            >
+              {isLoading ? (
+                <span className="la la-spinner spinner"></span>
+              ) : (
+                <span className="la la-check"></span>
+              )}
+            </button>
+          </li>
+        )}
+        {application.status !== "Rejected" && (
+          <li>
+            <button
+              onClick={() => onAction(application.application_id, "Rejected")}
+              disabled={isLoading}
+              title="Reject Application"
+            >
+              {isLoading ? (
+                <span className="la la-spinner spinner"></span>
+              ) : (
+                <span className="la la-times-circle"></span>
+              )}
+            </button>
+          </li>
+        )}
+
+        <li>
+          <button
+            onClick={() => onDelete(application.application_id)}
+            disabled={isLoading}
+            title="Delete Application"
+          >
+            {isLoading ? (
+              <span className="la la-spinner spinner"></span>
+            ) : (
+              <span className="la la-trash"></span>
+            )}
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
 
   );
 };

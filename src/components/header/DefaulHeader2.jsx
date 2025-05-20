@@ -47,9 +47,9 @@ const DefaulHeader2 = () => {
         </div>
 
         <div className="outer-box">
-          <Link to="/candidates-dashboard/cv-manager" className="upload-cv">
-            Upload your CV
-          </Link>
+          {/*<Link to="/candidates-dashboard/cv-manager" className="upload-cv">*/}
+          {/*  Upload your CV*/}
+          {/*</Link>*/}
 
           <div className="btn-box">
             {user?.user_type !== "User" && (

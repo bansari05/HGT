@@ -113,14 +113,7 @@ function App() {
               <Route path="register" element={<RegisterPage />} />
               <Route path="login" element={<LoginPage />} />
               <Route path="mybookmark/:jobId" element={<BookmarkPage />} />
-              <Route 
-                path="/my-profile" 
-                element={
-                  <ProtectedRoute>
-                    <UserPage />
-                  </ProtectedRoute>
-                } 
-              />
+              <Route path="my-profile" element={<UserPage />} />
               <Route path="/contact" element={<ContactPage />} />
               {/* <Route path="/terms" element={<TermsPage />} /> */}
               <Route path="blog" element={<BlogListpage3 />} />

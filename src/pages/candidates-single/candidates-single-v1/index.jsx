@@ -216,7 +216,7 @@ const CandidateSingleDynamicV1 = () => {
                 <div className="job-detail">
                   <div className="video-outer">
                     <h4>Candidates About</h4>
-                    {/* <AboutVideo /> */}
+                    <AboutVideo />
                   </div>
                   {/* <!-- About Video Box --> */}
                   <p>
