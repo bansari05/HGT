@@ -18,9 +18,17 @@ const About = () => {
             <li>Easy application process with direct employer connections</li>
             <li>Support and guidance to help you succeed in your new role</li>
           </ul>
-          <Link to="/register" className="theme-btn btn-style-one bg-blue">
+          {/* <Link to="/register" className="theme-btn btn-style-one bg-blue">
             <span className="btn-title">Get Started</span>
-          </Link>
+          </Link> */}
+          <a
+            href="#" 
+            className="theme-btn btn-style-one bg-blue"
+            data-bs-toggle="modal"
+            data-bs-target="#loginPopupModal"
+          >
+            <span className="btn-title">Get Started</span>
+          </a>
         </div>
       </div>
       {/* End .col about left content */}
@@ -28,7 +36,7 @@ const About = () => {
       <div className="image-column col-lg-6 col-md-12 col-sm-12">
         <figure className="image" data-aos="fade-right">
           <img
-            
+
             src="/images/resource/image-2.jpg"
             alt="about"
           />

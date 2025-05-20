@@ -52,6 +52,7 @@ import ContactUsDBPage from "./pages/employers-dashboard/contact-us";
 import { ToastContainer } from "react-toastify";
 import TestimonialsPage from "./pages/employers-dashboard/testimonials";
 import PostTestimonialsEmploeeDBPage from "./pages/employers-dashboard/post-testimonials";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   useEffect(() => {
@@ -113,7 +114,14 @@ function App() {
               <Route path="register" element={<RegisterPage />} />
               <Route path="login" element={<LoginPage />} />
               <Route path="mybookmark/:jobId" element={<BookmarkPage />} />
-              <Route path="my-profile" element={<UserPage />} />
+              <Route 
+                path="/my-profile" 
+                element={
+                  <ProtectedRoute>
+                    <UserPage />
+                  </ProtectedRoute>
+                } 
+              />
               <Route path="/contact" element={<ContactPage />} />
               {/* <Route path="/terms" element={<TermsPage />} /> */}
               <Route path="blog" element={<BlogListpage3 />} />

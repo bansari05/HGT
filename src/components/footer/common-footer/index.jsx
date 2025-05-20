@@ -14,7 +14,6 @@ const index = ({ footerStyle = "" }) => {
                 <div className="logo">
                   <a href="#">
                     <img
-                      
                       src="/images/hgt-logo.png"
                       alt="brand"
                     />

@@ -2,8 +2,8 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
-import LoginWithSocial from "./LoginWithSocial";
 import { useDispatch } from "react-redux";
+import { toast } from 'react-toastify';
 import { setUser } from "../../../../store/userSlice";
 
 const validationSchema = Yup.object({
@@ -20,46 +20,43 @@ const FormContent = () => {
   };
 
 
-const handleSubmit = async (values, { setSubmitting }) => {
-  console.warn(values)
-  try {
-    const response = await fetch(
-      "https://apihgt.solvifytech.in/api/v1/User/Login",
-      {
-        method: "PUT",
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const response = await fetch(
+        "https://apihgt.solvifytech.in/api/v1/User/Login",
+        {
+          method: "PUT",
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.status === 1) {
+        const backdrop = document.querySelector(".modal-backdrop");
+        if (backdrop) backdrop.remove();
+
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "auto";
+        document.body.style.paddingRight = "";
+
+        localStorage.setItem("authToken", data?.data?.access_token);
+        localStorage.setItem("userData", JSON.stringify(data?.data));
+        dispatch(setUser(data?.data));
+        navigate("/employers-dashboard/dashboard");
+      } else {
+        toast.error(data.message);
       }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-      console.log("Login successful:", data);
-
-      const backdrop = document.querySelector(".modal-backdrop");
-      if (backdrop) backdrop.remove();
-
-      document.body.classList.remove("modal-open");
-      document.body.style.overflow = "auto"; 
-      document.body.style.paddingRight = "";
-
-      localStorage.setItem("authToken", data?.data?.access_token); 
-      localStorage.setItem("userData", JSON.stringify(data?.data));
-      dispatch(setUser(data?.data));
-      navigate("/employers-dashboard/dashboard");
-    } else {
-      console.error("Login failed:", data);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setSubmitting(false);
     }
-  } catch (error) {
-    console.error("Error:", error);
-  } finally {
-    setSubmitting(false);
-  }
-};
+  };
 
   return (
     <div className="form-inner">
@@ -146,12 +143,12 @@ const handleSubmit = async (values, { setSubmitting }) => {
             Signup
           </Link>
         </div>
-
+        {/* 
         <div className="divider">
           <span>or</span>
         </div>
 
-        <LoginWithSocial />
+        <LoginWithSocial /> */}
       </div>
     </div>
   );

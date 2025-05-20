@@ -42,7 +42,7 @@ const Header = () => {
                 <Link to="/" className="isSticky">
                   <img
                   
-                    src="/images/logo.svg"
+                    src="/images/hgt-logo.png"
                     alt="logo"
                     title="brand"
                   />

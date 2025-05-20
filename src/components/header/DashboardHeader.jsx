@@ -47,7 +47,6 @@ const DashboardHeader = () => {
                                     <img
                                         alt="brand"
                                         src="/images/hgt-logo.png"
-
                                     />
                                 </Link>
                             </div>
