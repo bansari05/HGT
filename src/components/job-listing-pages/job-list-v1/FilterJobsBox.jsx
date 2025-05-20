@@ -232,9 +232,9 @@ const FilterJobsBox = () => {
             >
               <div className="inner-box">
                 <div className="content">
-                  <span className="company-logo">
+                  {/* <span className="company-logo">
                     <img src={job.logo} alt="logo" />
-                  </span>
+                  </span> */}
                   <h4>
                     <a href="#">{job.job_title}</a>
                   </h4>

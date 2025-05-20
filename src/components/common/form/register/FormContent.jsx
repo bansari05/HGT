@@ -13,17 +13,15 @@ const validationSchema = Yup.object({
     .required("Email Address is required"),
   password: Yup.string()
     .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-  userType: Yup.string().required("User Type is required"),
+    .required("Password is required")
 });
 
-const FormContent = ({ onRegistrationSuccess }) => {
+const FormContent = () => {
   const initialValues = {
     fullName: "",
     contactNo: "",
     emailAddress: "",
-    password: "",
-    userType: "",
+    password: ""
   };
 
   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
@@ -32,24 +30,23 @@ const FormContent = ({ onRegistrationSuccess }) => {
         fullName: values.fullName,
         contactNo: values.contactNo,
         emailId: values.emailAddress,
-        password: values.password,
-        userType: values.userType,
+        password: values.password
       };
 
       const response = await fetch(
-        "https://apihgt.solvifytech.in/api/v1/User/Add",
+        "https://apihgt.solvifytech.in/api/v1/User/SignUp",
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             'accept': "application/json",
-            "Content-Type": "application/json",
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaXBBZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsImV4cCI6MTc0Njc2ODkyOSwiaWF0IjoxNzQ2NzY3MTI5fQ.iGxoXTkBCDs9_PVYc_uiGufysBkBf-jk59H0-GBlACM',
+            "Content-Type": "application/json"
           },
           body: JSON.stringify(payload),
         }
       );
 
       const data = await response.json();
+      console.log("Registration response:", data);
 
       if (response.ok) {
         resetForm();
@@ -59,9 +56,9 @@ const FormContent = ({ onRegistrationSuccess }) => {
         const loginModal = new Modal(document.getElementById('loginModal'));
         loginModal.show();
         
-        if (onRegistrationSuccess) {
-          onRegistrationSuccess(values.emailAddress, values.password);
-        }
+        // if (onRegistrationSuccess) {
+        //   onRegistrationSuccess(values.emailAddress, values.password);
+        // }
       } else {
         console.error("Registration failed:", data);
       }
@@ -149,7 +146,7 @@ const FormContent = ({ onRegistrationSuccess }) => {
               />
             </div>
 
-            <div className="form-group col-lg-12">
+            {/* <div className="form-group col-lg-12">
               <label>User Type</label>
               <Field
                 name="userType"
@@ -167,7 +164,7 @@ const FormContent = ({ onRegistrationSuccess }) => {
                 component="div"
                 className="invalid-feedback"
               />
-            </div>
+            </div> */}
 
             <div className="form-group col-lg-12">
               <button 

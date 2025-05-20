@@ -15,7 +15,7 @@ const MobileMenu = () => {
                 <Link to="/">
                   <img
                    
-                    src="/images/logo.svg"
+                    src="/images/hgt-logo.png"
                     alt="brand"
                   />
                 </Link>

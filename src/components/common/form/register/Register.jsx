@@ -12,7 +12,7 @@ const Register = () => {
       <h3>Create a Free HGT Account</h3>
 
       <Tabs>
-        <div className="form-group register-dual">
+        {/* <div className="form-group register-dual">
           <TabList className="btn-box row">
             <Tab className="col-lg-6 col-md-12">
               <button className="theme-btn btn-style-four">
@@ -26,7 +26,7 @@ const Register = () => {
               </button>
             </Tab>
           </TabList>
-        </div>
+        </div> */}
         {/* End .form-group */}
 
         <TabPanel>
@@ -34,9 +34,9 @@ const Register = () => {
         </TabPanel>
         {/* End cadidates Form */}
 
-        <TabPanel>
+        {/* <TabPanel>
           <Form />
-        </TabPanel>
+        </TabPanel> */}
         {/* End Employer Form */}
       </Tabs>
       {/* End form-group */}
@@ -54,10 +54,10 @@ const Register = () => {
             LogIn
           </Link>
         </div>
-        <div className="divider">
+        {/* <div className="divider">
           <span>or</span>
         </div>
-        <LoginWithSocial />
+        <LoginWithSocial /> */}
       </div>
       {/* End bottom-box LoginWithSocial */}
     </div>
